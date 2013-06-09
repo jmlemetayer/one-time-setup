@@ -1,0 +1,17 @@
+# One Time Setup configuration file
+
+
+#############################  GLOBAL CONFIGURATION  ###########################
+
+# Your name
+#USERNAME="John Doe"
+
+# Your email
+#USERMAIL="johndoe@example.com"
+
+
+##############################  APPS CONFIGURATION  ############################
+
+# Setup profile
+# setup my .profile favorite file
+#CONFIG_PROFILE=y
