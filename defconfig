@@ -15,3 +15,7 @@
 # Setup profile
 # setup my .profile favorite file
 #CONFIG_PROFILE=y
+
+# Setup bash
+# setup my .bashrc and .bash_aliases favorite files
+#CONFIG_BASH=y

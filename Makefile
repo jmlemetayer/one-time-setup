@@ -48,6 +48,10 @@ ifdef CONFIG_PROFILE
  TARGETS	+= profile
 endif
 
+ifdef CONFIG_BASH
+ TARGETS	+= bash
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -67,4 +71,11 @@ profile:
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/.bin
 	$(CP_B) profile/profile $(HOME)/.profile
+	$(SUCCESS) "$@ is configured"
+
+.PHONY: bash
+bash: profile
+	$(INFO) "Configuring $@"
+	$(CP_B) bash/bashrc $(HOME)/.bashrc
+	$(CP_B) bash/bash_aliases $(HOME)/.bash_aliases
 	$(SUCCESS) "$@ is configured"
