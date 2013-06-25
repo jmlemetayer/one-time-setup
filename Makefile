@@ -52,6 +52,10 @@ ifdef CONFIG_BASH
  TARGETS	+= bash
 endif
 
+ifdef CONFIG_VIM
+ TARGETS	+= vim
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -79,3 +83,16 @@ bash: profile
 	$(CP_B) bash/bashrc $(HOME)/.bashrc
 	$(CP_B) bash/bash_aliases $(HOME)/.bash_aliases
 	$(SUCCESS) "$@ is configured"
+
+.PHONY: vim
+vim: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install vim
+ifdef CONFIG_HAVE_GUI
+	$(S_APT_GET) install vim-gnome
+endif
+	$(INFO) "Configuring $@"
+	$(MKDIR_P) $(HOME)/.vim/backup
+	$(MKDIR_P) $(HOME)/.vim/tmp
+	$(CP_B) vim/vimrc $(HOME)/.vimrc
+	$(SUCCESS) "$@ is installed"

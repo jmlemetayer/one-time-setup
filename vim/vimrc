@@ -1,0 +1,60 @@
+" ~/.vimrc
+
+" VIM settings
+set nocompatible
+
+" Backup
+set backup
+set backupdir=~/.vim/backup
+set directory=~/.vim/tmp
+
+" Mouse
+set mouse=a
+
+" Backspace
+set backspace=indent,eol,start
+
+" Line number
+set number
+
+" Ruler
+set ruler
+
+" Indenting
+set tabstop=4
+set shiftwidth=4
+set autoindent
+filetype plugin indent on
+
+" Columns
+set textwidth=80
+set colorcolumn=+1
+hi ColorColumn ctermbg=black
+
+" Display incomplete commands
+set showcmd
+
+" Incremental searching
+set incsearch
+
+" Highlighting
+syntax on
+set hlsearch
+
+" Wildmenu
+set wildmenu
+
+" Leave my cursor position alone!
+set nostartofline
+
+" No bell
+set noerrorbells
+
+" Remove trailing whitespaces
+autocmd BufRead,BufWrite * if ! &bin | silent! %s/\s\+$//ge | endif
+
+" Searching
+map N Nzz
+map n nzz
+set ignorecase
+set smartcase

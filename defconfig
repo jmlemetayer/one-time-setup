@@ -9,6 +9,9 @@
 # Your email
 #USERMAIL="johndoe@example.com"
 
+# Have a GUI
+#CONFIG_HAVE_GUI=y
+
 
 ##############################  APPS CONFIGURATION  ############################
 
@@ -19,3 +22,7 @@
 # Setup bash
 # setup my .bashrc and .bash_aliases favorite files
 #CONFIG_BASH=y
+
+# Setup vim
+# install and setup vim with my .vimrc file
+#CONFIG_VIM=y
