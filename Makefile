@@ -145,10 +145,12 @@ else
 		https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 	$(QUIET)echo >> $(HOME)/.vimrc
 	$(QUIET)echo '" Solarized' >> $(HOME)/.vimrc
-	$(QUIET)echo 'syntax enable' >> $(HOME)/.vimrc
-	$(QUIET)echo 'set background=dark' >> $(HOME)/.vimrc
-	$(QUIET)echo 'let g:solarized_termtrans=1' >> $(HOME)/.vimrc
-	$(QUIET)echo 'colorscheme solarized' >> $(HOME)/.vimrc
+	$(QUIET)echo 'if $$TERM =~ "^xterm" || $$TERM =~ "^rxvt"' >> $(HOME)/.vimrc
+	$(QUIET)echo '	syntax enable' >> $(HOME)/.vimrc
+	$(QUIET)echo '	set background=dark' >> $(HOME)/.vimrc
+	$(QUIET)echo '	let g:solarized_termtrans=1' >> $(HOME)/.vimrc
+	$(QUIET)echo '	colorscheme solarized' >> $(HOME)/.vimrc
+	$(QUIET)echo 'endif' >> $(HOME)/.vimrc
 endif
 	$(SUCCESS) "$@ is installed"
 
