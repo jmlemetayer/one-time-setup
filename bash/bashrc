@@ -28,7 +28,7 @@ shopt -s checkwinsize
 
 if [ "$color_prompt" = yes ]
 then
-	PS1='\[\033[01;32m\]\u@\h\[\033[0m\]:\[\033[01;34m\]\w\[\033[0m\]\$ '
+	PS1='\[\033[COLOR1m\]\u@\h\[\033[0m\]:\[\033[COLOR2m\]\w\[\033[0m\]\$ '
 else
 	PS1='\u@\h:\w\$ '
 fi
@@ -37,7 +37,12 @@ unset color_prompt
 # Enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]
 then
-	eval "$(dircolors -b)"
+	if [ -r $HOME/.dircolors ]
+	then
+		eval "$(dircolors -b $HOME/.dircolors)"
+	else
+		eval "$(dircolors -b)"
+	fi
 	alias ls='ls --color=auto'
 	alias grep='grep --color=auto'
 	alias fgrep='fgrep --color=auto'

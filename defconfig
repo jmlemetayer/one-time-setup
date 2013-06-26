@@ -12,6 +12,11 @@
 # Have a GUI
 #CONFIG_HAVE_GUI=y
 
+# Use Solarized
+# http://ethanschoonover.com/solarized
+# requires CONFIG_HAVE_GUI
+#CONFIG_SOLARIZED=y
+
 
 ##############################  APPS CONFIGURATION  ############################
 
