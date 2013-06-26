@@ -47,7 +47,7 @@
 #CONFIG_GIT=y
 
 # Setup tools
-# install my commons tools: sqlite3, tree, unzip
+# install my commons tools: curl, sqlite3, tree, unzip
 #CONFIG_TOOLS=y
 
 # Setup devtools

@@ -110,7 +110,7 @@ profile:
 	$(SUCCESS) "$@ is configured"
 
 .PHONY: bash
-bash: profile
+bash: profile tools
 	$(INFO) "Configuring $@"
 	$(CP_B) bash/bashrc $(HOME)/.bashrc
 	$(CP_B) bash/bash_aliases $(HOME)/.bash_aliases
@@ -127,7 +127,7 @@ endif
 	$(SUCCESS) "$@ is configured"
 
 .PHONY: vim
-vim: update
+vim: update tools
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install vim
 ifdef CONFIG_HAVE_GUI
@@ -257,7 +257,7 @@ endif
 .PHONY: tools
 tools: update
 	$(INFO) "Installing $@"
-	$(S_APT_GET) install sqlite3 tree unzip
+	$(S_APT_GET) install curl sqlite3 tree unzip
 	$(SUCCESS) "$@ is installed"
 
 .PHONY: devtools
