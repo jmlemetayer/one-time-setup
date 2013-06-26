@@ -80,6 +80,10 @@ ifdef CONFIG_GIT
  TARGETS	+= git
 endif
 
+ifdef CONFIG_TOOLS
+ TARGETS	+= tools
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -242,4 +246,10 @@ endif
 	$(QUIET)git config --global user.name $(USERNAME)
 	$(QUIET)git config --global user.email $(USERMAIL)
 	$(QUIET)git config --global color.ui true
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: tools
+tools: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install sqlite3 tree unzip
 	$(SUCCESS) "$@ is installed"
