@@ -26,3 +26,8 @@
 # Setup vim
 # install and setup vim with my .vimrc file
 #CONFIG_VIM=y
+
+# Setup user-dirs
+# requires CONFIG_HAVE_GUI
+# setup my favorite user dirs
+#CONFIG_USER_DIRS=y

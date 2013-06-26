@@ -10,6 +10,8 @@ CP_B		:= $(QUIET)cp -b
 S_CP_B		:= $(SUDO) cp -b
 MKDIR_P		:= $(QUIET)mkdir -p
 S_MKDIR_P	:= $(SUDO) mkdir -p
+MV_B		:= $(QUIET)mv -b
+S_MV_B		:= $(SUDO) mv -b
 SED_I		:= $(QUIET)sed -i
 S_SED_I		:= $(SUDO) sed -i
 
@@ -56,6 +58,12 @@ ifdef CONFIG_VIM
  TARGETS	+= vim
 endif
 
+ifdef CONFIG_HAVE_GUI
+ ifdef CONFIG_USER_DIRS
+  TARGETS	+= user-dirs
+ endif
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -96,3 +104,42 @@ endif
 	$(MKDIR_P) $(HOME)/.vim/tmp
 	$(CP_B) vim/vimrc $(HOME)/.vimrc
 	$(SUCCESS) "$@ is installed"
+
+ifdef CONFIG_HAVE_GUI
+.PHONY: user-dirs
+user-dirs:
+	$(INFO) "Configuring $@"
+ifneq ("$(shell xdg-user-dir DESKTOP)", "$(HOME)/.desktop")
+	$(MV_B) "$(shell xdg-user-dir DESKTOP)" "$(HOME)/.desktop"
+	$(QUIET)xdg-user-dirs-update --set DESKTOP "$(HOME)/.desktop"
+endif
+ifneq ("$(shell xdg-user-dir DOWNLOAD)", "$(HOME)/downloads")
+	$(MV_B) "$(shell xdg-user-dir DOWNLOAD)" "$(HOME)/downloads"
+	$(QUIET)xdg-user-dirs-update --set DOWNLOAD "$(HOME)/downloads"
+endif
+ifneq ("$(shell xdg-user-dir TEMPLATES)", "$(HOME)/.templates")
+	$(MV_B) "$(shell xdg-user-dir TEMPLATES)" "$(HOME)/.templates"
+	$(QUIET)xdg-user-dirs-update --set TEMPLATES "$(HOME)/.templates"
+endif
+ifneq ("$(shell xdg-user-dir PUBLICSHARE)", "$(HOME)/www")
+	$(MV_B) "$(shell xdg-user-dir PUBLICSHARE)" "$(HOME)/www"
+	$(QUIET)xdg-user-dirs-update --set PUBLICSHARE "$(HOME)/www"
+endif
+ifneq ("$(shell xdg-user-dir DOCUMENTS)", "$(HOME)/documents")
+	$(MV_B) "$(shell xdg-user-dir DOCUMENTS)" "$(HOME)/documents"
+	$(QUIET)xdg-user-dirs-update --set DOCUMENTS "$(HOME)/documents"
+endif
+ifneq ("$(shell xdg-user-dir VIDEOS)", "$(HOME)/videos")
+	$(MV_B) "$(shell xdg-user-dir VIDEOS)" "$(HOME)/videos"
+	$(QUIET)xdg-user-dirs-update --set VIDEOS "$(HOME)/videos"
+endif
+ifneq ("$(shell xdg-user-dir MUSIC)", "$(HOME)/music")
+	$(MV_B) "$(shell xdg-user-dir MUSIC)" "$(HOME)/music"
+	$(QUIET)xdg-user-dirs-update --set MUSIC "$(HOME)/music"
+endif
+ifneq ("$(shell xdg-user-dir PICTURES)", "$(HOME)/pictures")
+	$(MV_B) "$(shell xdg-user-dir PICTURES)" "$(HOME)/pictures"
+	$(QUIET)xdg-user-dirs-update --set PICTURES "$(HOME)/pictures"
+endif
+	$(SUCCESS) "$@ is configured"
+endif
