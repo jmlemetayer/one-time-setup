@@ -76,6 +76,10 @@ ifdef CONFIG_HAVE_GUI
  endif
 endif
 
+ifdef CONFIG_GIT
+ TARGETS	+= git
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -226,3 +230,16 @@ endif
 		--type string User
 	$(SUCCESS) "$@ is configured"
 endif
+
+.PHONY: git
+git: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install git-core
+ifdef CONFIG_HAVE_GUI
+	$(S_APT_GET) install gitk
+endif
+	$(INFO) "Configuring $@"
+	$(QUIET)git config --global user.name $(USERNAME)
+	$(QUIET)git config --global user.email $(USERMAIL)
+	$(QUIET)git config --global color.ui true
+	$(SUCCESS) "$@ is installed"

@@ -41,3 +41,7 @@
 # requires CONFIG_HAVE_GUI
 # setup my favorite terminal
 #CONFIG_GNOME_TERMINAL=y
+
+# Setup git
+# install and setup git
+#CONFIG_GIT=y
