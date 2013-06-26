@@ -49,3 +49,8 @@
 # Setup tools
 # install my commons tools: sqlite3, tree, unzip
 #CONFIG_TOOLS=y
+
+# Setup devtools
+# install my commons development tools:
+# build-essential, autoconf, automake, libtool
+#CONFIG_DEVTOOLS=y

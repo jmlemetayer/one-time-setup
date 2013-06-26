@@ -84,6 +84,10 @@ ifdef CONFIG_TOOLS
  TARGETS	+= tools
 endif
 
+ifdef CONFIG_DEVTOOLS
+ TARGETS	+= devtools
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -252,4 +256,12 @@ endif
 tools: update
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install sqlite3 tree unzip
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: devtools
+devtools: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install build-essential autoconf automake libtool
+	$(INFO) "Configuring $@"
+	$(MKDIR_P) $(HOME)/development
 	$(SUCCESS) "$@ is installed"
