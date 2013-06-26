@@ -64,6 +64,12 @@ ifdef CONFIG_HAVE_GUI
  endif
 endif
 
+ifdef CONFIG_HAVE_GUI
+ ifdef CONFIG_GNOME_TERMINAL
+  TARGETS	+= gnome-terminal
+ endif
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -141,5 +147,38 @@ ifneq ("$(shell xdg-user-dir PICTURES)", "$(HOME)/pictures")
 	$(MV_B) "$(shell xdg-user-dir PICTURES)" "$(HOME)/pictures"
 	$(QUIET)xdg-user-dirs-update --set PICTURES "$(HOME)/pictures"
 endif
+	$(SUCCESS) "$@ is configured"
+endif
+
+ifdef CONFIG_HAVE_GUI
+GT_PATH		:= /apps/gnome-terminal
+GT_PROFILES := $(shell gconftool-2 --get $(GT_PATH)/global/profile_list)
+GT_PROFILES := $(shell echo $(GT_PROFILES) | sed -e 's/\[//g' -e 's/\]//g')
+.PHONY: gnome-terminal
+gnome-terminal: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install gnome-terminal
+	$(INFO) "Configuring $@"
+	$(QUIET)gconftool-2 --recursive-unset $(GT_PATH)/profiles/User
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/visible_name \
+		--type string $(USERNAME)
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/default_show_menubar \
+		--type bool false
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/use_theme_colors \
+		--type bool false
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
+		--type string '#300A24'
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
+		--type string '#FFFFFF'
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/scrollbar_position \
+		--type string hidden
+	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/scrollback_lines \
+		--type int 1024
+ifeq ($(shell echo $(GT_PROFILES) | grep -c User), 0)
+	$(QUIET)gconftool-2 --set $(GT_PATH)/global/profile_list \
+		--type list --list-type string [$(GT_PROFILES),User]
+endif
+	$(QUIET)gconftool-2 --set $(GT_PATH)/global/default_profile \
+		--type string User
 	$(SUCCESS) "$@ is configured"
 endif
