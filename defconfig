@@ -54,3 +54,15 @@
 # install my commons development tools:
 # build-essential, autoconf, automake, libtool
 #CONFIG_DEVTOOLS=y
+
+# Setup wallpaper
+# requires CONFIG_HAVE_GUI
+# install and setup my favorite wallpapers
+# http://www.tux-planet.fr/ubuntu-wallpaper-by-mikebeecham/
+# you have to choose between:
+# * radiance-purple
+# * simple-ubuntu-brown
+# * ubuntu-brown-bubbles
+# * ubuntu-brown
+# * ubuntu-fizz
+#CONFIG_WALLPAPER=ubuntu-brown-bubbles

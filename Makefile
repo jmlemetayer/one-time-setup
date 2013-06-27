@@ -88,6 +88,12 @@ ifdef CONFIG_DEVTOOLS
  TARGETS	+= devtools
 endif
 
+ifdef CONFIG_HAVE_GUI
+ ifdef CONFIG_WALLPAPER
+  TARGETS	+= wallpaper
+ endif
+endif
+
 all: $(TARGETS)
 
 # Basic rules
@@ -267,3 +273,20 @@ devtools: update
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/development
 	$(SUCCESS) "$@ is installed"
+
+ifdef CONFIG_HAVE_GUI
+ifdef CONFIG_WALLPAPER
+WP_SCHEMA	:= org.gnome.desktop.background
+WP_PATH		:= /wallpaper/$(CONFIG_WALLPAPER).png
+.PHONY: wallpaper
+wallpaper:
+	$(INFO) "Installing $@"
+	$(CP_B) -r wallpaper/ "$(shell xdg-user-dir PICTURES)"
+	$(INFO) "Configuring $@"
+	$(QUIET)gsettings reset-recursively $(WP_SCHEMA)
+	$(QUIET)test -f $(shell xdg-user-dir PICTURES)$(WP_PATH) && \
+		gsettings set $(WP_SCHEMA) picture-uri \
+		"file://$(shell xdg-user-dir PICTURES)$(WP_PATH)"
+	$(SUCCESS) "$@ is configured"
+endif
+endif
