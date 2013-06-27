@@ -65,4 +65,5 @@
 # * ubuntu-brown-bubbles
 # * ubuntu-brown
 # * ubuntu-fizz
-#CONFIG_WALLPAPER=ubuntu-brown-bubbles
+# * ubuntu-brown-bubbles-solarized
+#CONFIG_WALLPAPER=ubuntu-brown-bubbles-solarized
