@@ -252,7 +252,7 @@ git: update
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install git-core
 ifdef CONFIG_HAVE_GUI
-	$(S_APT_GET) install gitk
+	$(S_APT_GET) install git-gui gitk
 endif
 	$(INFO) "Configuring $@"
 	$(QUIET)git config --global user.name $(USERNAME)
