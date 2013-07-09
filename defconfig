@@ -52,7 +52,7 @@
 
 # Setup devtools
 # install my commons development tools:
-# build-essential, autoconf, automake, libtool
+# build-essential, autoconf, automake, libtool, valgrind
 #CONFIG_DEVTOOLS=y
 
 # Setup wallpaper

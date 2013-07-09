@@ -269,7 +269,7 @@ tools: update
 .PHONY: devtools
 devtools: update
 	$(INFO) "Installing $@"
-	$(S_APT_GET) install build-essential autoconf automake libtool
+	$(S_APT_GET) install build-essential autoconf automake libtool valgrind
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/development
 	$(SUCCESS) "$@ is installed"
