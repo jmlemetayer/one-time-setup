@@ -6,6 +6,7 @@ alias l='ll'
 alias la='ll -A'
 alias mkdir='mkdir -p'
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias ssh='ssh -X'
 
 # Misunderstood aliases
 alias cd..='cd ..'
@@ -38,4 +39,58 @@ extract () {
 	else
 		echo "'$1' is not a valid file"
 	fi
+}
+
+# Upgrade Ubuntu
+upgrade-ubuntu()
+{
+	local RET
+
+	sudo apt-get update
+
+	RET=$?
+
+	if [ $RET != 0 ]
+	then
+		echo Failed to update 1>&2
+		return $RET
+	fi
+
+	local UPDATE_STR=$(/usr/lib/update-notifier/apt-check --human-readable)
+	local UPDATE_NUM
+
+	for NUM in $(echo "$UPDATE_STR" | awk '{print $1}')
+	do
+		UPDATE_NUM="${UPDATE_NUM}${NUM}"
+	done
+
+	if [ $UPDATE_NUM -eq 0 ]
+	then
+		echo Nothing to update
+		return 0
+	fi
+
+	printf "%s\n" "$UPDATE_STR"
+
+	sudo apt-get -y upgrade && \
+	sudo apt-get -y dist-upgrade && \
+	sudo apt-get -y autoremove && \
+	sudo apt-get -y autoclean
+
+	RET=$?
+
+	if [ $RET != 0 ]
+	then
+		echo Failed to upgrade 1>&2
+		return $RET
+	fi
+
+	if [ -f /var/run/reboot-required ]
+	then
+		echo Reboot needed
+		sudo reboot
+	fi
+
+	echo Done !
+	return 0
 }
