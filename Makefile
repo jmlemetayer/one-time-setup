@@ -45,6 +45,11 @@ ifndef USERMAIL
  $(warning Setting default value for USERMAIL)
 endif
 
+ifndef MACHINE_TYPE
+ MACHINE_TYPE	:= server
+ $(warning Setting default value for MACHINE_TYPE)
+endif
+
 # Set targets
 ifdef CONFIG_PROFILE
  TARGETS	+= profile
@@ -56,24 +61,6 @@ endif
 
 ifdef CONFIG_VIM
  TARGETS	+= vim
-endif
-
-ifdef CONFIG_HAVE_GUI
- ifdef CONFIG_USER_DIRS
-  TARGETS	+= user-dirs
- endif
-endif
-
-ifdef CONFIG_HAVE_GUI
- ifdef CONFIG_GNOME_TERMINAL
-  TARGETS	+= gnome-terminal
- endif
-endif
-
-ifdef CONFIG_HAVE_GUI
- ifdef CONFIG_SOLARIZED
-  USE_SOLARIZED	:= y
- endif
 endif
 
 ifdef CONFIG_GIT
@@ -88,7 +75,15 @@ ifdef CONFIG_DEVTOOLS
  TARGETS	+= devtools
 endif
 
-ifdef CONFIG_HAVE_GUI
+ifeq ($(MACHINE_TYPE), desktop)
+ ifdef CONFIG_USER_DIRS
+  TARGETS	+= user-dirs
+ endif
+
+ ifdef CONFIG_GNOME_TERMINAL
+  TARGETS	+= gnome-terminal
+ endif
+
  ifdef CONFIG_WALLPAPER
   TARGETS	+= wallpaper
  endif
@@ -120,7 +115,7 @@ bash: profile tools
 	$(INFO) "Configuring $@"
 	$(CP_B) bash/bashrc $(HOME)/.bashrc
 	$(CP_B) bash/bash_aliases $(HOME)/.bash_aliases
-ifndef USE_SOLARIZED
+ifndef CONFIG_THEME_SOLARIZED
 	$(SED_I) 's/COLOR1/01;32/' $(HOME)/.bashrc
 	$(SED_I) 's/COLOR2/01;34/' $(HOME)/.bashrc
 	$(QUIET)rm -f $(HOME)/.dircolors
@@ -135,15 +130,12 @@ endif
 .PHONY: vim
 vim: update tools
 	$(INFO) "Installing $@"
-	$(S_APT_GET) install vim
-ifdef CONFIG_HAVE_GUI
-	$(S_APT_GET) install vim-gnome
-endif
+	$(S_APT_GET) install vim vim-gnome
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/.vim/backup
 	$(MKDIR_P) $(HOME)/.vim/tmp
 	$(CP_B) vim/vimrc $(HOME)/.vimrc
-ifndef USE_SOLARIZED
+ifndef CONFIG_THEME_SOLARIZED
 	$(QUIET)rm -rf $(HOME)/.vim/colors
 else
 	$(MKDIR_P) $(HOME)/.vim/colors
@@ -160,7 +152,31 @@ else
 endif
 	$(SUCCESS) "$@ is installed"
 
-ifdef CONFIG_HAVE_GUI
+.PHONY: git
+git: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install git-core git-gui gitk
+	$(INFO) "Configuring $@"
+	$(QUIET)git config --global user.name $(USERNAME)
+	$(QUIET)git config --global user.email $(USERMAIL)
+	$(QUIET)git config --global color.ui true
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: tools
+tools: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install curl sqlite3 tree unzip
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: devtools
+devtools: update
+	$(INFO) "Installing $@"
+	$(S_APT_GET) install build-essential autoconf automake libtool valgrind
+	$(INFO) "Configuring $@"
+	$(MKDIR_P) $(HOME)/development
+	$(SUCCESS) "$@ is installed"
+
+ifeq ($(MACHINE_TYPE), desktop)
 .PHONY: user-dirs
 user-dirs:
 	$(INFO) "Configuring $@"
@@ -197,9 +213,7 @@ ifneq ("$(shell xdg-user-dir PICTURES)", "$(HOME)/pictures")
 	$(QUIET)xdg-user-dirs-update --set PICTURES "$(HOME)/pictures"
 endif
 	$(SUCCESS) "$@ is configured"
-endif
 
-ifdef CONFIG_HAVE_GUI
 GT_PATH		:= /apps/gnome-terminal
 GT_PROFILES := $(shell gconftool-2 --get $(GT_PATH)/global/profile_list)
 GT_PROFILES := $(shell echo $(GT_PROFILES) | sed -e 's/\[//g' -e 's/\]//g')
@@ -221,7 +235,7 @@ gnome-terminal: update
 		--type int 1024
 	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/silent_bell \
 		--type bool true
-ifndef USE_SOLARIZED
+ifndef CONFIG_THEME_SOLARIZED
 	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
 		--type string '#300A24'
 	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
@@ -245,37 +259,7 @@ endif
 	$(QUIET)gconftool-2 --set $(GT_PATH)/global/default_profile \
 		--type string User
 	$(SUCCESS) "$@ is configured"
-endif
 
-.PHONY: git
-git: update
-	$(INFO) "Installing $@"
-	$(S_APT_GET) install git-core
-ifdef CONFIG_HAVE_GUI
-	$(S_APT_GET) install git-gui gitk
-endif
-	$(INFO) "Configuring $@"
-	$(QUIET)git config --global user.name $(USERNAME)
-	$(QUIET)git config --global user.email $(USERMAIL)
-	$(QUIET)git config --global color.ui true
-	$(SUCCESS) "$@ is installed"
-
-.PHONY: tools
-tools: update
-	$(INFO) "Installing $@"
-	$(S_APT_GET) install curl sqlite3 tree unzip
-	$(SUCCESS) "$@ is installed"
-
-.PHONY: devtools
-devtools: update
-	$(INFO) "Installing $@"
-	$(S_APT_GET) install build-essential autoconf automake libtool valgrind
-	$(INFO) "Configuring $@"
-	$(MKDIR_P) $(HOME)/development
-	$(SUCCESS) "$@ is installed"
-
-ifdef CONFIG_HAVE_GUI
-ifdef CONFIG_WALLPAPER
 WP_SCHEMA	:= org.gnome.desktop.background
 WP_PATH		:= /wallpaper/$(CONFIG_WALLPAPER).png
 .PHONY: wallpaper
@@ -288,5 +272,4 @@ wallpaper:
 		gsettings set $(WP_SCHEMA) picture-uri \
 		"file://$(shell xdg-user-dir PICTURES)$(WP_PATH)"
 	$(SUCCESS) "$@ is configured"
-endif
 endif

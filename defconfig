@@ -9,16 +9,14 @@
 # Your email
 #USERMAIL="johndoe@example.com"
 
-# Have a GUI
-#CONFIG_HAVE_GUI=y
-
-# Use Solarized
-# http://ethanschoonover.com/solarized
-# requires CONFIG_HAVE_GUI
-#CONFIG_SOLARIZED=y
+# Your machine type
+# you have to choose between:
+# * desktop
+# * server (default)
+#MACHINE_TYPE=server
 
 
-##############################  APPS CONFIGURATION  ############################
+####################################  BASH  ####################################
 
 # Setup profile
 # setup my .profile favorite file
@@ -28,35 +26,50 @@
 # setup my .bashrc and .bash_aliases favorite files
 #CONFIG_BASH=y
 
+
+#####################################  VIM  ####################################
+
 # Setup vim
 # install and setup vim with my .vimrc file
 #CONFIG_VIM=y
 
-# Setup user-dirs
-# requires CONFIG_HAVE_GUI
-# setup my favorite user dirs
-#CONFIG_USER_DIRS=y
 
-# Setup gnome-terminal
-# requires CONFIG_HAVE_GUI
-# setup my favorite terminal
-#CONFIG_GNOME_TERMINAL=y
+#####################################  GIT  ####################################
 
 # Setup git
 # install and setup git
 #CONFIG_GIT=y
 
+
+#################################  COMMON TOOLS  ###############################
+
 # Setup tools
 # install my commons tools: curl, sqlite3, tree, unzip
 #CONFIG_TOOLS=y
+
+
+##############################  DEVELOPMENT TOOLS  #############################
 
 # Setup devtools
 # install my commons development tools:
 # build-essential, autoconf, automake, libtool, valgrind
 #CONFIG_DEVTOOLS=y
 
+
+################################  DESKTOP ONLY  ################################
+
+# Setup user-dirs
+# requires CONFIG_MACHINE_TYPE=desktop
+# setup my favorite user dirs
+#CONFIG_USER_DIRS=y
+
+# Setup gnome-terminal
+# requires CONFIG_MACHINE_TYPE=desktop
+# setup my favorite terminal
+#CONFIG_GNOME_TERMINAL=y
+
 # Setup wallpaper
-# requires CONFIG_HAVE_GUI
+# requires CONFIG_MACHINE_TYPE=desktop
 # install and setup my favorite wallpapers
 # http://www.tux-planet.fr/ubuntu-wallpaper-by-mikebeecham/
 # you have to choose between:
@@ -65,5 +78,11 @@
 # * ubuntu-brown-bubbles
 # * ubuntu-brown
 # * ubuntu-fizz
-# * ubuntu-brown-bubbles-solarized
-#CONFIG_WALLPAPER=ubuntu-brown-bubbles-solarized
+#CONFIG_WALLPAPER=ubuntu-brown-bubbles
+
+
+###################################  THEMES  ###################################
+
+# Use Solarized theme
+# http://ethanschoonover.com/solarized
+#CONFIG_THEME_SOLARIZED=y
