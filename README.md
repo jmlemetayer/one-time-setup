@@ -36,7 +36,6 @@ And finally run:
 
 ### License
 
-This work is licensed under a
-[Creative Commons Attribution 3.0 Unported License][1].
+This work is [unlicensed][1].
 
-[1]: http://creativecommons.org/licenses/by/3.0/ "CC BY 3.0"
+[1]: http://unlicense.org "Unlicense"
