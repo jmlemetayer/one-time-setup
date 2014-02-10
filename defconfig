@@ -54,6 +54,13 @@
 #CONFIG_REPO=y
 
 
+#####################################  SSH  ####################################
+
+# Setup ssh
+# create ssh certificates
+#CONFIG_SSH=y
+
+
 #################################  COMMON TOOLS  ###############################
 
 # Setup tools

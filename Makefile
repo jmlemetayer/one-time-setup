@@ -110,6 +110,10 @@ ifdef CONFIG_REPO
  TARGETS	+= repo
 endif
 
+ifdef CONFIG_SSH
+ TARGETS	+= ssh
+endif
+
 ifdef CONFIG_TOOLS
  TARGETS	+= tools
 endif
@@ -218,6 +222,12 @@ repo: profile
 	$(DOWNLOAD) $(HOME)/.bin/repo \
 		http://commondatastorage.googleapis.com/git-repo-downloads/repo
 	$(QUIET) chmod 755 $(HOME)/.bin/repo
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: ssh
+ssh:
+	$(INFO) "Configuring $@"
+	$(QUIET) -ssh-keygen -q -t rsa -N "" -f $(HOME)/.ssh/id_rsa
 	$(SUCCESS) "$@ is installed"
 
 .PHONY: tools
