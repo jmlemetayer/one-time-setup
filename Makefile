@@ -1,3 +1,26 @@
+# Get configuration
+ifneq ($(shell ls .config), .config)
+ $(error You have to create a '.config' file. \
+	 You can run: 'cp defconfig .config')
+endif
+
+include .config
+
+ifndef USER_NAME
+ USER_NAME	:= "John Doe"
+ $(warning Setting default value for USER_NAME)
+endif
+
+ifndef USER_EMAIL
+ USER_EMAIL	:= "johndoe@example.com"
+ $(warning Setting default value for USER_EMAIL)
+endif
+
+ifndef MACHINE_TYPE
+ MACHINE_TYPE	:= server
+ $(warning Setting default value for MACHINE_TYPE)
+endif
+
 # Verbosity
 QUIET		:= @
 
@@ -25,29 +48,6 @@ endif
 
 ifneq ($(shell expr $(LSB_VERSION) \>= 1204), 1)
  $(error Working only on Ubuntu 12.04 or newer)
-endif
-
-# Include config
--include .config
-
-ifneq ($(shell ls .config), .config)
- $(error You have to create a '.config' file. You can run: 'cp defconfig .config')
-endif
-
-# Check config
-ifndef USER_NAME
- USER_NAME	:= "John Doe"
- $(warning Setting default value for USER_NAME)
-endif
-
-ifndef USER_EMAIL
- USER_EMAIL	:= "johndoe@example.com"
- $(warning Setting default value for USER_EMAIL)
-endif
-
-ifndef MACHINE_TYPE
- MACHINE_TYPE	:= server
- $(warning Setting default value for MACHINE_TYPE)
 endif
 
 # Set targets
