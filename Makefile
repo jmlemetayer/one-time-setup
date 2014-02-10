@@ -42,22 +42,32 @@ ifndef FORCE
  endif
 endif
 
-# Verbosity
-QUIET		:= @
+# Set functions
+ifndef DEBUG
+ QUIET		:= @
+else
+ QUIET		:=
+endif
 
-# Functions
-INFO		:= @printf "\t\033[1m%s\033[0m\n"
-SUCCESS		:= @printf "\t\033[1;32m%s\033[0m\n"
-SUDO		:= $(QUIET)sudo
-S_APT_GET	:= $(SUDO) apt-get -y
-CP_B		:= $(QUIET)cp -b
-S_CP_B		:= $(SUDO) cp -b
-MKDIR_P		:= $(QUIET)mkdir -p
-S_MKDIR_P	:= $(SUDO) mkdir -p
-MV_B		:= $(QUIET)mv -b
-S_MV_B		:= $(SUDO) mv -b
-SED_I		:= $(QUIET)sed -i
-S_SED_I		:= $(SUDO) sed -i
+PRINT		:= @printf
+INFO		:= $(PRINT)	"\t\033[1m%s\033[0m\n"
+SUCCESS		:= $(PRINT)	"\t\033[1;32m%s\033[0m\n"
+
+SUDO		:= $(QUIET)	sudo
+CP_B		:= $(QUIET)	cp -b
+S_CP_B		:= $(SUDO)	cp -b
+MKDIR_P		:= $(QUIET)	mkdir -p
+S_MKDIR_P	:= $(SUDO)	mkdir -p
+MV_B		:= $(QUIET)	mv -b
+S_MV_B		:= $(SUDO)	mv -b
+SED_I		:= $(QUIET)	sed -i
+S_SED_I		:= $(SUDO)	sed -i
+
+ifndef DEBUG
+ S_APT_GET	:= $(SUDO)	apt-get -qq
+else
+ S_APT_GET	:= $(SUDO)	apt-get -y
+endif
 
 # Set targets
 ifdef CONFIG_PROFILE
