@@ -21,6 +21,27 @@ ifndef MACHINE_TYPE
  $(warning Setting default value for MACHINE_TYPE)
 endif
 
+# Check Linux Standard Base
+ifndef FORCE
+ LSB_NAME	:= $(shell lsb_release -i | \
+	 sed -n 's/^[^:]*:\t\(.*\)$$/\1/p')
+ LSB_VERSION := $(shell lsb_release -r | \
+	 sed -n 's/^[^:]*:\t\([0-9]*\).*$$/\1/p')
+
+ ifeq ($(LSB_NAME), Debian)
+  ifneq ($(shell expr $(LSB_VERSION) \>= 7), 1)
+   $(error Working only on Debian 7 or newer)
+  endif
+ else ifeq ($(LSB_NAME), Ubuntu)
+  ifneq ($(shell expr $(LSB_VERSION) \>= 12), 1)
+   $(error Working only on Ubuntu 12.04 or newer)
+  endif
+ else
+  $(error This distribution is not supported. \
+	  Use 'make FORCE=y' to override.)
+ endif
+endif
+
 # Verbosity
 QUIET		:= @
 
@@ -37,18 +58,6 @@ MV_B		:= $(QUIET)mv -b
 S_MV_B		:= $(SUDO) mv -b
 SED_I		:= $(QUIET)sed -i
 S_SED_I		:= $(SUDO) sed -i
-
-# Check Linux Standard Base
-LSB_NAME	:= $(shell lsb_release -i | sed -n 's/^[^:]*:\t\(.*\)$$/\1/p')
-LSB_VERSION	:= $(shell lsb_release -r | sed -n 's/^[^:]*:\t\([^\.]*\)\.\(.*\)$$/\1\2/p')
-
-ifneq ($(LSB_NAME), Ubuntu)
- $(error Working only on Ubuntu)
-endif
-
-ifneq ($(shell expr $(LSB_VERSION) \>= 1204), 1)
- $(error Working only on Ubuntu 12.04 or newer)
-endif
 
 # Set targets
 ifdef CONFIG_PROFILE
