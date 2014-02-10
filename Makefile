@@ -83,6 +83,12 @@ else
  S_APT_GET	:= @true
 endif
 
+ifndef DEBUG
+ DOWNLOAD		:= $(QUIET) wget --quiet --output-document
+else
+ DOWNLOAD		:= $(QUIET) wget --debug --output-document
+endif
+
 # Set targets
 ifdef CONFIG_PROFILE
  TARGETS	+= profile
@@ -148,7 +154,7 @@ profile:
 	$(SUCCESS) "$@ is configured"
 
 .PHONY: bash
-bash: profile tools
+bash: profile
 	$(INFO) "Configuring $@"
 	$(CP_B) bash/bashrc $(HOME)/.bashrc
 	$(CP_B) bash/bash_aliases $(HOME)/.bash_aliases
@@ -159,13 +165,13 @@ ifndef CONFIG_THEME_SOLARIZED
 else
 	$(SED_I) 's/COLOR1/01;38;5;106/' $(HOME)/.bashrc
 	$(SED_I) 's/COLOR2/01;38;5;33/' $(HOME)/.bashrc
-	$(QUIET)curl --silent --show-error --output $(HOME)/.dircolors \
+	$(DOWNLOAD) $(HOME)/.dircolors \
 		https://raw.github.com/seebi/dircolors-solarized/master/dircolors.256dark
 endif
 	$(SUCCESS) "$@ is configured"
 
 .PHONY: vim
-vim: update tools
+vim: update
 ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install vim vim-gnome
@@ -177,7 +183,7 @@ ifndef CONFIG_THEME_SOLARIZED
 	$(QUIET) rm -rf $(HOME)/.vim/colors
 else
 	$(MKDIR_P) $(HOME)/.vim/colors
-	$(QUIET)curl --silent --show-error --output $(HOME)/.vim/colors/solarized.vim \
+	$(DOWNLOAD) $(HOME)/.vim/colors/solarized.vim \
 		https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 	$(QUIET) echo >> $(HOME)/.vimrc
 	$(QUIET) echo '" Solarized' >> $(HOME)/.vimrc
@@ -206,7 +212,7 @@ endif
 tools: update
 ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
-	$(S_APT_GET) install curl sqlite3 tree unzip
+	$(S_APT_GET) install sqlite3 tree unzip
 	$(SUCCESS) "$@ is installed"
 endif
 
