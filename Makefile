@@ -106,6 +106,10 @@ ifdef CONFIG_GIT
  TARGETS	+= git
 endif
 
+ifdef CONFIG_REPO
+ TARGETS	+= repo
+endif
+
 ifdef CONFIG_TOOLS
  TARGETS	+= tools
 endif
@@ -206,6 +210,14 @@ endif
 	$(QUIET) git config --global user.name $(USER_NAME)
 	$(QUIET) git config --global user.email $(USER_EMAIL)
 	$(QUIET) git config --global color.ui true
+	$(SUCCESS) "$@ is installed"
+
+.PHONY: repo
+repo: profile
+	$(INFO) "Installing $@"
+	$(DOWNLOAD) $(HOME)/.bin/repo \
+		http://commondatastorage.googleapis.com/git-repo-downloads/repo
+	$(QUIET) chmod 755 $(HOME)/.bin/repo
 	$(SUCCESS) "$@ is installed"
 
 .PHONY: tools
