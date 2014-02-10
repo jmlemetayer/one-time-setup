@@ -35,14 +35,14 @@ ifneq ($(shell ls .config), .config)
 endif
 
 # Check config
-ifndef USERNAME
- USERNAME	:= "John Doe"
- $(warning Setting default value for USERNAME)
+ifndef USER_NAME
+ USER_NAME	:= "John Doe"
+ $(warning Setting default value for USER_NAME)
 endif
 
-ifndef USERMAIL
- USERMAIL	:= "johndoe@example.com"
- $(warning Setting default value for USERMAIL)
+ifndef USER_EMAIL
+ USER_EMAIL	:= "johndoe@example.com"
+ $(warning Setting default value for USER_EMAIL)
 endif
 
 ifndef MACHINE_TYPE
@@ -118,7 +118,7 @@ bash: profile tools
 ifndef CONFIG_THEME_SOLARIZED
 	$(SED_I) 's/COLOR1/01;32/' $(HOME)/.bashrc
 	$(SED_I) 's/COLOR2/01;34/' $(HOME)/.bashrc
-	$(QUIET)rm -f $(HOME)/.dircolors
+	$(QUIET) rm -f $(HOME)/.dircolors
 else
 	$(SED_I) 's/COLOR1/01;38;5;106/' $(HOME)/.bashrc
 	$(SED_I) 's/COLOR2/01;38;5;33/' $(HOME)/.bashrc
@@ -132,23 +132,22 @@ vim: update tools
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install vim vim-gnome
 	$(INFO) "Configuring $@"
-	$(MKDIR_P) $(HOME)/.vim/backup
-	$(MKDIR_P) $(HOME)/.vim/tmp
+	$(MKDIR_P) $(HOME)/.vim/backup $(HOME)/.vim/tmp
 	$(CP_B) vim/vimrc $(HOME)/.vimrc
 ifndef CONFIG_THEME_SOLARIZED
-	$(QUIET)rm -rf $(HOME)/.vim/colors
+	$(QUIET) rm -rf $(HOME)/.vim/colors
 else
 	$(MKDIR_P) $(HOME)/.vim/colors
 	$(QUIET)curl --silent --show-error --output $(HOME)/.vim/colors/solarized.vim \
 		https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
-	$(QUIET)echo >> $(HOME)/.vimrc
-	$(QUIET)echo '" Solarized' >> $(HOME)/.vimrc
-	$(QUIET)echo 'if $$TERM =~ "^xterm" || $$TERM =~ "^rxvt"' >> $(HOME)/.vimrc
-	$(QUIET)echo '	syntax enable' >> $(HOME)/.vimrc
-	$(QUIET)echo '	set background=dark' >> $(HOME)/.vimrc
-	$(QUIET)echo '	let g:solarized_termtrans=1' >> $(HOME)/.vimrc
-	$(QUIET)echo '	colorscheme solarized' >> $(HOME)/.vimrc
-	$(QUIET)echo 'endif' >> $(HOME)/.vimrc
+	$(QUIET) echo >> $(HOME)/.vimrc
+	$(QUIET) echo '" Solarized' >> $(HOME)/.vimrc
+	$(QUIET) echo 'if $$TERM =~ "^xterm" || $$TERM =~ "^rxvt"' >> $(HOME)/.vimrc
+	$(QUIET) echo '	syntax enable' >> $(HOME)/.vimrc
+	$(QUIET) echo '	set background=dark' >> $(HOME)/.vimrc
+	$(QUIET) echo '	let g:solarized_termtrans=1' >> $(HOME)/.vimrc
+	$(QUIET) echo '	colorscheme solarized' >> $(HOME)/.vimrc
+	$(QUIET) echo 'endif' >> $(HOME)/.vimrc
 endif
 	$(SUCCESS) "$@ is installed"
 
@@ -157,9 +156,9 @@ git: update
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install git-core git-gui gitk
 	$(INFO) "Configuring $@"
-	$(QUIET)git config --global user.name $(USERNAME)
-	$(QUIET)git config --global user.email $(USERMAIL)
-	$(QUIET)git config --global color.ui true
+	$(QUIET) git config --global user.name $(USER_NAME)
+	$(QUIET) git config --global user.email $(USER_EMAIL)
+	$(QUIET) git config --global color.ui true
 	$(SUCCESS) "$@ is installed"
 
 .PHONY: tools
@@ -182,35 +181,35 @@ user-dirs:
 	$(INFO) "Configuring $@"
 ifneq ("$(shell xdg-user-dir DESKTOP)", "$(HOME)/.desktop")
 	$(MV_B) "$(shell xdg-user-dir DESKTOP)" "$(HOME)/.desktop"
-	$(QUIET)xdg-user-dirs-update --set DESKTOP "$(HOME)/.desktop"
+	$(QUIET) xdg-user-dirs-update --set DESKTOP "$(HOME)/.desktop"
 endif
 ifneq ("$(shell xdg-user-dir DOWNLOAD)", "$(HOME)/downloads")
 	$(MV_B) "$(shell xdg-user-dir DOWNLOAD)" "$(HOME)/downloads"
-	$(QUIET)xdg-user-dirs-update --set DOWNLOAD "$(HOME)/downloads"
+	$(QUIET) xdg-user-dirs-update --set DOWNLOAD "$(HOME)/downloads"
 endif
 ifneq ("$(shell xdg-user-dir TEMPLATES)", "$(HOME)/.templates")
 	$(MV_B) "$(shell xdg-user-dir TEMPLATES)" "$(HOME)/.templates"
-	$(QUIET)xdg-user-dirs-update --set TEMPLATES "$(HOME)/.templates"
+	$(QUIET) xdg-user-dirs-update --set TEMPLATES "$(HOME)/.templates"
 endif
 ifneq ("$(shell xdg-user-dir PUBLICSHARE)", "$(HOME)/www")
 	$(MV_B) "$(shell xdg-user-dir PUBLICSHARE)" "$(HOME)/www"
-	$(QUIET)xdg-user-dirs-update --set PUBLICSHARE "$(HOME)/www"
+	$(QUIET) xdg-user-dirs-update --set PUBLICSHARE "$(HOME)/www"
 endif
 ifneq ("$(shell xdg-user-dir DOCUMENTS)", "$(HOME)/documents")
 	$(MV_B) "$(shell xdg-user-dir DOCUMENTS)" "$(HOME)/documents"
-	$(QUIET)xdg-user-dirs-update --set DOCUMENTS "$(HOME)/documents"
+	$(QUIET) xdg-user-dirs-update --set DOCUMENTS "$(HOME)/documents"
 endif
 ifneq ("$(shell xdg-user-dir VIDEOS)", "$(HOME)/videos")
 	$(MV_B) "$(shell xdg-user-dir VIDEOS)" "$(HOME)/videos"
-	$(QUIET)xdg-user-dirs-update --set VIDEOS "$(HOME)/videos"
+	$(QUIET) xdg-user-dirs-update --set VIDEOS "$(HOME)/videos"
 endif
 ifneq ("$(shell xdg-user-dir MUSIC)", "$(HOME)/music")
 	$(MV_B) "$(shell xdg-user-dir MUSIC)" "$(HOME)/music"
-	$(QUIET)xdg-user-dirs-update --set MUSIC "$(HOME)/music"
+	$(QUIET) xdg-user-dirs-update --set MUSIC "$(HOME)/music"
 endif
 ifneq ("$(shell xdg-user-dir PICTURES)", "$(HOME)/pictures")
 	$(MV_B) "$(shell xdg-user-dir PICTURES)" "$(HOME)/pictures"
-	$(QUIET)xdg-user-dirs-update --set PICTURES "$(HOME)/pictures"
+	$(QUIET) xdg-user-dirs-update --set PICTURES "$(HOME)/pictures"
 endif
 	$(SUCCESS) "$@ is configured"
 
@@ -222,41 +221,41 @@ gnome-terminal: update
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install gnome-terminal
 	$(INFO) "Configuring $@"
-	$(QUIET)gconftool-2 --recursive-unset $(GT_PATH)/profiles/User
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/visible_name \
+	$(QUIET) gconftool-2 --recursive-unset $(GT_PATH)/profiles/User
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/visible_name \
 		--type string $(USERNAME)
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/default_show_menubar \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/default_show_menubar \
 		--type bool false
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/use_theme_colors \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/use_theme_colors \
 		--type bool false
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/scrollbar_position \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/scrollbar_position \
 		--type string hidden
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/scrollback_lines \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/scrollback_lines \
 		--type int 1024
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/silent_bell \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/silent_bell \
 		--type bool true
 ifndef CONFIG_THEME_SOLARIZED
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
 		--type string '#300A24'
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
 		--type string '#FFFFFF'
 else
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/background_color \
 		--type string '#002B36'
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/foreground_color \
 		--type string '#839496'
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/bold_color \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/bold_color \
 		--type string '#93A1A1'
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/bold_color_same_as_fg \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/bold_color_same_as_fg \
 		--type bool false
-	$(QUIET)gconftool-2 --set $(GT_PATH)/profiles/User/palette \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/palette \
 		--type string '#073642:#DC322F:#859900:#B58900:#268BD2:#D33682:#2AA198:#EEE8D5:#002B36:#CB4B16:#586E75:#657B83:#839496:#6C71C4:#93A1A1:#FDF6E3'
 endif
 ifeq ($(shell echo $(GT_PROFILES) | grep -c User), 0)
-	$(QUIET)gconftool-2 --set $(GT_PATH)/global/profile_list \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/global/profile_list \
 		--type list --list-type string [$(GT_PROFILES),User]
 endif
-	$(QUIET)gconftool-2 --set $(GT_PATH)/global/default_profile \
+	$(QUIET) gconftool-2 --set $(GT_PATH)/global/default_profile \
 		--type string User
 	$(SUCCESS) "$@ is configured"
 
@@ -267,9 +266,9 @@ wallpaper:
 	$(INFO) "Installing $@"
 	$(CP_B) -r wallpaper/ "$(shell xdg-user-dir PICTURES)"
 	$(INFO) "Configuring $@"
-	$(QUIET)gsettings reset-recursively $(WP_SCHEMA)
-	$(QUIET)test -f $(shell xdg-user-dir PICTURES)$(WP_PATH) && \
-		gsettings set $(WP_SCHEMA) picture-uri \
+	$(QUIET) gsettings reset-recursively $(WP_SCHEMA)
+	$(QUIET) test -f $(shell xdg-user-dir PICTURES)$(WP_PATH)
+	$(QUIET) gsettings set $(WP_SCHEMA) picture-uri \
 		"file://$(shell xdg-user-dir PICTURES)$(WP_PATH)"
 	$(SUCCESS) "$@ is configured"
 endif

@@ -4,10 +4,10 @@
 #############################  GLOBAL CONFIGURATION  ###########################
 
 # Your name
-#USERNAME="John Doe"
+#USER_NAME="John Doe"
 
 # Your email
-#USERMAIL="johndoe@example.com"
+#USER_EMAIL="johndoe@example.com"
 
 # Your machine type
 # you have to choose between:
