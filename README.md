@@ -1,5 +1,4 @@
-One Time Setup
-==============
+# One Time Setup [![Build Status][1]][2]
 
 This is my "one time setup". You can easily use it for your own setup by editing
 rules or just edit your own configuration.
@@ -36,6 +35,8 @@ And finally run:
 
 ### License
 
-This work is [unlicensed][1].
+This work is [unlicensed][3].
 
-[1]: http://unlicense.org "Unlicense"
+[1]: https://travis-ci.org/jmlemetayer/one-time-setup.png?branch=master
+[2]: https://travis-ci.org/jmlemetayer/one-time-setup
+[3]: http://unlicense.org "Unlicense"
