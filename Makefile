@@ -21,6 +21,11 @@ ifndef MACHINE_TYPE
  $(warning Setting default value for MACHINE_TYPE)
 endif
 
+ifndef MACHINE_RIGHTS
+ MACHINE_RIGHTS	:= admin
+ $(warning Setting default value for MACHINE_RIGHTS)
+endif
+
 # Check Linux Standard Base
 ifndef FORCE
  LSB_NAME	:= $(shell lsb_release -i | \
@@ -53,7 +58,12 @@ PRINT		:= @printf
 INFO		:= $(PRINT)	"\t\033[1m%s\033[0m\n"
 SUCCESS		:= $(PRINT)	"\t\033[1;32m%s\033[0m\n"
 
-SUDO		:= $(QUIET)	sudo
+ifeq ($(MACHINE_RIGHTS), admin)
+ SUDO		:= $(QUIET)	sudo
+else
+ SUDO		:= $(QUIET)
+endif
+
 CP_B		:= $(QUIET)	cp -b
 S_CP_B		:= $(SUDO)	cp -b
 MKDIR_P		:= $(QUIET)	mkdir -p
@@ -63,10 +73,14 @@ S_MV_B		:= $(SUDO)	mv -b
 SED_I		:= $(QUIET)	sed -i
 S_SED_I		:= $(SUDO)	sed -i
 
-ifndef DEBUG
- S_APT_GET	:= $(SUDO)	apt-get -qq
+ifeq ($(MACHINE_RIGHTS), admin)
+ ifndef DEBUG
+  S_APT_GET	:= $(SUDO)	apt-get -qq
+ else
+  S_APT_GET	:= $(SUDO)	apt-get -y
+ endif
 else
- S_APT_GET	:= $(SUDO)	apt-get -y
+ S_APT_GET	:= @true
 endif
 
 # Set targets
@@ -113,13 +127,17 @@ all: $(TARGETS)
 # Basic rules
 .PHONY: sudo
 sudo:
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(SUDO) true
+endif
 
 .PHONY: update
 update: sudo
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Updating packages"
 	$(S_APT_GET) update
 	$(SUCCESS) "All packages are updated"
+endif
 
 # Application rules
 .PHONY: profile
@@ -148,8 +166,10 @@ endif
 
 .PHONY: vim
 vim: update tools
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install vim vim-gnome
+endif
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/.vim/backup $(HOME)/.vim/tmp
 	$(CP_B) vim/vimrc $(HOME)/.vimrc
@@ -172,8 +192,10 @@ endif
 
 .PHONY: git
 git: update
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install git-core git-gui gitk
+endif
 	$(INFO) "Configuring $@"
 	$(QUIET) git config --global user.name $(USER_NAME)
 	$(QUIET) git config --global user.email $(USER_EMAIL)
@@ -182,14 +204,18 @@ git: update
 
 .PHONY: tools
 tools: update
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install curl sqlite3 tree unzip
 	$(SUCCESS) "$@ is installed"
+endif
 
 .PHONY: devtools
 devtools: update
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install build-essential autoconf automake libtool valgrind
+endif
 	$(INFO) "Configuring $@"
 	$(MKDIR_P) $(HOME)/development
 	$(SUCCESS) "$@ is installed"
@@ -237,8 +263,10 @@ GT_PROFILES := $(shell gconftool-2 --get $(GT_PATH)/global/profile_list)
 GT_PROFILES := $(shell echo $(GT_PROFILES) | sed -e 's/\[//g' -e 's/\]//g')
 .PHONY: gnome-terminal
 gnome-terminal: update
+ifeq ($(MACHINE_RIGHTS), admin)
 	$(INFO) "Installing $@"
 	$(S_APT_GET) install gnome-terminal
+endif
 	$(INFO) "Configuring $@"
 	$(QUIET) gconftool-2 --recursive-unset $(GT_PATH)/profiles/User
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/visible_name \

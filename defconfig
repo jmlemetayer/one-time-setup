@@ -15,6 +15,12 @@
 # * server (default)
 #MACHINE_TYPE=server
 
+# Your rights on the machine
+# you have to choose between:
+# * admin (default)
+# * user
+#MACHINE_RIGHTS=admin
+
 
 ####################################  BASH  ####################################
 
