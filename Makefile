@@ -307,6 +307,8 @@ endif
 		--type string hidden
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/scrollback_lines \
 		--type int 1024
+	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/alternate_screen_scroll \
+		--type bool true
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/silent_bell \
 		--type bool true
 ifndef CONFIG_THEME_SOLARIZED
