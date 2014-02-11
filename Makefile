@@ -298,7 +298,7 @@ endif
 	$(INFO) "Configuring $@"
 	$(QUIET) gconftool-2 --recursive-unset $(GT_PATH)/profiles/User
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/visible_name \
-		--type string $(USERNAME)
+		--type string $(USER_NAME)
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/default_show_menubar \
 		--type bool false
 	$(QUIET) gconftool-2 --set $(GT_PATH)/profiles/User/use_theme_colors \
