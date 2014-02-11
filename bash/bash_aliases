@@ -95,3 +95,28 @@ upgrade-ubuntu()
 	echo Done !
 	return 0
 }
+
+# Home made tree if the command is not available
+tree()
+{
+	if test -z "$(which tree)"
+	then
+		(cd $(dirname ${1:-.}) && command ls --color=auto -d $(basename ${1:-.}))
+		_tree ${1:-.}
+	else
+		command tree $@
+	fi
+}
+
+_tree()
+{
+	for F in $(find ${1:-.}/* -maxdepth 0 -name "[^.]*" -type f -printf '%f\n')
+	do
+		printf "${2:-|}- " && (cd ${1:-.}/ && command ls --color=auto ${F})
+	done
+	for D in $(find ${1:-.}/* -maxdepth 0 -name "[^.]*" -type d -printf '%f\n')
+	do
+		printf "${2:-|}- " && (cd ${1:-.}/ && command ls --color=auto -d ${D})
+		_tree ${1:-.}/${D} "${2:-|} |"
+	done
+}
