@@ -99,24 +99,22 @@ upgrade-ubuntu()
 # Home made tree if the command is not available
 tree()
 {
-	if test -z "$(which tree)"
-	then
-		(cd $(dirname ${1:-.}) && command ls --color=auto -d $(basename ${1:-.}))
-		_tree ${1:-.}
-	else
-		command tree $@
-	fi
+	[ -z "$(which tree)" ] && _tree $@ || command tree $@
 }
 
 _tree()
 {
-	for F in $(find ${1:-.}/* -maxdepth 0 -name "[^.]*" -type f -printf '%f\n')
+	local DIR=${1:-.} && DIR=${DIR%/} && shift
+	[ -z "$1" ] && command ls --color=auto -d $DIR || \
+		(cd $(dirname $DIR) && command ls --color=auto -d $(basename $DIR))
+	local FILES=($(command ls $DIR)) DEPTH=( "$@" ) && DEPTH=("${DEPTH[@]}" "|")
+	for FILE in ${FILES[@]}
 	do
-		printf "${2:-|}- " && (cd ${1:-.}/ && command ls --color=auto ${F})
-	done
-	for D in $(find ${1:-.}/* -maxdepth 0 -name "[^.]*" -type d -printf '%f\n')
-	do
-		printf "${2:-|}- " && (cd ${1:-.}/ && command ls --color=auto -d ${D})
-		_tree ${1:-.}/${D} "${2:-|} |"
+		[ $FILE = ${FILES[$((${#FILES[@]} - 1))]} ] && \
+			echo -en "${DEPTH[@]} \b\b+- " && DEPTH[$((${#DEPTH[@]} - 1))]=" " || \
+			echo -en "${DEPTH[@]} \b\b|- "
+		[ -d ${DIR}/${FILE} ] && \
+			_tree ${DIR}/${FILE} "${DEPTH[@]}" || \
+			(cd $DIR && command ls --color=auto $FILE)
 	done
 }
