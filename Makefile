@@ -227,7 +227,15 @@ repo: profile
 .PHONY: ssh
 ssh:
 	$(INFO) "Configuring $@"
+	$(QUIET) -[ -f $(HOME)/.ssh/id_rsa ] && \
+		mv -b $(HOME)/.ssh/id_rsa $(HOME)/.ssh/id_rsa.old
+	$(QUIET) -[ -f $(HOME)/.ssh/id_rsa.pub ] && \
+		mv -b $(HOME)/.ssh/id_rsa.pub $(HOME)/.ssh/id_rsa.pub.old
+ifndef DEBUG
 	$(QUIET) -ssh-keygen -q -t rsa -N "" -f $(HOME)/.ssh/id_rsa
+else
+	$(QUIET) -ssh-keygen -t rsa -N "" -f $(HOME)/.ssh/id_rsa
+endif
 	$(SUCCESS) "$@ is installed"
 
 .PHONY: tools
