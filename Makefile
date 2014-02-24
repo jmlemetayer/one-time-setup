@@ -185,7 +185,7 @@ ifeq ($(MACHINE_RIGHTS), admin)
 	$(S_APT_GET) install vim vim-gnome
 endif
 	$(INFO) "Configuring $@"
-	$(MKDIR_P) $(HOME)/.vim/backup $(HOME)/.vim/tmp
+	$(MKDIR_P) $(HOME)/.vim/backup
 	$(CP_B) vim/vimrc $(HOME)/.vimrc
 ifndef CONFIG_THEME_SOLARIZED
 	$(QUIET) rm -rf $(HOME)/.vim/colors
