@@ -84,3 +84,6 @@ unset XTERM
 
 # Private configuration
 [ -f ~/.bash_priv ] && . ~/.bash_priv
+
+# Enable programmable completion features
+[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
