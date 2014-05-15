@@ -2,14 +2,15 @@
 # Vim setup rules
 #
 
-ifdef CONFIG_VIM
-
 # Vim colors for solarized theme
 VIM_SOLARIZED := https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
 
 # Add vim into the target list
 PHONY += vim
+
+ifdef CONFIG_VIM
 all: vim
+endif
 
 # Define the vim target
 vim: package-update
@@ -38,5 +39,4 @@ ifeq ($(CONFIG_THEME), solarized)
 else
 	$(PRINT0) RM "$(HOME)/.vim/colors"
 	$(QUIET) $(RM) -r $(HOME)/.vim/colors
-endif
 endif

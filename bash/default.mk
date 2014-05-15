@@ -2,21 +2,15 @@
 # bash setup rules
 #
 
-ifdef CONFIG_BASH
-
 # Bash dircolors for solarized
 BASH_SOLARIZED=https://raw.github.com/seebi/dircolors-solarized/master/dircolors.256dark
 
-# Shell dependencies
-ifndef CONFIG_SHELL
- CONFIG_SHELL := y
- $(eval mk=$(call findmk,shell))
- $(if $(mk),$(eval include $(mk)))
-endif
-
 # Add bash into the target list
 PHONY += bash
+
+ifdef CONFIG_BASH
 all: bash
+endif
 
 # Define the bash target
 bash: shell package-update
@@ -36,5 +30,4 @@ ifeq ($(CONFIG_THEME), solarized)
 else
 	$(PRINT0) RM "$(HOME)/.dircolors"
 	$(QUIET) $(RM) -r $(HOME)/.dircolors
-endif
 endif

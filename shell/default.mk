@@ -2,11 +2,12 @@
 # Shell setup rules
 #
 
-ifdef CONFIG_SHELL
-
 # Add shell into the target list
 PHONY += shell
+
+ifdef CONFIG_SHELL
 all: shell
+endif
 
 # Define the shell target
 shell:
@@ -17,4 +18,5 @@ shell:
 	$(QUIET) $(CP) shell/shrc $(HOME)/.shrc
 	$(PRINT0) COPY "$(HOME)/.sh_aliases"
 	$(QUIET) $(CP) shell/sh_aliases $(HOME)/.sh_aliases
-endif
+	$(PRINT0) MKDIR "$(HOME)/.bin"
+	$(QUIET) $(MKDIR) $(HOME)/.bin
