@@ -1,108 +1,48 @@
-# One Time Setup configuration file
+# One Time Setup default configuration file
 
 
 #############################  GLOBAL CONFIGURATION  ###########################
 
 # Your name
-#USER_NAME="John Doe"
+USER_NAME=
 
 # Your email
-#USER_EMAIL="johndoe@example.com"
+USER_EMAIL=
 
 # Your machine type
 # you have to choose between:
 # * desktop
 # * server (default)
-#MACHINE_TYPE=server
+MACHINE_TYPE=server
 
 # Your rights on the machine
 # you have to choose between:
-# * admin (default)
-# * user
-#MACHINE_RIGHTS=admin
+# * admin
+# * user (default)
+MACHINE_RIGHTS=user
+
+# The theme used for your terminals, IDE...
+# you have to choose between:
+# * none (default)
+# * solarized (http://ethanschoonover.com/solarized)
+CONFIG_THEME=none
+
+
+####################################  SHELL  ###################################
+
+# Configure the basic shell
+#CONFIG_SHELL=y
 
 
 ####################################  BASH  ####################################
 
-# Setup profile
-# setup my .profile favorite file
-#CONFIG_PROFILE=y
-
-# Setup bash
-# setup my .bashrc and .bash_aliases favorite files
+# Install and configure the Bourne Again SHell
+# It can be used with solarized theme
 #CONFIG_BASH=y
 
 
 #####################################  VIM  ####################################
 
-# Setup vim
-# install and setup vim with my .vimrc file
+# Install and configure Vim
+# It can be used with solarized theme
 #CONFIG_VIM=y
-
-
-#####################################  GIT  ####################################
-
-# Setup git
-# install and setup git
-#CONFIG_GIT=y
-
-
-####################################  REPO  ####################################
-
-# Setup repo
-# install repo
-#CONFIG_REPO=y
-
-
-#####################################  SSH  ####################################
-
-# Setup ssh
-# create ssh certificates
-#CONFIG_SSH=y
-
-
-#################################  COMMON TOOLS  ###############################
-
-# Setup tools
-# install my commons tools: curl, sqlite3, tree, unzip
-#CONFIG_TOOLS=y
-
-
-##############################  DEVELOPMENT TOOLS  #############################
-
-# Setup devtools
-# install my commons development tools:
-# build-essential, autoconf, automake, libtool, valgrind
-#CONFIG_DEVTOOLS=y
-
-
-################################  DESKTOP ONLY  ################################
-
-# Setup user-dirs
-# requires CONFIG_MACHINE_TYPE=desktop
-# setup my favorite user dirs
-#CONFIG_USER_DIRS=y
-
-# Setup gnome-terminal
-# requires CONFIG_MACHINE_TYPE=desktop
-# setup my favorite terminal
-#CONFIG_GNOME_TERMINAL=y
-
-# Setup wallpaper
-# requires CONFIG_MACHINE_TYPE=desktop
-# install and setup my favorite wallpapers
-# http://www.tux-planet.fr/ubuntu-wallpaper-by-mikebeecham/
-# you have to choose between:
-# * radiance-purple
-# * simple-ubuntu-brown
-# * ubuntu-brown-bubbles
-# * ubuntu-brown
-# * ubuntu-fizz
-#CONFIG_WALLPAPER=ubuntu-brown-bubbles
-
-
-###################################  THEMES  ###################################
-
-# Use Solarized theme
-# http://ethanschoonover.com/solarized
-#CONFIG_THEME_SOLARIZED=y

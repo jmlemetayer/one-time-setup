@@ -1,30 +1,21 @@
 # ~/.bash_aliases
 
 # Basic aliases
-alias ll='ls -l'
-alias l='ll'
-alias la='ll -A'
-alias mkdir='mkdir -p'
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias ssh='ssh -X'
-
-# Misunderstood aliases
-alias cd..='cd ..'
-alias mroe='more'
-alias pdw='pwd'
-alias tre='tree'
 
 # Functions
 ## Add sudo to apt-get
 function apt-get() { [ $UID -ne 0 ] && sudo apt-get $@ || command apt-get $@; }
 
 ## Don't care about format, just extract
-extract () {
+extract ()
+{
 	if [ -f $1 ]
 	then
 		case $1 in
 			*.tar.bz2)	tar xjf $1 ;;
-			*.tar.xz)        tar xJf $1 ;;
+			*.tar.xz)	tar xJf $1 ;;
 			*.tar.gz)	tar xzf $1 ;;
 			*.bz2)		bunzip2 $1 ;;
 			*.rar)		unrar e $1 ;;
@@ -35,7 +26,7 @@ extract () {
 			*.zip)		unzip $1 ;;
 			*.Z)		uncompress $1 ;;
 			*.7z)		7z x $1 ;;
-			*)			echo "'$1' cannot be extracted via extract()" ;;
+			*)	echo "'$1' cannot be extracted via extract()" ;;
 		esac
 	else
 		echo "'$1' is not a valid file"
@@ -53,12 +44,12 @@ upgrade-ubuntu()
 
 	if [ $RET != 0 ]
 	then
-		echo Failed to update 1>&2
+		echo >&2 Failed to update
 		return $RET
 	fi
 
 	local UPDATE_STR=$(/usr/lib/update-notifier/apt-check --human-readable)
-	local UPDATE_NUM
+	local UPDATE_NUM NUM
 
 	for NUM in $(echo "$UPDATE_STR" | awk '{print $1}')
 	do
@@ -67,7 +58,7 @@ upgrade-ubuntu()
 
 	if [ $UPDATE_NUM -eq 0 ]
 	then
-		echo Nothing to update
+		echo Nothing to upgrade
 		return 0
 	fi
 
@@ -82,7 +73,7 @@ upgrade-ubuntu()
 
 	if [ $RET != 0 ]
 	then
-		echo Failed to upgrade 1>&2
+		echo >&2 Failed to upgrade
 		return $RET
 	fi
 

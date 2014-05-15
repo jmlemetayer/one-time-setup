@@ -1,11 +1,7 @@
 script:
-    - echo CONFIG_PROFILE=y >> .config
+    - echo MACHINE_TYPE=server >> .config
+    - echo MACHINE_RIGHTS=admin >> .config
+    - echo CONFIG_THEME=solarized >> .config
     - echo CONFIG_BASH=y >> .config
     - echo CONFIG_VIM=y >> .config
-    - echo CONFIG_GIT=y >> .config
-    - echo CONFIG_REPO=y >> .config
-    - echo CONFIG_SSH=y >> .config
-    - echo CONFIG_TOOLS=y >> .config
-    - echo CONFIG_DEVTOOLS=y >> .config
-    - echo CONFIG_THEME_SOLARIZED=y >> .config
-    - make DEBUG=y
+    - make V=2

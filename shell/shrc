@@ -1,0 +1,22 @@
+# ~/.shrc
+
+# If not running interactively, don't do anything
+case "$-" in
+	*i*) continue ;;
+	*) return ;;
+esac
+
+# Improve PS1
+PS1="${USER}@$(hostname)${PS1} "
+
+# Set PATH so it includes user's private bin if it exists
+if [ -d "${HOME}/.bin" ]
+then
+	case "${PATH}" in
+		*"${HOME}/.bin"*) continue ;;
+		*) PATH="${HOME}/.bin:${PATH}"
+	esac
+fi
+
+# Alias definitions
+[ -f ~/.sh_aliases ] && . ~/.sh_aliases
