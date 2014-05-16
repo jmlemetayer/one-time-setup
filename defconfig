@@ -58,3 +58,15 @@ CONFIG_THEME=none
 
 # Install repo
 #CONFIG_REPO=y
+
+
+#################################  COMMON TOOLS  ###############################
+
+# Install common tools
+#CONFIG_TOOLS=y
+
+
+##############################  DEVELOPMENT TOOLS  #############################
+
+# Install development tools
+#CONFIG_DEVTOOLS=y
