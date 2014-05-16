@@ -76,3 +76,16 @@ CONFIG_THEME=none
 
 # Install development tools
 #CONFIG_DEVTOOLS=y
+
+
+##################################  WALLPAPER  #################################
+
+# Install and configure the wallpaper
+# requires MACHINE_TYPE=desktop
+# you have to choose between:
+# * radiance-purple
+# * simple-ubuntu-brown
+# * ubuntu-brown-bubbles
+# * ubuntu-brown
+# * ubuntu-fizz
+#CONFIG_WALLPAPER=ubuntu-brown-bubbles
