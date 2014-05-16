@@ -79,6 +79,13 @@ CONFIG_THEME=none
 #CONFIG_DEVTOOLS=y
 
 
+##############################  USER DIRECTORIES  ##############################
+
+# Configure the user directories
+# requires MACHINE_TYPE=desktop
+#CONFIG_USER_DIRS=y
+
+
 ##################################  WALLPAPER  #################################
 
 # Install and configure the wallpaper
