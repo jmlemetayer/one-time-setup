@@ -10,43 +10,43 @@ MAKEFLAGS += --no-print-directory
 
 # Support the V= option in command line
 ifeq ("$(origin V)", "command line")
- VERBOSITY	:= $(V)
+VERBOSITY	:= $(V)
 else
- VERBOSITY	:= 0
+VERBOSITY	:= 0
 endif
 
 # Define the verbosity level
 ifeq ($(VERBOSITY), 2)
- QUIET		:=
- PRINT0		:= @printf "  %-7.7s %s\n"
- PRINT1		:= @printf "  %-7.7s %s\n"
+QUIET		:=
+PRINT0		:= @printf "  %-7.7s %s\n"
+PRINT1		:= @printf "  %-7.7s %s\n"
 else ifeq ($(VERBOSITY), 1)
- QUIET		:= @
- PRINT0		:= @printf "  %-7.7s %s\n"
- PRINT1		:= @printf "  %-7.7s %s\n"
+QUIET		:= @
+PRINT0		:= @printf "  %-7.7s %s\n"
+PRINT1		:= @printf "  %-7.7s %s\n"
 else
- QUIET		:= @
- PRINT0		:= @true
- PRINT1		:= @printf "  %-7.7s %s\n"
+QUIET		:= @
+PRINT0		:= @true
+PRINT1		:= @printf "  %-7.7s %s\n"
 endif
 
 # Support the F= option in command line
 ifeq ("$(origin F)", "command line")
- FORCE		:= $(F)
+FORCE		:= $(F)
 endif
 
 # Check Linux Standard Base
 ifneq ($(FORCE), 1)
- LSB_DISTRIB	:= $(shell lsb_release -i | sed -n 's/^[^\t]*\t\(.*\)$$/\L\1/p')
- LSB_RELEASE	:= $(shell lsb_release -r | sed -n 's/^[^\t]*\t\(.*\)$$/\1/p')
+LSB_DISTRIB	:= $(shell lsb_release -i | sed -n 's/^[^\t]*\t\(.*\)$$/\L\1/p')
+LSB_RELEASE	:= $(shell lsb_release -r | sed -n 's/^[^\t]*\t\(.*\)$$/\1/p')
 
 # Supported distributions:
 # - ubuntu 14.04
 
- ifeq ($(LSB_DISTRIB)_$(LSB_RELEASE), ubuntu_14.04)
- else
-  $(error This distribution is not supported. Use 'make F=1' to override.)
- endif
+ifeq ($(LSB_DISTRIB)_$(LSB_RELEASE), ubuntu_14.04)
+else
+$(error This distribution is not supported. Use 'make F=1' to override.)
+endif
 endif
 
 # Define global variables
@@ -58,7 +58,7 @@ CONFIG_THEME	?= none
 
 # Define global commands
 ifeq ($(MACHINE_ACCESS), admin)
- SUDO		:= sudo
+SUDO		:= sudo
 endif
 
 CP		:= cp -b
@@ -74,9 +74,9 @@ S_RM		:= $(SUDO) rm -f
 S_SED		:= $(SUDO) sed -i
 
 ifeq ($(VERBOSITY), 2)
- WGET		:= wget --debug --output-document
+WGET		:= wget --debug --output-document
 else
- WGET		:= wget --quiet --output-document
+WGET		:= wget --quiet --output-document
 endif
 
 # That's our default target when none is given on the command line

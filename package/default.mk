@@ -4,9 +4,9 @@
 
 # Define the package command
 ifeq ($(VERBOSITY), 2)
- S_PACKAGE	:= $(SUDO) apt-get -y
+S_PACKAGE	:= $(SUDO) apt-get -y
 else
- S_PACKAGE	:= $(SUDO) apt-get -qq
+S_PACKAGE	:= $(SUDO) apt-get -qq
 endif
 
 # Define the package-update target
