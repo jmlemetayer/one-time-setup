@@ -1,3 +1,3 @@
 .PHONY: help
 help:
-	@echo  ' CONFIG_SHELL	: Configure the basic shell'
+	@echo  ' CONFIG_SHELL		: Configure the basic shell'

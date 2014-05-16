@@ -1,3 +1,3 @@
 .PHONY: help
 help:
-	@echo  ' CONFIG_REPO	: Install repo'
+	@echo  ' CONFIG_REPO		: Install repo'

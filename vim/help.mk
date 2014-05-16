@@ -1,3 +1,3 @@
 .PHONY: help
 help:
-	@echo  ' CONFIG_VIM	: Install and configure Vim'
+	@echo  ' CONFIG_VIM		: Install and configure vim'
