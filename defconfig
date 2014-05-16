@@ -86,6 +86,13 @@ CONFIG_THEME=none
 #CONFIG_USER_DIRS=y
 
 
+###############################  GNOME TERMINAL  ###############################
+
+# Install and configure gnome-terminal
+# requires MACHINE_TYPE=desktop
+#CONFIG_GNOME_TERMINAL=y
+
+
 ##################################  WALLPAPER  #################################
 
 # Install and configure the wallpaper
