@@ -11,8 +11,10 @@ GT_GLOBAL := $(GT_PATH)/global
 GT_SOLARIZED := https://raw.githubusercontent.com/sigurdga/gnome-terminal-colors-solarized/master/colors/palette
 
 # Gnome terminal profile list
+ifeq ($(MACHINE_TYPE), desktop)
 GT_LIST := $(shell gconftool-2 --get $(GT_GLOBAL)/profile_list)
 GT_LIST := $(shell echo $(GT_LIST) | sed -e 's/\[//g' -e 's/\]//g')
+endif
 
 # Add gnome-terminal into the target list
 PHONY += gnome-terminal
