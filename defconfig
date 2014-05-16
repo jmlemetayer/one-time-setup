@@ -46,3 +46,15 @@ CONFIG_THEME=none
 # Install and configure Vim
 # It can be used with solarized theme
 #CONFIG_VIM=y
+
+
+#####################################  GIT  ####################################
+
+# Install and configure git
+#CONFIG_GIT=y
+
+
+####################################  REPO  ####################################
+
+# Install repo
+#CONFIG_REPO=y
