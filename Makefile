@@ -103,7 +103,8 @@ help:
 	@echo  '			   * user (default)'
 	@echo  ' CONFIG_THEME		: The theme used for your terminals, IDE...'
 	@echo  '			   * none (default)'
-	@echo  '			   * solarized'
+	@echo  '			   * solarized-dark'
+	@echo  '			   * solarized-light'
 	@find . -name help.mk -exec make -f {} help \;
 	@echo
 	@echo  'Command line options:'

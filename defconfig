@@ -24,7 +24,8 @@ MACHINE_ACCESS=user
 # The theme used for your terminals, IDE...
 # you have to choose between:
 # * none (default)
-# * solarized (http://ethanschoonover.com/solarized)
+# * solarized-dark (http://ethanschoonover.com/solarized)
+# * solarized-light
 CONFIG_THEME=none
 
 
