@@ -1,0 +1,18 @@
+unset COLOR_PROMPT
+
+# Set PATH so it includes user's private bin if it exists
+[ -d "${HOME}/.bin" ] && \
+	[[ "${PATH}" != *"${HOME}/.bin"* ]] && \
+	PATH="${HOME}/.bin:${PATH}"
+
+# Basic alias definitions
+[ -f ~/.sh_aliases ] && . ~/.sh_aliases
+
+# Alias definitions
+[ -f ~/.bash_aliases ] && . ~/.bash_aliases
+
+# Private configuration
+[ -f ~/.bash_priv ] && . ~/.bash_priv
+
+# Enable programmable completion features
+[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion

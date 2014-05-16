@@ -20,8 +20,24 @@ ifeq ($(MACHINE_RIGHTS), admin)
 	$(QUIET) $(S_PACKAGE) install bash bash-completion
 endif
 	$(PRINT1) CONFIG "$@"
-	$(PRINT0) COPY "$(HOME)/.bashrc"
-	$(QUIET) $(CP) bash/bashrc $(HOME)/.bashrc
+	$(PRINT0) GEN "$(HOME)/.bashrc"
+	$(QUIET) $(CP) bash/bashrc.head $(HOME)/.bashrc
+	$(QUIET) echo >> $(HOME)/.bashrc
+ifeq ($(shell id -u), 0)
+ifeq ($(CONFIG_THEME), solarized)
+	$(QUIET) cat bash/bashrc.root.solarized >> $(HOME)/.bashrc
+else
+	$(QUIET) cat bash/bashrc.root.none >> $(HOME)/.bashrc
+endif
+else
+ifeq ($(CONFIG_THEME), solarized)
+	$(QUIET) cat bash/bashrc.user.solarized >> $(HOME)/.bashrc
+else
+	$(QUIET) cat bash/bashrc.user.none >> $(HOME)/.bashrc
+endif
+endif
+	$(QUIET) echo >> $(HOME)/.bashrc
+	$(QUIET) cat bash/bashrc.tail >> $(HOME)/.bashrc
 	$(PRINT0) COPY "$(HOME)/.bash_aliases"
 	$(QUIET) $(CP) bash/bash_aliases $(HOME)/.bash_aliases
 ifeq ($(CONFIG_THEME), solarized)

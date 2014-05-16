@@ -1,0 +1,32 @@
+[[ ${TERM} = rxvt* || ${TERM} = xterm* ]] && XTERM=yes
+
+[ -n "${XTERM}" ] && COLOR1='01;38;5;106' || COLOR1='01;32'
+[ -n "${XTERM}" ] && COLOR2='01;38;5;33' || COLOR2='01;34'
+
+if [ -n "${COLOR_PROMPT}" ]
+then
+	PS1="\[\033[${COLOR1}m\]\u@\h\[\033[0m\]:\[\033[${COLOR2}m\]\w\[\033[0m\]\$ "
+else
+	PS1='\u@\h:\w\$ '
+fi
+
+unset COLOR1
+unset COLOR2
+
+# Enable color support for the basic commands
+if [ -x /usr/bin/dircolors ]
+then
+	if [ -r ${HOME}/.dircolors -a -n "${XTERM}" ]
+	then
+		eval "$(dircolors -b ${HOME}/.dircolors)"
+	else
+		eval "$(dircolors -b)"
+	fi
+
+	alias ls='ls --color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
+fi
+
+unset XTERM
