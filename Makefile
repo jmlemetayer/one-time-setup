@@ -56,6 +56,29 @@ MACHINE_TYPE	?= server
 MACHINE_ACCESS	?= user
 CONFIG_THEME	?= none
 
+# Check global variables
+MACHINE_TYPES	:= desktop
+MACHINE_TYPES	+= server
+
+ifneq ($(MACHINE_TYPE), $(filter $(MACHINE_TYPE), $(MACHINE_TYPES)))
+$(error Unknown MACHINE_TYPE: $(MACHINE_TYPE))
+endif
+
+MACHINE_ACCESSS	:= admin
+MACHINE_ACCESSS	+= user
+
+ifneq ($(MACHINE_ACCESS), $(filter $(MACHINE_ACCESS), $(MACHINE_ACCESSS)))
+$(error Unknown MACHINE_ACCESS: $(MACHINE_ACCESS))
+endif
+
+CONFIG_THEMES	:= none
+CONFIG_THEMES	+= solarized-dark
+CONFIG_THEMES	+= solarized-light
+
+ifneq ($(CONFIG_THEME), $(filter $(CONFIG_THEME), $(CONFIG_THEMES)))
+$(error Unknown CONFIG_THEME: $(CONFIG_THEME))
+endif
+
 # Define global commands
 ifeq ($(MACHINE_ACCESS), admin)
 SUDO		:= sudo
