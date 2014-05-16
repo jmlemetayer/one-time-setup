@@ -17,3 +17,7 @@ ifeq ($(MACHINE_RIGHTS), admin)
 	$(QUIET) $(S_PACKAGE) install build-essential autoconf automake \
 		libtool libncurses5-dev valgrind gdb
 endif
+ifeq ($(MACHINE_TYPE), desktop)
+	$(PRINT0) MKDIR "$(HOME)/development"
+	$(QUIET) $(MKDIR) $(HOME)/development
+endif
