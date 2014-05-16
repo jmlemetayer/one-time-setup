@@ -60,6 +60,12 @@ CONFIG_THEME=none
 #CONFIG_REPO=y
 
 
+#####################################  SSH  ####################################
+
+# Configure ssh
+#CONFIG_SSH=y
+
+
 #################################  COMMON TOOLS  ###############################
 
 # Install common tools
