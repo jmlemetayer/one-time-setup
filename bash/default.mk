@@ -14,7 +14,7 @@ endif
 
 # Define the bash target
 bash: shell package-update
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
 	$(QUIET) $(S_PACKAGE) install bash bash-completion

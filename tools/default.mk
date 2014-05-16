@@ -11,7 +11,7 @@ endif
 
 # Define the tools target
 tools: package-update
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
 	$(QUIET) $(S_PACKAGE) install curl sqlite3 tree unzip

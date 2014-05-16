@@ -6,21 +6,18 @@
 PHONY += git
 
 ifdef CONFIG_GIT
-
 ifeq ($(USER_NAME),)
 $(error USER_NAME is empty can not configure git)
 endif
-
 ifeq ($(USER_EMAIL),)
 $(error USER_EMAIL is empty can not configure git)
 endif
-
 all: git
 endif
 
 # Define the git target
 git: package-update
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
 ifeq ($(MACHINE_TYPE), server)

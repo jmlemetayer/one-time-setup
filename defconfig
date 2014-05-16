@@ -15,11 +15,11 @@ USER_EMAIL=
 # * server (default)
 MACHINE_TYPE=server
 
-# Your rights on the machine
+# Your access type on the machine
 # you have to choose between:
 # * admin
 # * user (default)
-MACHINE_RIGHTS=user
+MACHINE_ACCESS=user
 
 # The theme used for your terminals, IDE...
 # you have to choose between:

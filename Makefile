@@ -53,11 +53,11 @@ endif
 USER_NAME	?= John Doe
 USER_EMAIL	?= jdoe@example.com
 MACHINE_TYPE	?= server
-MACHINE_RIGHTS	?= user
+MACHINE_ACCESS	?= user
 CONFIG_THEME	?= none
 
 # Define global commands
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
  SUDO		:= sudo
 endif
 
@@ -98,7 +98,7 @@ help:
 	@echo  ' MACHINE_TYPE		: Your machine type:'
 	@echo  '			   * desktop'
 	@echo  '			   * server (default)'
-	@echo  ' MACHINE_RIGHTS		: Your rights on the machine'
+	@echo  ' MACHINE_ACCESS		: Your access type on the machine'
 	@echo  '			   * admin'
 	@echo  '			   * user (default)'
 	@echo  ' CONFIG_THEME		: The theme used for your terminals, IDE...'

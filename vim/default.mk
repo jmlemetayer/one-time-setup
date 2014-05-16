@@ -14,7 +14,7 @@ endif
 
 # Define the vim target
 vim: package-update
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
 ifeq ($(MACHINE_TYPE), server)

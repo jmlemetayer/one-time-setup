@@ -16,7 +16,7 @@ all: repo
 endif
 
 # Dependencies
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 repo: bash
 else
 repo: shell
@@ -25,7 +25,7 @@ endif
 # Define the repo target
 repo: git
 	$(PRINT1) INSTALL "$@"
-ifeq ($(MACHINE_RIGHTS), admin)
+ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT0) WGET "repo"
 	$(QUIET) $(SUDO) $(WGET) /usr/bin/repo $(REPO_URL)
 	$(PRINT0) CHMOD "repo"
