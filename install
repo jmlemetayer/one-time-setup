@@ -64,7 +64,7 @@ param_list()
 	[ -n "$5" ] && DESC="$3 [$5]:"
 	echo $4 | awk -F, '{for (i=1; i<=NF; i++) print i ") " $i}'
 	read -p "$DESC " IN
-	[ -z "$IN" ] && { [ -n "$5" ] && IN="$5" || return; }
+	[ -z "$IN" ] && { [ -n "$5" ] && IN="$5" || { echo; return; }; }
 	[ $IN -eq $IN ] 2>/dev/null && IN=$(echo $4 | awk -F, '{print $'$IN'}')
 	IN=$(echo $4 | awk -F, '{for (i=1; i<=NF; i++) if ($i == "'$IN'") print $i}')
 	[ -n "$IN" ] && echo $1=$IN >> $2 && echo
