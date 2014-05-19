@@ -1,1 +1,1 @@
-CONFIG_BASH:bool:Install and configure bash
+CONFIG_SSH:bool:Configure ssh
