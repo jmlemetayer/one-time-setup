@@ -1,0 +1,125 @@
+#!/bin/sh
+
+# The master tarball url
+TBURL=https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
+
+# Create a temporary directory
+TMPDIR="$(mktemp -d)"
+
+# The master tarball directory
+TBDIR=$TMPDIR/one-time-setup-master
+
+# Clean and exit
+clean_up()
+{
+	rm -rf $TMPDIR
+	exit $1
+}
+
+# Error fallback
+error()
+{
+	echo >&2 $1
+	clean_up 1
+}
+
+# Set a bool parameter in the configuration
+# 1: Parameter name
+# 2: Configuration file
+# 3: Parameter description
+param_bool()
+{
+	local IN
+	read -p "$3 (Y/n) " IN
+	case "$IN" in
+		[Yy]|[Yy][Ee][Ss]) ;;
+		*) [ -z "$IN" ] || { echo; return; } ;;
+	esac
+	echo $1=y >> $2 && echo
+}
+
+# Set a string parameter in the configuration
+# 1: Parameter name
+# 2: Configuration file
+# 3: Parameter description
+# 4: Default value (optional)
+param_string()
+{
+	local IN DESC="$3:"
+	[ -n "$4" ] && DESC="$3 [$4]:"
+	read -p "$DESC " IN
+	[ -z "$IN" -a -n "$4" ] && IN="$4"
+	[ -n "$IN" ] && echo $1="$IN" >> $2 && echo
+}
+
+# Set a list parameter in the configuration
+# 1: Parameter name
+# 2: Configuration file
+# 3: Parameter description
+# 4: List values
+# 5: Default value (optional)
+param_list()
+{
+	local IN DESC="$3:"
+	[ -n "$5" ] && DESC="$3 [$5]:"
+	echo $4 | awk -F, '{for (i=1; i<=NF; i++) print i ") " $i}'
+	read -p "$DESC " IN
+	[ -z "$IN" ] && { [ -n "$5" ] && IN="$5" || return; }
+	[ $IN -eq $IN ] 2>/dev/null && IN=$(echo $4 | awk -F, '{print $'$IN'}')
+	IN=$(echo $4 | awk -F, '{for (i=1; i<=NF; i++) if ($i == "'$IN'") print $i}')
+	[ -n "$IN" ] && echo $1=$IN >> $2 && echo
+}
+
+# Parse a parameter file
+# 1: Parameter file
+# 2: Configuration file
+param_parse()
+{
+	local PARAM TYPE DEFAULT VALUES DESC
+	for LINE in $(cat $1 | sed 's/ /#/g')
+	do
+		LINE="$(echo $LINE | sed 's/#/ /g')"
+		PARAM=$(echo $LINE | awk -F: '{print $1}')
+		TYPE=$(echo $LINE | awk -F: '{print $2}')
+		case $TYPE in
+			bool)
+				DESC="$(echo $LINE | awk -F: '{print $3}')"
+				param_bool $PARAM $2 "$DESC"
+				;;
+			string)
+				DEFAULT="$(echo $LINE | awk -F: '{print $3}')"
+				DESC="$(echo $LINE | awk -F: '{print $4}')"
+				param_string $PARAM $2 "$DESC" "$DEFAULT"
+				;;
+			list)
+				DEFAULT=$(echo $LINE | awk -F: '{print $3}')
+				VALUES=$(echo $LINE | awk -F: '{print $4}')
+				DESC="$(echo $LINE | awk -F: '{print $5}')"
+				param_list $PARAM $2 "$DESC" $VALUES $DEFAULT
+				;;
+			*)
+				error "Failed to parse the parameter file: $1"
+				;;
+		esac
+	done
+}
+
+# Trap the clean_up function
+trap "clean_up 0" HUP INT TERM
+
+# Download and extract the tarball
+wget -q -O - $TBURL | tar xz -C $TMPDIR
+
+# Create the configuration file
+for DIR in $(find $TBDIR -maxdepth 1 -type d | sort)
+do
+	[ -r $DIR/parameters ] && param_parse $DIR/parameters $TBDIR/.config
+done
+
+# Copy the configuration file in home for backup
+cp $TBDIR/.config $HOME/.one-time-setup
+
+# Execute the makefile
+make -C $TBDIR --no-print-directory || error "Failed to intall"
+
+clean_up 0
