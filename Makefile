@@ -128,7 +128,7 @@ help:
 	@echo  '			   * none (default)'
 	@echo  '			   * solarized-dark'
 	@echo  '			   * solarized-light'
-	@find . -name help.mk -exec make -f {} help \;
+	@for MK in $$(find . -name help.mk | sort); do make -f $$MK help; done
 	@echo
 	@echo  'Command line options:'
 	@echo  '  make V=0-2 [targets] 0 => quiet setup (default)'
