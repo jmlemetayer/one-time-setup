@@ -4,4 +4,4 @@ script:
     - echo CONFIG_THEME=solarized >> .config
     - echo CONFIG_BASH=y >> .config
     - echo CONFIG_VIM=y >> .config
-    - make V=2
+    - make V=2 F=1
