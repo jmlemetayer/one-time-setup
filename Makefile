@@ -106,6 +106,60 @@ endif
 PHONY := all
 all:
 
+# List modules
+define listmod
+$(shell find . -maxdepth 1 -type d | sort)
+endef
+
+# Print a parameter
+# 1 - Parameter name
+# 2 - Parameter description
+define param_print
+$(shell echo printf \' %-27.27s: %s\\n\' \'$(1)\' \'$(2)\' \;)
+endef
+
+# Print a bool parameter
+# 1 - Parameter line
+define param_bool
+$(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$3); print $$3}'))
+endef
+
+# Print a string parameter
+# 1 - Parameter line
+define param_string
+$(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$4); print $$4}'))
+endef
+
+# Print a list value
+# 1 - List value
+define value_print
+$(shell echo printf \'\\t\\t\\t\\t\* %s\\n\' \'$(1)\' \;)
+endef
+
+# Print a list parameter
+# 1 - Parameter line
+define param_list
+$(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
+$(foreach val,$(shell echo $(line) | \
+	awk -F: '{n=split($$4, a, ","); for (i=1; i<=n; i++) print a[i]}')\
+	,$(call value_print,$(val)))
+endef
+
+# Parse a parameter file
+# 1 - Parameter file
+define param_parse
+$(foreach line,$(shell cat $(1) | sed 's/ /#/g'),\
+	$(if $(shell echo $(line) | grep ':bool:'),\
+	$(call param_bool,$(line)),\
+	$(if $(shell echo $(line) | grep ':string:'),\
+	$(call param_string,$(line)),\
+	$(if $(shell echo $(line) | grep ':list:'),\
+	$(call param_list,$(line))))))
+endef
+
 # Define the help target
 PHONY += help
 help:
@@ -115,20 +169,10 @@ help:
 	@echo  ' The one time setup read the .config file at startup. You can'
 	@echo  ' easily create a .config file by copying the defconfig file.'
 	@echo
-	@echo  'Configuration option:'
-	@echo  ' USER_NAME		: Your name'
-	@echo  ' USER_EMAIL		: Your email'
-	@echo  ' MACHINE_TYPE		: Your machine type:'
-	@echo  '			   * desktop'
-	@echo  '			   * server (default)'
-	@echo  ' MACHINE_ACCESS		: Your access type on the machine'
-	@echo  '			   * admin'
-	@echo  '			   * user (default)'
-	@echo  ' CONFIG_THEME		: The theme used for your terminals, IDE...'
-	@echo  '			   * none (default)'
-	@echo  '			   * solarized-dark'
-	@echo  '			   * solarized-light'
-	@for MK in $$(find . -name help.mk | sort); do make -f $$MK help; done
+	@echo  'Configuration parameters:'
+	@$(foreach mod,$(call listmod),\
+		$(if $(shell [ -r $(mod)/parameters ] && echo y),\
+		$(call param_parse,$(mod)/parameters)))
 	@echo
 	@echo  'Command line options:'
 	@echo  '  make V=0-2 [targets] 0 => quiet setup (default)'
@@ -148,7 +192,7 @@ $(shell test -r $(1)/$(LSB_DISTRIB)_$(LSB_RELEASE).mk && \
 	{ test -r $(1)/default.mk && echo $(1)/default.mk; }; } )
 endef
 
-$(foreach mod,$(shell find . -type d),\
+$(foreach mod,$(call listmod),\
 	$(eval mk=$(call findmk,$(mod)))$(if $(mk),$(eval include $(mk))))
 
 # Declare the contents of the .PHONY variable as phony.
