@@ -107,6 +107,16 @@ param_parse()
 # Trap the clean_up function
 trap "clean_up 0" HUP INT TERM
 
+# Install make
+if [ -z "$(which make)" ]
+then
+	case "$(lsb_release -s -i)" in
+		Ubuntu) sudo apt-get -qq >/dev/null install make || \
+			error "Failed to install make" ;;
+		*) error "This distribution is not supported yet." ;;
+	esac
+fi
+
 # Download and extract the tarball
 wget -q -O - $TBURL | tar xz -C $TMPDIR
 
