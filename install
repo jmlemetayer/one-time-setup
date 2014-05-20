@@ -130,6 +130,6 @@ done
 cp $TBDIR/.config $HOME/.one-time-setup
 
 # Execute the makefile
-make -C $TBDIR --no-print-directory || error "Failed to intall"
+make -C $TBDIR --no-print-directory $@ || error "Failed to intall"
 
 clean_up 0
