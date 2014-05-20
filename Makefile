@@ -144,7 +144,7 @@ define param_list
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
 	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
 $(foreach val,$(shell echo $(line) | \
-	awk -F: '{n=split($$4, a, ","); for (i=1; i<=n; i++) print a[i]}')\
+	awk -F: '{gsub(/,/," ",$$4);print $$4}')\
 	,$(call value_print,$(val)))
 endef
 
