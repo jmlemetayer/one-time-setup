@@ -37,8 +37,8 @@ endif
 
 # Check Linux Standard Base
 ifneq ($(FORCE), 1)
-LSB_DISTRIB	:= $(shell lsb_release -s -i)
-LSB_RELEASE	:= $(shell lsb_release -s -r)
+LSB_DISTRIB	:= $(shell lsb_release -s -i | sed -n 's/^\(.*\)$$/\L\1/p')
+LSB_RELEASE	:= $(shell lsb_release -s -r | sed -n 's/^\(.*\)$$/\L\1/p')
 
 # Supported distributions:
 # - ubuntu 14.04
