@@ -1,13 +1,2 @@
 script:
-    - echo MACHINE_TYPE=server >> .config
-    - echo MACHINE_ACCESS=admin >> .config
-    - echo CONFIG_THEME=solarized-dark >> .config
-    - echo CONFIG_SHELL=y >> .config
-    - echo CONFIG_BASH=y >> .config
-    - echo CONFIG_VIM=y >> .config
-    - echo CONFIG_GIT=y >> .config
-    - echo CONFIG_REPO=y >> .config
-    - echo CONFIG_TOOLS=y >> .config
-    - echo CONFIG_DEVTOOLS=y >> .config
-    - echo CONFIG_SSH=y >> .config
-    - make V=2 F=1
+    - . .travis.sh
