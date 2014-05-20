@@ -1,0 +1,53 @@
+# Upgrade Ubuntu
+upgrade-ubuntu()
+{
+	local RET
+
+	sudo apt-get update
+
+	RET=$?
+
+	if [ $RET != 0 ]
+	then
+		echo >&2 Failed to update
+		return $RET
+	fi
+
+	local UPDATE_STR=$(/usr/lib/update-notifier/apt-check --human-readable)
+	local UPDATE_NUM NUM
+
+	for NUM in $(echo "$UPDATE_STR" | awk '{print $1}')
+	do
+		UPDATE_NUM="${UPDATE_NUM}${NUM}"
+	done
+
+	if [ $UPDATE_NUM -eq 0 ]
+	then
+		echo Nothing to upgrade
+		return 0
+	fi
+
+	printf "%s\n" "$UPDATE_STR"
+
+	sudo apt-get -y upgrade && \
+	sudo apt-get -y dist-upgrade && \
+	sudo apt-get -y autoremove && \
+	sudo apt-get -y autoclean
+
+	RET=$?
+
+	if [ $RET != 0 ]
+	then
+		echo >&2 Failed to upgrade
+		return $RET
+	fi
+
+	if [ -f /var/run/reboot-required ]
+	then
+		echo Reboot needed
+		sudo reboot
+	fi
+
+	echo Done !
+	return 0
+}
