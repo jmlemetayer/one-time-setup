@@ -36,11 +36,11 @@ FORCE		:= $(F)
 endif
 
 # Check Linux Standard Base
-ifneq ($(FORCE), 1)
 LSB_DISTRIB	:= $(shell lsb_release -s -i | sed -n 's/^\(.*\)$$/\L\1/p')
 LSB_RELEASE	:= $(shell lsb_release -s -r | sed -n 's/^\(.*\)$$/\L\1/p')
 LSB_DESCRIPTION	:= $(LSB_DISTRIB)_$(LSB_RELEASE)
 
+ifneq ($(FORCE), 1)
 # Supported distributions:
 LSB_SUPPORTED := ubuntu_14.04
 
