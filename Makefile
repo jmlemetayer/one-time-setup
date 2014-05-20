@@ -37,15 +37,15 @@ endif
 
 # Check Linux Standard Base
 ifneq ($(FORCE), 1)
-LSB_DISTRIB	:= $(shell lsb_release -i | sed -n 's/^[^\t]*\t\(.*\)$$/\L\1/p')
-LSB_RELEASE	:= $(shell lsb_release -r | sed -n 's/^[^\t]*\t\(.*\)$$/\1/p')
+LSB_DISTRIB	:= $(shell lsb_release -s -i)
+LSB_RELEASE	:= $(shell lsb_release -s -r)
 
 # Supported distributions:
 # - ubuntu 14.04
 
 ifeq ($(LSB_DISTRIB)_$(LSB_RELEASE), ubuntu_14.04)
 else
-$(error This distribution is not supported. Use 'make F=1' to override.)
+$(error This distribution is not supported yet. Use 'make F=1' to override.)
 endif
 endif
 
