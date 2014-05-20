@@ -14,8 +14,13 @@ devtools: package-update
 ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
+ifeq ($(MACHINE_TYPE), server)
 	$(QUIET) $(S_PACKAGE) install build-essential autoconf automake \
 		libtool libncurses5-dev valgrind gdb pkg-config
+else
+	$(QUIET) $(S_PACKAGE) install build-essential autoconf automake \
+		libtool libncurses5-dev valgrind gdb pkg-config glogg
+endif
 endif
 ifeq ($(MACHINE_TYPE), desktop)
 	$(PRINT0) MKDIR "$(HOME)/development"
