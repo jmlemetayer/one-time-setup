@@ -6,7 +6,7 @@
 ifeq ($(VERBOSITY), 2)
 S_PACKAGE	:= $(SUDO) apt-get -y
 else
-S_PACKAGE	:= $(SUDO) apt-get -qq
+S_PACKAGE	:= $(SUDO) apt-get -qq >/dev/null
 endif
 
 # Define the package-update target
