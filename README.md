@@ -1,42 +1,43 @@
 # One Time Setup [![Build Status][1]][2]
 
-This is my "one time setup". You can easily use it for your own setup by editing
-rules or just edit your own configuration.
+This _one time setup_ allows you to set up your environment as quickly as
+possible. You can also improve this setup by adding your [modules][3].
 
-### Download
+## How to install
 
-To get it, you can do this:
+To configure and install the _one time setup_, even after a fresh install,
+this is as easy as:
 
-	wget http://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
+	sh <(wget -q -O - https://raw.githubusercontent.com/jmlemetayer/one-time-setup/master/install)
+
+You can also download the tarball and configure the setup by yourself:
+
+	wget https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
 	tar xzf master.tar.gz
-
-Or this:
-
-	sudo apt-get update
-	sudo apt-get install git-core
-	git clone git://github.com/jmlemetayer/one-time-setup.git
-
-### Install
-
-Fisrt, you have to install make:
-
-	sudo apt-get update
-	sudo apt-get install make
-
-Then you can edit your configuration file:
-
-	cd one-time-setup
+	cd one-time-setup-master
 	cp defconfig .config
 	vi .config
-
-And finally run:
-
 	make
 
-### License
+## Supported linux distribution
 
-This work is [unlicensed][3].
+This _one time setup_ has been tested on:
+
+ * [ubuntu-14.04-server-amd64][5]
+ * [ubuntu-gnome-14.04-desktop-amd64][6]
+
+If you want to try it on a new distribution which has not been tested yet,
+just run the `Makefile` manually with the force option: `make F=1`.
+If it is straightforward, just add the distribution in the supported list.
+Else you have to add some [makefiles][3] to support it.
+
+## License
+
+This work is [unlicensed][4].
 
 [1]: https://travis-ci.org/jmlemetayer/one-time-setup.png?branch=master
 [2]: https://travis-ci.org/jmlemetayer/one-time-setup
-[3]: http://unlicense.org "Unlicense"
+[3]: https://github.com/jmlemetayer/one-time-setup/wiki/Module
+[4]: http://unlicense.org "Unlicense"
+[5]: http://releases.ubuntu.com/14.04/
+[6]: http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/
