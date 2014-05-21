@@ -40,8 +40,10 @@ endif
 	$(QUIET) cat bash/bashrc.tail >> $(HOME)/.bashrc
 	$(PRINT0) GEN "$(HOME)/.bash_aliases"
 	$(QUIET) $(CP) bash/bash_aliases $(HOME)/.bash_aliases
+ifeq ($(MACHINE_ACCESS), admin)
 	$(QUIET) echo >> $(HOME)/.bash_aliases
-	$(QUIET) cat bash/bash_aliases.ubuntu >> $(HOME)/.bash_aliases
+	$(QUIET) cat bash/bash_aliases.admin.ubuntu >> $(HOME)/.bash_aliases
+endif
 ifeq ($(CONFIG_THEME), $(filter $(CONFIG_THEME), solarized-dark solarized-light))
 	$(PRINT0) WGET "$(HOME)/.dircolors"
 	$(QUIET) $(WGET) $(HOME)/.dircolors $(BASH_SOLARIZED)
