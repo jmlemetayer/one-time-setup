@@ -27,8 +27,9 @@ You can also download the tarball and configure the setup by yourself:
 
 This _one time setup_ has been tested on:
 
- * [ubuntu-14.04-server-amd64][5]
- * [ubuntu-gnome-14.04-desktop-amd64][6]
+ * [ubuntu-14.04-server][5]
+ * [ubuntu-14.04-desktop][5]
+ * [ubuntu-gnome-14.04-desktop][6]
 
 If you want to try it on a new distribution which has not been tested yet,
 just run the `Makefile` manually with the force option: `make F=1`.
