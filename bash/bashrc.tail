@@ -1,9 +1,13 @@
 unset COLOR_PROMPT
 
-# Set PATH so it includes user's private bin if it exists
-[ -d "${HOME}/.bin" ] && \
-	[[ "${PATH}" != *"${HOME}/.bin"* ]] && \
-	PATH="${HOME}/.bin:${PATH}"
+# Add to path function
+function addtopath()
+{
+	[ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && export PATH="$1:$PATH"
+}
+
+# Add user's private bin to path
+addtopath "${HOME}/.bin"
 
 # Basic alias definitions
 [ -f ~/.sh_aliases ] && . ~/.sh_aliases
