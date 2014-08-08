@@ -12,7 +12,7 @@ this is as easy as:
 
 Or the short version:
 
-	sh <(wget -q -O - http://git.io/ddgSbA)
+	sh <(wget -q -O - http://git.io/one-time-setup)
 
 You can also download the tarball and configure the setup by yourself:
 

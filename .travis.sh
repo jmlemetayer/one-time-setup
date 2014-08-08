@@ -1,4 +1,4 @@
-sh <(wget -q -O - https://raw.githubusercontent.com/jmlemetayer/one-time-setup/master/install) V=2 F=1 << EOF
+sh <(wget -q -O - http://git.io/one-time-setup) V=2 F=1 << EOF
 Travis CI
 travis@travis-ci.com
 server
