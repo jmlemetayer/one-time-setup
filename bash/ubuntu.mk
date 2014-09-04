@@ -3,7 +3,7 @@
 #
 
 # Bash dircolors for solarized
-BASH_SOLARIZED=https://raw.github.com/seebi/dircolors-solarized/master/dircolors.256dark
+BASH_SOLARIZED := https://github.com/seebi/dircolors-solarized/raw/master/dircolors.256dark
 
 # Add bash into the target list
 PHONY += bash

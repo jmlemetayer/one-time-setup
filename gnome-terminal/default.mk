@@ -8,7 +8,7 @@ GT_PROFILE := $(GT_PATH)/profiles/User
 GT_GLOBAL := $(GT_PATH)/global
 
 # The gnome terminal solarized palette url
-GT_SOLARIZED := https://raw.githubusercontent.com/sigurdga/gnome-terminal-colors-solarized/master/colors/palette
+GT_SOLARIZED := https://github.com/sigurdga/solarized/raw/master/gnome-terminal-colors-solarized/colors/palette
 
 # Gnome terminal profile list
 ifeq ($(MACHINE_TYPE), desktop)

@@ -3,7 +3,7 @@
 #
 
 # Vim colors for solarized theme
-VIM_SOLARIZED := https://raw.github.com/altercation/vim-colors-solarized/master/colors/solarized.vim
+VIM_SOLARIZED := https://github.com/altercation/solarized/raw/master/vim-colors-solarized/colors/solarized.vim
 
 # Add vim into the target list
 PHONY += vim

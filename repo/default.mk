@@ -3,10 +3,10 @@
 #
 
 # Repo url on google storage
-REPO_URL=http://commondatastorage.googleapis.com/git-repo-downloads/repo
+REPO_URL := http://commondatastorage.googleapis.com/git-repo-downloads/repo
 
 # Repo completion script
-REPO_COMPLETION=https://raw.githubusercontent.com/aartamonau/repo.bash_completion/master/repo.bash_completion
+REPO_COMPLETION := https://github.com/aartamonau/repo.bash_completion/raw/master/repo.bash_completion
 
 # Add repo into the target list
 PHONY += repo
