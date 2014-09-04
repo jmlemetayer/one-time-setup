@@ -1,1 +1,1 @@
-CONFIG_TOOLS:bool:Install common tools
+CONFIG_TOOLS:all:bool:Install common tools

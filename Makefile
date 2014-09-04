@@ -122,14 +122,14 @@ endef
 # 1 - Parameter line
 define param_bool
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
-	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$3); print $$3}'))
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$4); print $$4}'))
 endef
 
 # Print a string parameter
 # 1 - Parameter line
 define param_string
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
-	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$4); print $$4}'))
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
 endef
 
 # Print a list value
@@ -142,9 +142,9 @@ endef
 # 1 - Parameter line
 define param_list
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
-	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$6); print $$6}'))
 $(foreach val,$(shell echo $(line) | \
-	awk -F: '{gsub(/,/," ",$$4);print $$4}')\
+	awk -F: '{gsub(/,/," ",$$5);print $$5}')\
 	,$(call value_print,$(val)))
 endef
 

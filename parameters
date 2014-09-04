@@ -1,5 +1,5 @@
-USER_NAME:string:John Doe:Your name
-USER_EMAIL:string:jdoe@example.com:Your email
-MACHINE_TYPE:list:server:desktop,server:Your machine type
-MACHINE_ACCESS:list:user:admin,user:Your access type on the machine
-CONFIG_THEME:list:none:none,solarized-dark,solarized-light:The theme used for your terminals, IDE...
+USER_NAME:all:string:John Doe:Your name
+USER_EMAIL:all:string:jdoe@example.com:Your email
+MACHINE_TYPE:all:list:server:desktop,server:Your machine type
+MACHINE_ACCESS:all:list:user:admin,user:Your access type on the machine
+CONFIG_THEME:all:list:none:none,solarized-dark,solarized-light:The theme used for your terminals, IDE...

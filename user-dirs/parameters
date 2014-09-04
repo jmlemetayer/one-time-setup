@@ -1,1 +1,1 @@
-CONFIG_USER_DIRS:bool:Configure the user directories
+CONFIG_USER_DIRS:desktop:bool:Configure the user directories

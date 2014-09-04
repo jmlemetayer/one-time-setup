@@ -1,1 +1,1 @@
-CONFIG_SHELL:bool:Configure the basic shell
+CONFIG_SHELL:all:bool:Configure the basic shell

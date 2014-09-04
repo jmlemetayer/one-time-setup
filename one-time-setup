@@ -80,21 +80,21 @@ param_parse()
 	do
 		LINE="$(echo $LINE | sed 's/#/ /g')"
 		PARAM=$(echo $LINE | awk -F: '{print $1}')
-		TYPE=$(echo $LINE | awk -F: '{print $2}')
+		TYPE=$(echo $LINE | awk -F: '{print $3}')
 		case $TYPE in
 			bool)
-				DESC="$(echo $LINE | awk -F: '{print $3}')"
+				DESC="$(echo $LINE | awk -F: '{print $4}')"
 				param_bool $PARAM $2 "$DESC"
 				;;
 			string)
-				DEFAULT="$(echo $LINE | awk -F: '{print $3}')"
-				DESC="$(echo $LINE | awk -F: '{print $4}')"
+				DEFAULT="$(echo $LINE | awk -F: '{print $4}')"
+				DESC="$(echo $LINE | awk -F: '{print $5}')"
 				param_string $PARAM $2 "$DESC" "$DEFAULT"
 				;;
 			list)
-				DEFAULT=$(echo $LINE | awk -F: '{print $3}')
-				VALUES=$(echo $LINE | awk -F: '{print $4}')
-				DESC="$(echo $LINE | awk -F: '{print $5}')"
+				DEFAULT=$(echo $LINE | awk -F: '{print $4}')
+				VALUES=$(echo $LINE | awk -F: '{print $5}')
+				DESC="$(echo $LINE | awk -F: '{print $6}')"
 				param_list $PARAM $2 "$DESC" $VALUES $DEFAULT
 				;;
 			*)

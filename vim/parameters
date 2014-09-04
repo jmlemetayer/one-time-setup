@@ -1,1 +1,1 @@
-CONFIG_VIM:bool:Install and configure vim
+CONFIG_VIM:all:bool:Install and configure vim
