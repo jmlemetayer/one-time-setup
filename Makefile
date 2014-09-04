@@ -113,15 +113,19 @@ endef
 
 # Print a parameter
 # 1 - Parameter name
-# 2 - Parameter description
+# 2 - Parameter type
+# 3 - Parameter description
 define param_print
-$(shell echo printf \' %-27.27s: %s\\n\' \'$(1)\' \'$(2)\' \;)
+$(if $(filter-out a,$(strip $(2)))
+	,$(shell echo printf \' %-22.22s \(%s\) : %s\\n\' \'$(strip $(1))\' \'$(strip $(2))\' \'$(strip $(3))\' \;)
+	,$(shell echo printf \' %-27.27s: %s\\n\' \'$(strip $(1))\' \'$(strip $(3))\' \;))
 endef
 
 # Print a bool parameter
 # 1 - Parameter line
 define param_bool
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{print $$2}' | head -c1)
 	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$4); print $$4}'))
 endef
 
@@ -129,6 +133,7 @@ endef
 # 1 - Parameter line
 define param_string
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{print $$2}' | head -c1)
 	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
 endef
 
@@ -142,6 +147,7 @@ endef
 # 1 - Parameter line
 define param_list
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
+	,$(shell echo $(1) | awk -F: '{print $$2}' | head -c1)
 	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$6); print $$6}'))
 $(foreach val,$(shell echo $(line) | \
 	awk -F: '{gsub(/,/," ",$$5);print $$5}')\
@@ -170,6 +176,9 @@ help:
 	@echo  ' easily create a .config file by copying the defconfig file.'
 	@echo
 	@echo  'Configuration parameters:'
+	@echo  ' Here is the list of all the parameters available. Note that (d) means'
+	@echo  ' that it is a desktop only parameter and (s) a server only parameter.'
+	@echo
 	@$(foreach mod,$(call listmod),\
 		$(if $(shell [ -r $(mod)/parameters ] && echo y),\
 		$(call param_parse,$(mod)/parameters)))

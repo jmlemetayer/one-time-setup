@@ -7,12 +7,9 @@ solarized-light
 y
 y
 y
-n
 y
 y
 y
 y
-n
 y
-
 EOF
