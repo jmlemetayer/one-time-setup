@@ -1,1 +1,1 @@
-CONFIG_GNOME_TERMINAL:desktop:bool:Install and configure gnome-terminal
+CONFIG_GNOME_TERMINAL:desktop:bool:y:Install and configure gnome-terminal

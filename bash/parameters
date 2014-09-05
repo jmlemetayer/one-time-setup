@@ -1,1 +1,1 @@
-CONFIG_BASH:all:bool:Install and configure bash
+CONFIG_BASH:all:bool:y:Install and configure bash

@@ -1,1 +1,1 @@
-CONFIG_GIT:all:bool:Install and configure git
+CONFIG_GIT:all:bool:n:Install and configure git

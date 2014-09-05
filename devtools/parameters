@@ -1,1 +1,1 @@
-CONFIG_DEVTOOLS:all:bool:Install development tools
+CONFIG_DEVTOOLS:all:bool:n:Install development tools
