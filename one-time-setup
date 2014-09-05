@@ -1,128 +1,117 @@
 #!/bin/sh
 
 # The master tarball url
-TBURL=https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
-
-# Create a temporary directory
-TMPDIR="$(mktemp -d)"
+URL=https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
 
 # The master tarball directory
-TBDIR=$TMPDIR/one-time-setup-master
+DIR=$(mktemp -d)/one-time-setup-master
 
 # The machine type
-MACHTYPE=all
+MCH=all
 
 # Clean and exit
-clean_up()
-{
-	rm -rf $TMPDIR
-	exit $1
-}
+# 1: Exit status
+clean() { rm -rf ${DIR%/*}; exit $1; }
 
 # Error fallback
-error()
-{
-	echo >&2 $1
-	clean_up 1
-}
+# 1: Error string
+error() { echo >&2 $1; clean 1; }
 
 # Set a parameter in the configuration
-# 1: Configuration file
+# 1: Output configuration file
 # 2: Parameter name
 # 3: Parameter value (optional)
-param_set()
+p()
 {
-	[ -z "$3" ] && echo "# $2 is not set" >> $1 || echo $2 := $3 >> $1
-	[ $2 = MACHINE_TYPE ] && MACHTYPE=$3
+	[ -z "$3" ] && echo "# $2 is not set" >> $1 || echo $2=$3 >> $1
+	[ $2 = MACHINE_TYPE ] && MCH=$3
 }
 
 # Set a bool parameter in the configuration
-# 1: Configuration file
-# 2: Parameter name
-# 3: Parameter description
-param_bool()
-{
-	local IN
-	read -p "$3 (Y/n) " IN
-	case "$IN" in
-		[Yy]|[Yy][Ee][Ss]) ;;
-		*) [ -z "$IN" ] || { param_set $1 $2; echo; return; } ;;
-	esac
-	param_set $1 $2 y; echo
-}
-
-# Set a string parameter in the configuration
-# 1: Configuration file
+# 1: Output configuration file
 # 2: Parameter name
 # 3: Parameter description
 # 4: Default value (optional)
-param_string()
+pbool()
 {
-	local IN DESC="$3:"
-	[ -n "$4" ] && DESC="$3 [$4]:"
-	read -p "$DESC " IN
-	[ -z "$IN" -a -n "$4" ] && IN="$4"
-	param_set $1 $2 "$IN"; echo
+	local F I D="$3 (Y/n)"
+	[ "$4" = n ] && D="$3 (y/N)" && F="" || F=y
+	while true
+	do
+		read -p "$D " I
+		case "$I" in
+			[Yy]|[Yy][Ee][Ss]) p $1 $2 y; break ;;
+			[Nn]|[Nn][Oo]) p $1 $2; break ;;
+			*) [ -z "$I" ] && { p $1 $2 $F; break; } ;;
+		esac
+	done
+	echo
+}
+
+# Set a string parameter in the configuration
+# 1: Output configuration file
+# 2: Parameter name
+# 3: Parameter description
+# 4: Default value (optional)
+pstring()
+{
+	local I D="$3:"
+	[ -n "$4" ] && D="$3 [$4]:"
+	read -p "$D " I
+	[ -z "$I" -a -n "$4" ] && I="$4"
+	p $1 $2 "$I"; echo
 }
 
 # Set a list parameter in the configuration
-# 1: Configuration file
+# 1: Output configuration file
 # 2: Parameter name
 # 3: Parameter description
 # 4: List values
 # 5: Default value (optional)
-param_list()
+plist()
 {
-	local IN DESC="$3:"
-	[ -n "$5" ] && DESC="$3 [$5]:"
-	echo $4 | awk -F, '{for (i=1; i<=NF; i++) print i ") " $i}'
-	read -p "$DESC " IN
-	[ -z "$IN" ] && { [ -n "$5" ] && IN="$5" || \
-		{ param_set $1 $2; echo; return; }; }
-	[ $IN -eq $IN ] 2>/dev/null && IN=$(echo $4 | awk -F, '{print $'$IN'}')
-	IN=$(echo $4 | awk -F, '{for (i=1; i<=NF; i++) if ($i == "'$IN'") print $i}')
-	param_set $1 $2 "$IN"; echo
+	local I D="$3:"
+	[ -n "$5" ] && D="$3 [$5]:"
+	echo $4 | awk -F, '{for(i=1;i<=NF;i++)print i") "$i}'
+	while true
+	do
+		read -p "$D " I
+		[ -z "$I" ] && { [ -n "$5" ] && I="$5" || { p $1 $2; break; }; }
+		[ $I -eq $I ] 2>/dev/null && I=$(echo $4 | awk -F, '{print$'$I'}')
+		I=$(echo $4 | awk -F, '{for(i=1;i<=NF;i++)if($i=="'$I'")print$i}')
+		[ -n "$I" ] && { p $1 $2 "$I"; break; }
+	done
+	echo
 }
 
 # Parse a parameter file
 # 1: Parameter file
-# 2: Configuration file
-param_parse()
+# 2: Output configuration file
+pparse()
 {
-	local PARAM TYPE DEFAULT VALUES DESC MACH
-	for LINE in $(cat $1 | sed 's/ /#/g')
+	local P T F V D M
+	for L in $(cat $1 | sed 's/ /#/g')
 	do
-		LINE="$(echo $LINE | sed 's/#/ /g')"
-		PARAM=$(echo $LINE | awk -F: '{print $1}')
-		MACH=$(echo $LINE | awk -F: '{print $2}')
-		[ $MACHTYPE != all -a $MACH != all -a $MACHTYPE != $MACH ] && \
-			{ param_set $2 $PARAM; continue; }
-		TYPE=$(echo $LINE | awk -F: '{print $3}')
-		case $TYPE in
-			bool)
-				DESC="$(echo $LINE | awk -F: '{print $4}')"
-				param_bool $2 $PARAM "$DESC"
-				;;
-			string)
-				DEFAULT="$(echo $LINE | awk -F: '{print $4}')"
-				DESC="$(echo $LINE | awk -F: '{print $5}')"
-				param_string $2 $PARAM "$DESC" "$DEFAULT"
-				;;
-			list)
-				DEFAULT=$(echo $LINE | awk -F: '{print $4}')
-				VALUES=$(echo $LINE | awk -F: '{print $5}')
-				DESC="$(echo $LINE | awk -F: '{print $6}')"
-				param_list $2 $PARAM "$DESC" $VALUES $DEFAULT
-				;;
-			*)
-				error "Failed to parse the parameter file: $1"
-				;;
+		L="$(echo $L | sed 's/#/ /g')"
+		P=$(echo $L | awk -F: '{print$1}')
+		M=$(echo $L | awk -F: '{print$2}')
+		[ $MCH != all -a $M != all -a $MCH != $M ] && { p $2 $P; continue; }
+		T=$(echo $L | awk -F: '{print $3}')
+		F="$(echo $L | awk -F: '{print $4}')"
+		D="$(echo $L | awk -F: '{print $5}')"
+		case $T in
+			bool)	pbool $2 $P "$D" $F ;;
+			string)	pstring $2 $P "$D" "$F" ;;
+			list)	V=$(echo $L | awk -F: '{print $5}')
+				D="$(echo $L | awk -F: '{print $6}')"
+				plist $2 $P "$D" $V $F ;;
+			*)	error "Failed to parse the parameter file: $1" ;;
 		esac
 	done
 }
 
-# Trap the clean_up function
-trap "clean_up 0" HUP INT TERM
+# Trap the clean function
+trap "clean 0" HUP INT TERM
 
 # Install make
 if [ -z "$(which make)" ]
@@ -135,18 +124,16 @@ then
 fi
 
 # Download and extract the tarball
-wget -q -O - $TBURL | tar xz -C $TMPDIR
+wget -q -O - $URL | tar xz -C ${DIR%/*}
 
 # Create the configuration file
-for DIR in $(find $TBDIR -maxdepth 1 -type d | sort)
+for D in $(find $DIR -maxdepth 1 -type d | sort)
 do
-	[ -r $DIR/parameters ] && param_parse $DIR/parameters $TBDIR/.config
+	[ -r $D/parameters ] && pparse $D/parameters $DIR/.config
 done
 
 # Copy the configuration file in home for backup
-cp $TBDIR/.config $HOME/.one-time-setup
+cp $DIR/.config $HOME/.one-time-setup
 
 # Execute the makefile
-make -C $TBDIR --no-print-directory $@ || error "Failed to intall"
-
-clean_up 0
+make -C $DIR --no-print-directory $@ && clean 0 || error "Failed to intall"
