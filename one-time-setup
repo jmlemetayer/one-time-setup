@@ -124,7 +124,7 @@ then
 fi
 
 # Download and extract the tarball
-wget -q -O - $URL | tar xz -C ${DIR%/*}
+printf "Downloading...\r" && wget -q -O - $URL | tar xz -C ${DIR%/*}
 
 # Create the configuration file
 for D in $(find $DIR -maxdepth 1 -type d | sort)
