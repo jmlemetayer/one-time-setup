@@ -7,7 +7,7 @@ URL=https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
 DIR=$(mktemp -d)/one-time-setup-master
 
 # The config file
-CFG=$HOME/.one-time-setup
+CFG="$HOME/.one-time-setup"
 
 # The machine type
 MCH=all
@@ -135,14 +135,17 @@ fi
 # Download and extract the tarball
 printf "Downloading...\r" && wget -q -O - $URL | tar xz -C ${DIR%/*}
 
+# Prevent grep error
+touch "$CFG"
+
 # Create the configuration file
 for D in $(find $DIR -maxdepth 1 -type d | sort)
 do
-	[ -r $D/parameters ] && pparse $D/parameters $DIR/.config $CFG
+	[ -r $D/parameters ] && pparse $D/parameters $DIR/.config "$CFG"
 done
 
 # Copy the configuration file in home for backup
-cp $DIR/.config $CFG
+cp $DIR/.config "$CFG"
 
 # Execute the makefile
 make -C $DIR --no-print-directory $@ && clean 0 || error "Failed to intall"
