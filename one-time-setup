@@ -6,6 +6,9 @@ URL=https://github.com/jmlemetayer/one-time-setup/archive/master.tar.gz
 # The master tarball directory
 DIR=$(mktemp -d)/one-time-setup-master
 
+# The config file
+CFG=$HOME/.one-time-setup
+
 # The machine type
 MCH=all
 
@@ -87,6 +90,7 @@ plist()
 # Parse a parameter file
 # 1: Parameter file
 # 2: Output configuration file
+# 3: Input configuration file
 pparse()
 {
 	local P T F V D M
@@ -97,15 +101,20 @@ pparse()
 		M=$(echo $L | awk -F: '{print$2}')
 		[ $MCH != all -a $M != all -a $MCH != $M ] && { p $2 $P; continue; }
 		T=$(echo $L | awk -F: '{print $3}')
-		F="$(echo $L | awk -F: '{print $4}')"
+		[ -r "$3" -a -n "$(grep "^$P" "$3")" ] && \
+			F="$(sed -n "s/^$P=\(.*\)$/\1/p" "$3")" || \
+			F="$(echo $L | awk -F: '{print $4}')"
 		D="$(echo $L | awk -F: '{print $5}')"
 		case $T in
-			bool)	pbool $2 $P "$D" $F ;;
-			string)	pstring $2 $P "$D" "$F" ;;
+			bool)	[ -r "$3" -a -n "$(grep "$P" "$3")" ] && \
+				{ [ -n "$(grep "^$P" "$3")" ] && F=y || F=n; } || \
+				F="$(echo $L | awk -F: '{print $4}')"
+				pbool $2 $P "$D" $F ;;
+			string) pstring $2 $P "$D" "$F" ;;
 			list)	V=$(echo $L | awk -F: '{print $5}')
 				D="$(echo $L | awk -F: '{print $6}')"
 				plist $2 $P "$D" $V $F ;;
-			*)	error "Failed to parse the parameter file: $1" ;;
+			*) error "Failed to parse the parameter file: $1" ;;
 		esac
 	done
 }
@@ -129,11 +138,11 @@ printf "Downloading...\r" && wget -q -O - $URL | tar xz -C ${DIR%/*}
 # Create the configuration file
 for D in $(find $DIR -maxdepth 1 -type d | sort)
 do
-	[ -r $D/parameters ] && pparse $D/parameters $DIR/.config
+	[ -r $D/parameters ] && pparse $D/parameters $DIR/.config $CFG
 done
 
 # Copy the configuration file in home for backup
-cp $DIR/.config $HOME/.one-time-setup
+cp $DIR/.config $CFG
 
 # Execute the makefile
 make -C $DIR --no-print-directory $@ && clean 0 || error "Failed to intall"
