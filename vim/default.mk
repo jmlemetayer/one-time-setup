@@ -35,7 +35,7 @@ endif
 	$(QUIET) tar xzf /tmp/html5.vim-master.tar.gz -C /tmp
 	$(PRINT0) INSTALL "html5.vim-master"
 	$(QUIET) $(MAKE) -s -C /tmp/html5.vim-master install >/dev/null 2>/dev/null
-	$(QUIET) rm -rf /tmp/html5.vim-master*
+	$(QUIET) $(RM) -r /tmp/html5.vim-master*
 	$(PRINT0) UPDATE "$(HOME)/.vimrc"
 	$(QUIET) echo >> $(HOME)/.vimrc
 	$(QUIET) cat vim/vimrc.html5 >> $(HOME)/.vimrc
