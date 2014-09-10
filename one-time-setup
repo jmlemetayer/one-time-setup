@@ -133,7 +133,9 @@ then
 fi
 
 # Download and extract the tarball
-printf "Downloading...\r" && wget -q -O - $URL | tar xz -C ${DIR%/*}
+printf "Downloading...\r" && \
+wget -q -O - $URL | tar xz -C ${DIR%/*} && \
+printf "              \r"
 
 # Prevent grep error
 touch "$CFG"
