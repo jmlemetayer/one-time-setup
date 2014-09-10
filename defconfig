@@ -32,21 +32,21 @@ CONFIG_THEME=none
 ####################################  SHELL  ###################################
 
 # Configure the basic shell
-#CONFIG_SHELL=y
+CONFIG_SHELL=y
 
 
 ####################################  BASH  ####################################
 
 # Install and configure the Bourne Again SHell
 # It can be used with solarized theme
-#CONFIG_BASH=y
+CONFIG_BASH=y
 
 
 #####################################  VIM  ####################################
 
 # Install and configure Vim
 # It can be used with solarized theme
-#CONFIG_VIM=y
+CONFIG_VIM=y
 
 
 #####################################  GIT  ####################################
@@ -64,13 +64,13 @@ CONFIG_THEME=none
 #####################################  SSH  ####################################
 
 # Configure ssh
-#CONFIG_SSH=y
+CONFIG_SSH=y
 
 
 #################################  COMMON TOOLS  ###############################
 
 # Install common tools
-#CONFIG_TOOLS=y
+CONFIG_TOOLS=y
 
 
 ##############################  DEVELOPMENT TOOLS  #############################
@@ -90,7 +90,7 @@ CONFIG_THEME=none
 
 # Install and configure gnome-terminal
 # requires MACHINE_TYPE=desktop
-#CONFIG_GNOME_TERMINAL=y
+CONFIG_GNOME_TERMINAL=y
 
 
 ##################################  WALLPAPER  #################################
@@ -103,4 +103,11 @@ CONFIG_THEME=none
 # * ubuntu-brown-bubbles
 # * ubuntu-brown
 # * ubuntu-fizz
-#CONFIG_WALLPAPER=ubuntu-brown-bubbles
+#CONFIG_WALLPAPER=
+
+
+##################################  WIRESHARK  #################################
+
+# Install and configure the Wireshark
+# requires MACHINE_TYPE=desktop
+#CONFIG_WIRESHARK=y
