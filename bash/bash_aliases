@@ -1,13 +1,13 @@
 # ~/.bash_aliases
 
+## One Time Setup update
+alias one-time-setup-update="printf 'Downloading...\r' && sh <(wget -q -O - http://git.io/one-time-setup)"
+
 # Basic aliases
 alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias ssh='ssh -X'
 
 # Functions
-## One Time Setup update
-function one-time-setup-update() { sh <(wget -q -O - http://git.io/one-time-setup); }
-
 ## Add sudo to apt-get
 function apt-get() { [ $UID -ne 0 ] && sudo apt-get $@ || command apt-get $@; }
 
