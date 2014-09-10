@@ -8,11 +8,11 @@ possible. You can also improve this setup by adding your [modules][3].
 To configure and install the _one time setup_, even after a fresh install,
 this is as easy as:
 
-	sh <(wget -q -O - https://github.com/jmlemetayer/one-time-setup/raw/master/one-time-setup)
-
-Or the short version:
-
 	sh <(wget -q -O - http://git.io/one-time-setup)
+
+Or the long version:
+
+	sh <(wget -q -O - https://github.com/jmlemetayer/one-time-setup/raw/master/one-time-setup)
 
 You can also download the tarball and configure the setup by yourself:
 
