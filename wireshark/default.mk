@@ -19,6 +19,12 @@ ifeq ($(MACHINE_ACCESS), admin)
 	$(QUIET) $(S_PACKAGE) install wireshark
 endif
 	$(PRINT1) CONFIG "$@"
+	$(PRINT0) MKDIR $(HOME)/.wireshark
+	$(QUIET) $(MKDIR) $(HOME)/.wireshark
+	$(PRINT0) CP preferences
+	$(QUIET) $(CP) wireshark/preferences $(HOME)/.wireshark
+	$(PRINT0) CP colorfilters
+	$(QUIET) $(CP) wireshark/colorfilters $(HOME)/.wireshark
 ifneq ($(shell id -u), 0)
 	$(PRINT0) USERMOD wireshark
 	$(QUIET) $(SUDO) usermod -a -G wireshark $(shell id -un)
