@@ -49,6 +49,11 @@ $(error This distribution is not supported yet. Use 'make F=1' to override.)
 endif
 endif
 
+# Display the distribution debug trace
+ifeq ($(VERBOSITY), 2)
+$(info Installing on $(shell lsb_release -s -d) as $(LSB_DESCRIPTION))
+endif
+
 # Define global variables
 USER_NAME	?= John Doe
 USER_EMAIL	?= jdoe@example.com
