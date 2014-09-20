@@ -4,14 +4,14 @@ travis@travis-ci.com
 
 
 
-
-
-
-
-
-
-
-
+y
+y
+y
+y
+y
+y
+y
+y
 EOF
 sh -c "$(wget -q -O - http://git.io/one-time-setup)" -- V=2 F=1 << EOF
 
