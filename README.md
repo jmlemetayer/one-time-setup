@@ -8,11 +8,19 @@ possible. You can also improve this setup by adding your [modules][3].
 To configure and install the _one time setup_, even after a fresh install,
 this is as easy as:
 
-	sh <(wget -q -O - http://git.io/one-time-setup)
+	sh -c "$(wget -q -O - http://git.io/one-time-setup)"
 
-Or the long version:
+You can also add some options:
 
-	sh <(wget -q -O - https://github.com/jmlemetayer/one-time-setup/raw/master/one-time-setup)
+	sh -c "$(wget -q -O - http://git.io/one-time-setup)" -- V=2 F=1
+
+Here is the available options:
+
+	V=0-2   0 => quiet setup (default)
+	        1 => verbose setup
+	        2 => ultra verbose setup
+	F=0-1   0 => lsb check enable (default)
+	        1 => lsb check disable
 
 You can also download the tarball and configure the setup by yourself:
 
