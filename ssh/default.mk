@@ -14,8 +14,11 @@ ssh:
 	$(PRINT1) CONFIG "$@"
 ifeq ($(VERBOSITY), 2)
 	$(QUIET) if [ ! -f $(HOME)/.ssh/id_rsa ]; then \
-		ssh-keygen -t rsa -N "" -f $(HOME)/.ssh/id_rsa; fi
+		ssh-keygen -t rsa -N "" -f $(HOME)/.ssh/id_rsa; \
+		eval "$(ssh-agent -s)"; ssh-add ~/.ssh/id_rsa; fi
 else
 	$(QUIET) if [ ! -f $(HOME)/.ssh/id_rsa ]; then \
-		ssh-keygen -q -t rsa -N "" -f $(HOME)/.ssh/id_rsa; fi
+		ssh-keygen -q -t rsa -N "" -f $(HOME)/.ssh/id_rsa; \
+		eval "$(ssh-agent -s)" >/dev/null; \
+		ssh-add ~/.ssh/id_rsa 2>/dev/null; fi
 endif
