@@ -33,9 +33,9 @@ endif
 # Define the wallpaper target
 wallpaper:
 	$(PRINT1) INSTALL "$@"
-	$(PRINT0) WGET "$(HOME)/.wallpaper.png"
-	$(QUIET) $(WGET) $(HOME)/.wallpaper.png $(WALLPAPER_URL)
+	$(PRINT0) WGET "$(HOME)/.wallpaper"
+	$(QUIET) $(WGET) $(HOME)/.wallpaper $(WALLPAPER_URL)
 	$(PRINT1) CONFIG "$@"
 	$(QUIET) dconf reset -f $(WALLPAPER_PATH)
 	$(QUIET) dconf write $(WALLPAPER_PATH)picture-uri \
-		"'file://$(HOME)/.wallpaper.png'"
+		"'file://$(HOME)/.wallpaper'"
