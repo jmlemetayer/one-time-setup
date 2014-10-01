@@ -1,0 +1,21 @@
+#
+# Chromium setup rules
+#
+
+# Add chromium into the target list
+PHONY += chromium
+
+ifeq ($(MACHINE_TYPE), desktop)
+ifdef CONFIG_CHROMIUM
+all: chromium
+endif
+endif
+
+# Define the chromium target
+chromium: package-update
+ifeq ($(MACHINE_ACCESS), admin)
+	$(PRINT1) INSTALL "$@"
+	$(PRINT0) PACKAGE "$@"
+	$(QUIET) $(S_PACKAGE) install chromium-browser pepperflashplugin-nonfree
+	$(QUIET) $(SUDO) update-pepperflashplugin-nonfree --install
+endif

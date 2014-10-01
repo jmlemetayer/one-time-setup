@@ -1,0 +1,1 @@
+CONFIG_CHROMIUM:desktop:bool:y:Install and configure the Chromium browser
