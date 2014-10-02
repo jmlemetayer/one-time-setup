@@ -24,3 +24,5 @@ else
 endif
 	$(QUIET) $(SUDO) update-pepperflashplugin-nonfree --install
 endif
+	$(PRINT1) CONFIG "$@"
+	$(QUIET) xdg-settings set default-web-browser chromium-browser.desktop
