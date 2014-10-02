@@ -16,6 +16,11 @@ chromium: package-update
 ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
-	$(QUIET) $(S_PACKAGE) install chromium-browser pepperflashplugin-nonfree
+	$(QUIET) $(S_PACKAGE) install chromium-browser
+ifeq ($(VERBOSITY), 2)
+	$(QUIET) $(S_PACKAGE) install pepperflashplugin-nonfree
+else
+	$(QUIET) $(S_PACKAGE) install pepperflashplugin-nonfree >/dev/null
+endif
 	$(QUIET) $(SUDO) update-pepperflashplugin-nonfree --install
 endif
