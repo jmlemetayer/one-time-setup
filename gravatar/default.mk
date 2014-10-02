@@ -11,7 +11,7 @@ GRAVATAR_URL := http://www.gravatar.com/avatar/$(GRAVATAR_HASH)?size=96
 PHONY += gravatar
 
 ifeq ($(MACHINE_TYPE), desktop)
-ifdef CONFIG_GRVATAR
+ifdef CONFIG_GRAVATAR
 ifeq ($(USER_EMAIL),)
 $(error USER_EMAIL is empty can not configure gravatar)
 endif
