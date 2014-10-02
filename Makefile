@@ -131,7 +131,7 @@ endef
 define param_bool
 $(call param_print,$(shell echo $(1) | awk -F: '{print $$1}')\
 	,$(shell echo $(1) | awk -F: '{print $$2}' | head -c1)
-	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$4); print $$4}'))
+	,$(shell echo $(1) | awk -F: '{gsub("#", " ", $$5); print $$5}'))
 endef
 
 # Print a string parameter
