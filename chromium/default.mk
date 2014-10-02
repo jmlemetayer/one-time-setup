@@ -20,7 +20,7 @@ ifeq ($(MACHINE_ACCESS), admin)
 ifeq ($(VERBOSITY), 2)
 	$(QUIET) $(S_PACKAGE) install pepperflashplugin-nonfree
 else
-	$(QUIET) $(S_PACKAGE) install pepperflashplugin-nonfree >/dev/null
+	$(QUIET) $(S_PACKAGE) install pepperflashplugin-nonfree 2>/dev/null
 endif
 	$(QUIET) $(SUDO) update-pepperflashplugin-nonfree --install
 endif
