@@ -1,28 +1,28 @@
 #
-# Gnome-terminal setup rules
+# GNOME Terminal setup rules
 #
 
-# Gnome terminal gconf path
+# GNOME Terminal gconf path
 GT_PATH := /apps/gnome-terminal
 GT_PROFILE := $(GT_PATH)/profiles/User
 GT_GLOBAL := $(GT_PATH)/global
 
-# The gnome terminal solarized palette url
+# The GNOME Terminal solarized palette url
 GT_SOLARIZED := https://github.com/sigurdga/solarized/raw/master/gnome-terminal-colors-solarized/colors/palette
 
-# Gnome terminal profile list
+# GNOME Terminal profile list
 ifeq ($(MACHINE_TYPE), desktop)
 GT_LIST := $(shell gconftool-2 --get $(GT_GLOBAL)/profile_list)
 GT_LIST := $(shell echo $(GT_LIST) | sed -e 's/\[//g' -e 's/\]//g')
 endif
 
-# Add gnome-terminal into the target list
+# Add GNOME Terminal into the target list
 PHONY += gnome-terminal
 
 ifeq ($(MACHINE_TYPE), desktop)
 ifdef CONFIG_GNOME_TERMINAL
 ifeq ($(USER_NAME),)
-$(error USER_NAME is empty can not configure gnome-terminal)
+$(error USER_NAME is empty can not configure GNOME Terminal)
 endif
 all: gnome-terminal
 endif
