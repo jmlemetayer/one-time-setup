@@ -1,1 +1,1 @@
-CONFIG_REPO:all:bool:n:Install repo
+CONFIG_REPO:all:bool:n:Install Repo

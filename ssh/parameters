@@ -1,1 +1,1 @@
-CONFIG_SSH:all:bool:y:Configure ssh
+CONFIG_SSH:all:bool:y:Configure SSH

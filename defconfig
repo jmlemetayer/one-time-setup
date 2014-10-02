@@ -31,7 +31,7 @@ CONFIG_THEME=none
 
 ####################################  SHELL  ###################################
 
-# Configure the basic shell
+# Configure the basic Shell
 CONFIG_SHELL=y
 
 
@@ -51,19 +51,19 @@ CONFIG_VIM=y
 
 #####################################  GIT  ####################################
 
-# Install and configure git
+# Install and configure Git
 #CONFIG_GIT=y
 
 
 ####################################  REPO  ####################################
 
-# Install repo
+# Install Repo
 #CONFIG_REPO=y
 
 
 #####################################  SSH  ####################################
 
-# Configure ssh
+# Configure SSH
 CONFIG_SSH=y
 
 
@@ -86,9 +86,23 @@ CONFIG_TOOLS=y
 #CONFIG_USER_DIRS=y
 
 
+##################################  CHROMIUM  ##################################
+
+# Install and configure the Chromium browser
+# requires MACHINE_TYPE=desktop
+CONFIG_CHROMIUM=y
+
+
+##################################  GRAVATAR  ##################################
+
+# Configure your Gravatar
+# requires MACHINE_TYPE=desktop
+CONFIG_GRAVATAR=y
+
+
 ###############################  GNOME TERMINAL  ###############################
 
-# Install and configure gnome-terminal
+# Install and configure GNOME Terminal
 # requires MACHINE_TYPE=desktop
 CONFIG_GNOME_TERMINAL=y
 
