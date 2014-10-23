@@ -74,10 +74,11 @@ fixperm()
 	sudo find $1 -type f -exec chmod $FPERM {} \;
 	for FILE in $(find $1 -type f)
 	do
-		[ $(file -b $FILE | grep -c -e "^ELF .* executable" \
+		[ $(file -b $FILE | grep -c \
+				-e "^ELF .* executable" \
 				-e "^POSIX shell script" \
-				-e "^Bourne-Again shell script"
-				-e "^Python script"
+				-e "^Bourne-Again shell script" \
+				-e "^Python script" \
 				-e "^Perl script") -gt 0 ] && \
 			sudo chmod $DPERM $FILE
 	done
