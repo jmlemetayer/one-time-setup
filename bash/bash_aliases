@@ -59,3 +59,26 @@ _tree()
 			(cd $DIR && command ls --color=auto $FILE)
 	done
 }
+
+# Fix permissions and reset to default
+fixperm()
+{
+	[ $# = 0 -o $# -gt 1 ] && echo >&2 'usage: fixperm <directory>' && return 1
+	[ ! -d $1 ] && echo >&2 'usage: fixperm <directory>' && return 1
+	local DMASK=$(umask)
+	local FMASK=$(umask | sed 's/7/6/g')
+	local DPERM=$((777 - ${DMASK##*0}))
+	local FPERM=$((666 - ${FMASK##*0}))
+	sudo true || return 1
+	sudo find $1 -type d -exec chmod $DPERM {} \;
+	sudo find $1 -type f -exec chmod $FPERM {} \;
+	for FILE in $(find $1 -type f)
+	do
+		[ $(file -b $FILE | grep -c -e "^ELF .* executable" \
+				-e "^POSIX shell script" \
+				-e "^Bourne-Again shell script"
+				-e "^Python script"
+				-e "^Perl script") -gt 0 ] && \
+			sudo chmod $DPERM $FILE
+	done
+}
