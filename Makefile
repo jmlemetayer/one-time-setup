@@ -43,6 +43,7 @@ LSB_DESCRIPTION	:= $(LSB_DISTRIB)_$(LSB_RELEASE)
 ifneq ($(FORCE), 1)
 # Supported distributions:
 LSB_SUPPORTED := ubuntu_14.04
+LSB_SUPPORTED := ubuntu_14.10
 
 ifneq ($(LSB_DESCRIPTION), $(filter $(LSB_SUPPORTED), $(LSB_DESCRIPTION)))
 $(error This distribution is not supported yet. Use 'make F=1' to override.)

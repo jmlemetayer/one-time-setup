@@ -38,6 +38,7 @@ This _one time setup_ has been tested on:
  * [ubuntu-14.04-server][5]
  * [ubuntu-14.04-desktop][5]
  * [ubuntu-gnome-14.04-desktop][6]
+ * [ubuntu-gnome-14.10-desktop][7]
 
 If you want to try it on a new distribution which has not been tested yet,
 just run the `Makefile` manually with the force option: `make F=1`.
@@ -54,3 +55,4 @@ This work is [unlicensed][4].
 [4]: http://unlicense.org "Unlicense"
 [5]: http://releases.ubuntu.com/14.04/
 [6]: http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.04/release/
+[7]: http://cdimage.ubuntu.com/ubuntu-gnome/releases/14.10/release/
