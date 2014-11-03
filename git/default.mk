@@ -31,3 +31,4 @@ endif
 	$(QUIET) git config --global user.name "$(USER_NAME)"
 	$(QUIET) git config --global user.email "$(USER_EMAIL)"
 	$(QUIET) git config --global color.ui true
+	$(QUIET) git config --global push.default simple
