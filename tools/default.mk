@@ -14,5 +14,6 @@ tools: package-update
 ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT1) INSTALL "$@"
 	$(PRINT0) PACKAGE "$@"
-	$(QUIET) $(S_PACKAGE) install curl sqlite3 tree unzip unrar p7zip-full
+	$(QUIET) $(S_PACKAGE) install curl sqlite3 tree unzip unrar p7zip-full \
+		minicom
 endif
