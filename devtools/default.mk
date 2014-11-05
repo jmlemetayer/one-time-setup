@@ -16,10 +16,10 @@ ifeq ($(MACHINE_ACCESS), admin)
 	$(PRINT0) PACKAGE "$@"
 ifeq ($(MACHINE_TYPE), server)
 	$(QUIET) $(S_PACKAGE) install build-essential cmake autoconf automake \
-		libtool libncurses5-dev valgrind gdb pkg-config
+		libtool libncurses5-dev valgrind gdb pkg-config dfu-util
 else
 	$(QUIET) $(S_PACKAGE) install build-essential cmake autoconf automake \
-		libtool libncurses5-dev valgrind gdb pkg-config glogg
+		libtool libncurses5-dev valgrind gdb pkg-config dfu-util glogg
 endif
 endif
 ifeq ($(MACHINE_TYPE), desktop)
