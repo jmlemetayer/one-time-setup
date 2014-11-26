@@ -11,6 +11,15 @@ alias ssh='ssh -X'
 ## Add sudo to apt-get
 function apt-get() { [ $UID -ne 0 ] && sudo apt-get $@ || command apt-get $@; }
 
+## Misunderstood git command
+git()
+{
+	case "$1" in
+		[gui][gui][gui]) shift 1 && command git gui $@ ;;
+		*) command git $@ ;;
+	esac
+}
+
 ## Don't care about format, just extract
 extract ()
 {
