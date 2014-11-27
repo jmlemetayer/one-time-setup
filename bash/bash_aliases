@@ -4,21 +4,12 @@
 alias one-time-setup-update='printf "Downloading...\r" && sh -c "$(wget -q -O - http://git.io/one-time-setup)" --'
 
 # Basic aliases
-alias gl="git log --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias ssh='ssh -X'
+alias gl="git lg"
 
 # Functions
 ## Add sudo to apt-get
 function apt-get() { [ $UID -ne 0 ] && sudo apt-get $@ || command apt-get $@; }
-
-## Misunderstood git command
-git()
-{
-	case "$1" in
-		[gui][gui][gui]) shift 1 && command git gui $@ ;;
-		*) command git $@ ;;
-	esac
-}
 
 ## Don't care about format, just extract
 extract ()
