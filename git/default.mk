@@ -32,3 +32,5 @@ endif
 	$(QUIET) git config --global user.email "$(USER_EMAIL)"
 	$(QUIET) git config --global color.ui true
 	$(QUIET) git config --global push.default simple
+	$(QUIET) git config --global alias.lg "log --pretty=format:'%C(red)%h%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold blue)<%an>'"
+	$(QUIET) git config --global alias.ugi "gui"
