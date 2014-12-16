@@ -18,5 +18,5 @@ let g:formatprg_args_expr_c = '"--mode=c
 " * Remove ending blank line
 noremap <F3> :Autoformat<CR>
 			\ :%s/\s\+$//e<CR>
-			\ :g/^\_$\n\_^$/d<CR>
-			\ :%s#\($\n\s*\)\+\%$##<CR><C-L>
+			\ :g/^\_$\n\_^$/de<CR>
+			\ :%s#\($\n\s*\)\+\%$##e<CR><C-L>

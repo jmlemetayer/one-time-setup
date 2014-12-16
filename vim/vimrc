@@ -87,10 +87,10 @@ hi ColorColumn ctermbg=black
 autocmd BufWritePre * :%s/\s\+$//e
 
 " Remove multiple blank line
-autocmd BufWritePre * :g/^\_$\n\_^$/d
+autocmd BufWritePre * :g/^\_$\n\_^$/de
 
 " Remove ending blank line
-autocmd BufWritePre * :%s#\($\n\s*\)\+\%$##
+autocmd BufWritePre * :%s#\($\n\s*\)\+\%$##e
 
 " Searching autocompletion
 set incsearch
