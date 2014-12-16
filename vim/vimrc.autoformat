@@ -1,0 +1,24 @@
+" Auto-Format configuration
+let g:formatprg_args_expr_c = '"--mode=c
+			\ --style=linux
+			\ --indent=tab=8
+			\ --indent-preproc-define
+			\ --break-blocks=all
+			\ --pad-oper
+			\ --pad-header
+			\ --unpad-paren
+			\ --delete-empty-lines
+			\ --align-pointer=name
+			\ --add-brackets
+			\ --max-code-length=80
+			\ --lineend=linux"'
+
+" Auto-Format remap
+" * Auto-Format
+" * Remove trailing whitespaces
+" * Remove multiple blank line
+" * Remove ending blank line
+noremap <F3> :Autoformat<CR>
+			\ :%s/\s\+$//e<CR>
+			\ :g/^\_$\n\_^$/d<CR>
+			\ :%s#\($\n\s*\)\+\%$##<CR><C-L>

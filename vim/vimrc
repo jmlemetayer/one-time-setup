@@ -86,6 +86,12 @@ hi ColorColumn ctermbg=black
 " Remove trailing whitespaces
 autocmd BufWritePre * :%s/\s\+$//e
 
+" Remove multiple blank line
+autocmd BufWritePre * :g/^\_$\n\_^$/d
+
+" Remove ending blank line
+autocmd BufWritePre * :%s#\($\n\s*\)\+\%$##
+
 " Searching autocompletion
 set incsearch
 
