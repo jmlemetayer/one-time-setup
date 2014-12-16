@@ -7,7 +7,6 @@ let g:formatprg_args_expr_c = '"--mode=c
 			\ --pad-oper
 			\ --pad-header
 			\ --unpad-paren
-			\ --delete-empty-lines
 			\ --align-pointer=name
 			\ --add-brackets
 			\ --max-code-length=80
