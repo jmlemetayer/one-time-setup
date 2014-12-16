@@ -83,3 +83,31 @@ fixperm()
 			sudo chmod $DPERM $FILE
 	done
 }
+
+# Auto format c files
+autoformat()
+{
+	if [ $# -gt 1 ]
+	then
+		for FILE in $@
+		do
+			autoformat "$FILE" || return 1
+		done
+		return 0
+	elif [ $# = 0 ]
+	then
+		autoformat . && return 0 || return 1
+	fi
+	if [ -d "$1" ]
+	then
+		for FILE in $(find "$1" -type f -name "*.[ch]")
+		do
+			autoformat "$FILE" || return 1
+		done
+		return 0
+	fi
+	[ -f "$1" ] && echo autoformatting: ${1#./} && \
+		vi +Autoformat +'%s/\s\+$//e' +'g/^\_$\n\_^$/d' \
+		+'%s#\($\n\s*\)\+\%$##' +x "$1" && return 0
+	return 1
+}
