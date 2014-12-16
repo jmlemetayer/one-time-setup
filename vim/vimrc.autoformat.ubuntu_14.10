@@ -2,6 +2,7 @@
 let g:formatprg_args_expr_c = '"--mode=c
 			\ --style=linux
 			\ --indent=tab=8
+			\ --indent-preproc-define
 			\ --break-blocks=all
 			\ --pad-oper
 			\ --pad-header
