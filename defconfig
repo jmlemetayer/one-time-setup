@@ -112,6 +112,7 @@ CONFIG_GNOME_TERMINAL=y
 # Install and configure the wallpaper
 # requires MACHINE_TYPE=desktop
 # you have to choose between:
+# * github
 # * radiance-purple
 # * simple-ubuntu-brown
 # * ubuntu-brown-bubbles

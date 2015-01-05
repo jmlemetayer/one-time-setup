@@ -3,15 +3,20 @@
 #
 
 # Wallpaper urls
+ifeq ($(CONFIG_WALLPAPER), github)
+WALLPAPER_URL := http://github-images.s3.amazonaws.com/blog/2011/cc-wallpaper-desktop.png
+else
 WALLPAPER_HEAD := http://www.tux-planet.fr/public/images/wallpapers/linux/ubuntu/
 WALLPAPER_TAIL := -by-mikebeecham-1920x1080.png
 WALLPAPER_URL := $(WALLPAPER_HEAD)$(CONFIG_WALLPAPER)$(WALLPAPER_TAIL)
+endif
 
 # Wallpaper dconf path
 WALLPAPER_PATH := /org/gnome/desktop/background/
 
 # The wallpaper list
-CONFIG_WALLPAPERS := radiance-purple
+CONFIG_WALLPAPERS := github
+CONFIG_WALLPAPERS += radiance-purple
 CONFIG_WALLPAPERS += simple-ubuntu-brown
 CONFIG_WALLPAPERS += ubuntu-brown-bubbles
 CONFIG_WALLPAPERS += ubuntu-brown
