@@ -18,5 +18,5 @@ shell:
 	$(QUIET) $(CP) shell/shrc $(HOME)/.shrc
 	$(PRINT0) COPY "$(HOME)/.sh_aliases"
 	$(QUIET) $(CP) shell/sh_aliases $(HOME)/.sh_aliases
-	$(PRINT0) MKDIR "$(HOME)/.bin"
-	$(QUIET) $(MKDIR) $(HOME)/.bin
+	$(PRINT0) MKDIR "$(HOME)/.local/bin"
+	$(QUIET) $(MKDIR) $(HOME)/.local/bin

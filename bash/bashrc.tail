@@ -7,7 +7,7 @@ function addtopath()
 }
 
 # Add user's private bin to path
-addtopath "${HOME}/.bin"
+addtopath "${HOME}/.local/bin"
 
 # Basic alias definitions
 [ -f ~/.sh_aliases ] && . ~/.sh_aliases

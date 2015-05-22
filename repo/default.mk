@@ -34,7 +34,7 @@ ifeq ($(MACHINE_ACCESS), admin)
 	$(QUIET) $(SUDO) $(WGET) /etc/bash_completion.d/repo $(REPO_COMPLETION)
 else
 	$(PRINT0) WGET "$@"
-	$(QUIET) $(WGET) $(HOME)/.bin/repo $(REPO_URL)
+	$(QUIET) $(WGET) $(HOME)/.local/bin/repo $(REPO_URL)
 	$(PRINT0) CHMOD "$@"
-	$(QUIET) chmod 755 $(HOME)/.bin/repo
+	$(QUIET) chmod 755 $(HOME)/.local/bin/repo
 endif
