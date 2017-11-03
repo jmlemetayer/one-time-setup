@@ -19,7 +19,13 @@ tar 	--directory ${tmp} \
 	--gzip \
 	--file ${tmp}/tarball.tar.gz
 
+[ -n "${SUDO_USER}" ] && user=${SUDO_USER} || user=$(id --name --user)
+[ -n "${SUDO_UID}" ] && uid=${SUDO_UID} || uid=$(id --user)
+[ -n "${SUDO_GID}" ] && gid=${SUDO_GID} || gid=$(id --group)
+
 install	--mode 644 \
+	--owner ${uid} \
+	--group ${gid} \
 	--target-directory ${HOME} \
 	${tmp}/.bash_aliases \
 	${tmp}/.bashrc \
