@@ -22,6 +22,7 @@ tar 	--directory ${tmp} \
 [ -n "${SUDO_USER}" ] && user=${SUDO_USER} || user=$(id --name --user)
 [ -n "${SUDO_UID}" ] && uid=${SUDO_UID} || uid=$(id --user)
 [ -n "${SUDO_GID}" ] && gid=${SUDO_GID} || gid=$(id --group)
+[ $(id -u) = 0 ] && apt update
 
 install	--mode 644 \
 	--owner ${uid} \
@@ -34,3 +35,11 @@ install	--mode 644 \
 	${tmp}/.profile \
 	${tmp}/.sh_aliases \
 	${tmp}/.shrc
+
+[ $(id -u) = 0 ] && apt install --assume-yes \
+	bash-completion \
+	build-essential \
+	curl \
+	git \
+	tree \
+	vim
