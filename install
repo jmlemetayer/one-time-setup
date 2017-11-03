@@ -24,6 +24,7 @@ install	--mode 644 \
 	${tmp}/.bash_aliases \
 	${tmp}/.bashrc \
 	${tmp}/.dircolors \
+	${tmp}/.gitconfig \
 	${tmp}/.profile \
 	${tmp}/.sh_aliases \
 	${tmp}/.shrc

@@ -1,0 +1,14 @@
+[user]
+	name = Jean-Marie LEMETAYER
+	email = jeanmarie.lemetayer@gmail.com
+[color]
+	ui = true
+[push]
+	default = simple
+[alias]
+	lg = log --graph --pretty=format:'%C(red)%h%C(yellow)%d %C(reset)%s %C(green)(%cr) %C(blue bold)<%an>'
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
