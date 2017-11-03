@@ -1,0 +1,28 @@
+---
+---
+#!/bin/sh
+set -e
+
+url="{{ site.github.tar_url }}"
+
+tmp=$(mktemp --directory)
+
+trap "rm --recursive ${tmp}" EXIT
+
+wget	--quiet \
+	--output-document ${tmp}/tarball.tar.gz \
+	${url}
+
+tar 	--directory ${tmp} \
+	--transform "s:^[^/]*:.:" \
+	--extract \
+	--gzip \
+	--file ${tmp}/tarball.tar.gz
+
+install	--mode 644 \
+	--target-directory ${HOME} \
+	${tmp}/.bash_aliases \
+	${tmp}/.bashrc \
+	${tmp}/.profile \
+	${tmp}/.sh_aliases \
+	${tmp}/.shrc
