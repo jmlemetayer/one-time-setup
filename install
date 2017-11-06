@@ -36,10 +36,22 @@ install	--mode 644 \
 	${tmp}/.sh_aliases \
 	${tmp}/.shrc
 
+mkdir --mode 700 ${HOME}/.gnupg
+chmod ${uid}:${gid} ${HOME}/.gnupg
+
+install	--mode 644 \
+	--owner ${uid} \
+	--group ${gid} \
+	--target-directory ${HOME}/.gnupg \
+	${tmp}/.gnupg/gpg-agent.conf
+
 [ $(id -u) = 0 ] && apt install --assume-yes \
 	bash-completion \
 	build-essential \
 	curl \
+	dirmngr \
 	git \
+	gnupg \
+	scdaemon \
 	tree \
 	vim
