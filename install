@@ -23,6 +23,7 @@ install	--mode 644 \
 	--target-directory ${HOME} \
 	${tmp}/.bash_aliases \
 	${tmp}/.bashrc \
+	${tmp}/.dircolors \
 	${tmp}/.profile \
 	${tmp}/.sh_aliases \
 	${tmp}/.shrc
