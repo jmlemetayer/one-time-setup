@@ -46,10 +46,8 @@ then
 		--expression 's/^\(.*main\)/\1 contrib non-free/' \
 		/etc/apt/sources.list
 
-	# Update package list.
-	apt update
-
 	# Install tools.
+	apt update
 	apt install --assume-yes \
 		bash-completion \
 		curl \
@@ -60,10 +58,7 @@ then
 		man-db \
 		manpages \
 		net-tools \
-		tree
-
-	# Install archiving tools.
-	apt install --assume-yes \
+		tree \
 		bzip2 \
 		p7zip-full \
 		p7zip-rar \
@@ -71,10 +66,7 @@ then
 		unrar \
 		unzip \
 		xz-utils \
-		zip
-
-	# Install development tools.
-	apt install --assume-yes \
+		zip \
 		astyle \
 		autoconf \
 		automake \
