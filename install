@@ -56,8 +56,10 @@ then
 		file \
 		less \
 		lsb-release \
+		lsof \
 		man-db \
 		manpages \
+		net-tools \
 		tree
 
 	# Install archiving tools.
@@ -73,8 +75,20 @@ then
 
 	# Install development tools.
 	apt install --assume-yes \
+		astyle \
+		autoconf \
+		automake \
 		build-essential \
+		cmake \
+		gdb \
 		git \
+		libncurses5-dev \
+		libtool \
+		minicom \
+		pkg-config \
+		python \
+		repo \
+		valgrind \
 		vim
 fi
 
