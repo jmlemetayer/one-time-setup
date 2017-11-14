@@ -1,81 +1,93 @@
-# ~/.bashrc
+# If not running interactively, don't do anything.
+[[ "${-}" != *i* ]] && return
 
-# If not running interactively, don't do anything
-[[ $- != *i* ]] && return
+#
+# Color configuration.
+#
 
-# Don't put duplicate lines or lines starting with space in the history
+# Customize the bash(1) prompt. Read the bash(1) PROMPTING paragraph for more
+# info about the PS1 formatting. Check this URL for more info about ANSI escape
+# codes: https://en.wikipedia.org/wiki/ANSI_escape_code
+if [ "$(id --user)" = 0 ]
+then
+	PS1='\[\033[31m\]\u@\H\[\033[0m\]:\[\033[34m\]\w\[\033[0m\]\$ '
+else
+	PS1='\[\033[32m\]\u@\H\[\033[0m\]:\[\033[34m\]\w\[\033[0m\]\$ '
+fi
+
+# Enable colorization for some commands.
+alias diff="diff --color=auto"
+alias grep="grep --color=auto"
+alias ls="ls --color=auto"
+
+# Customized the ls(1) colors.
+if [ -x "$(which dircolors)" ]
+then
+	if [ -f "${HOME}/.dircolors" ]
+	then
+		eval $(dircolors "${HOME}/.dircolors")
+	else
+		eval $(dircolors --bourne-shell)
+	fi
+fi
+
+#
+# History configuration. Read the bash(1) HISTORY paragraph for more info.
+#
+
+# Don't put duplicate lines or lines starting with space in the history.
 HISTCONTROL=ignoreboth
 
-# Append to the history file, don't overwrite it
+# Append to the history file, don't overwrite it.
 shopt -s histappend
 
-# For setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=1000
-HISTFILESIZE=2000
+#
+# Aliases and functions definition.
+#
 
-# Check the window size after each command and, if necessary
-# update the values of LINES and COLUMNS
-shopt -s checkwinsize
+# Basic aliases.
+alias ll="ls --format=long"
+alias la="ll --almost-all"
+alias mkdir="mkdir --parents"
 
-# Make less more friendly for non-text input files, see lesspipe(1)
-[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+# Misunderstood aliases.
+alias cd..="cd .."
+alias l="ll"
+alias mroe="more"
+alias pdw="pwd"
+alias tre="tree"
 
-# Set color
-[ -x /usr/bin/tput ] && tput setaf 1 >/dev/null && COLOR_PROMPT=yes
-# We have color support; assume it's compliant with Ecma-48
-# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
-# a case would tend to support setf rather than setaf.)
-[[ ${TERM} = rxvt* || ${TERM} = xterm* ]] && XTERM=yes
+# Git aliases.
+alias gb="git branch"
+alias gg="git gui"
+alias gl="git lg"
+alias gs="git status"
 
-[ -n "${XTERM}" ] && COLOR1='01;38;5;106' || COLOR1='01;32'
-[ -n "${XTERM}" ] && COLOR2='01;38;5;33' || COLOR2='01;34'
-
-if [ -n "${COLOR_PROMPT}" ]
+# Root aliases.
+if [ "$(id --user)" = 0 ]
 then
-	PS1="\[\033[${COLOR1}m\]\u@\h\[\033[0m\]:\[\033[${COLOR2}m\]\w\[\033[0m\]\$ "
-else
-	PS1='\u@\h:\w\$ '
+	alias rm="rm --interactive"
+	alias cp="cp --interactive"
+	alias mv="mv --interactive"
 fi
 
-unset COLOR1
-unset COLOR2
-
-# Enable color support for the basic commands
-if [ -x /usr/bin/dircolors ]
-then
-	if [ -r ${HOME}/.dircolors -a -n "${XTERM}" ]
-	then
-		eval "$(dircolors -b ${HOME}/.dircolors)"
-	else
-		eval "$(dircolors -b)"
-	fi
-
-	alias ls='ls --color=auto'
-	alias grep='grep --color=auto'
-	alias fgrep='fgrep --color=auto'
-	alias egrep='egrep --color=auto'
-fi
-
-unset XTERM
-unset COLOR_PROMPT
-
-# Add to path function
-function addtopath()
-{
-	[ -d "$1" ] && [[ "$PATH" != *"$1"* ]] && export PATH="$1:$PATH"
+# Helper to add a path in the PATH.
+function addtopath() {
+	[ -d "${1}" ] && [[ "${PATH}" != *"${1}"* ]] && PATH="${1}:${PATH}"
 }
 
-# Add user's private bin to path
+#
+# Miscellaneous.
+#
+
+# Check the window size after each command.
+shopt -s checkwinsize
+
+# Enable programmable completion features.
+[ -f /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion
+
+# Add user's private bin to PATH.
 addtopath "${HOME}/.local/bin"
 
-# Basic alias definitions
-[ -f ~/.sh_aliases ] && . ~/.sh_aliases
-
-# Alias definitions
-[ -f ~/.bash_aliases ] && . ~/.bash_aliases
-
-# Private configuration
-[ -f ~/.bash_priv ] && . ~/.bash_priv
-
-# Enable programmable completion features
-[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
+# Allow other private configuration.
+[ -f "${HOME}/.bash_priv" ] && source "${HOME}/.bash_priv"

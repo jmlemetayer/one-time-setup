@@ -39,16 +39,42 @@ installed task-desktop && desktop=y || desktop=n
 
 if [ "${root}" = y ]
 then
+	# Clean apt source file and activate contrib and non-free.
+	sed --in-place \
+		--expression '/^#/d' \
+		--expression '/^\s*$/d' \
+		--expression 's/^\(.*main\)/\1 contrib non-free/' \
+		/etc/apt/sources.list
+
 	# Update package list.
 	apt update
 
 	# Install tools.
 	apt install --assume-yes \
 		bash-completion \
-		build-essential \
 		curl \
+		file \
+		less \
+		lsb-release \
+		man-db \
+		manpages \
+		tree
+
+	# Install archiving tools.
+	apt install --assume-yes \
+		bzip2 \
+		p7zip-full \
+		p7zip-rar \
+		rar \
+		unrar \
+		unzip \
+		xz-utils \
+		zip
+
+	# Install development tools.
+	apt install --assume-yes \
+		build-essential \
 		git \
-		tree \
 		vim
 fi
 
@@ -61,14 +87,12 @@ tar	--directory ${tmp} \
 	--extract --gzip --file "${tmp}/github.tar.gz"
 
 # Install them for the current user.
-install	--mode 644 \
+install	--mode 640 \
 	--owner "${uid}" \
 	--group "${gid}" \
 	--target-directory "${home}" \
-	"${tmp}/.bash_aliases" \
 	"${tmp}/.bashrc" \
+	"${tmp}/.bash_logout" \
 	"${tmp}/.dircolors" \
 	"${tmp}/.gitconfig" \
-	"${tmp}/.profile" \
-	"${tmp}/.sh_aliases" \
-	"${tmp}/.shrc"
+	"${tmp}/.profile"
