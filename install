@@ -56,42 +56,46 @@ then
 		--expression 's/^\(.*main\)/\1 contrib non-free/' \
 		/etc/apt/sources.list
 
-	# Install tools.
+	# Install needed package.
 	apt update
-	apt install --assume-yes \
-		bash-completion \
-		curl \
-		file \
-		less \
-		lsb-release \
-		lsof \
-		man-db \
-		manpages \
-		net-tools \
-		tree \
-		bzip2 \
-		p7zip-full \
-		p7zip-rar \
-		rar \
-		unrar \
-		unzip \
-		xz-utils \
-		zip \
-		astyle \
-		autoconf \
-		automake \
-		build-essential \
-		cmake \
-		gdb \
-		git \
-		libncurses5-dev \
-		libtool \
-		minicom \
-		pkg-config \
-		python \
-		repo \
-		valgrind \
-		vim
+
+	common="bash-completion
+		curl
+		file
+		less
+		lsb-release
+		lsof
+		man-db
+		manpages
+		net-tools
+		tree"
+
+	archive="bzip2
+		p7zip-full
+		p7zip-rar
+		rar
+		unrar
+		unzip
+		xz-utils
+		zip"
+
+	development="astyle
+		autoconf
+		automake
+		build-essential
+		cmake
+		gdb
+		git
+		libncurses5-dev
+		libtool
+		minicom
+		pkg-config
+		python
+		repo
+		valgrind
+		vim"
+
+	apt install --assume-yes ${common} ${archive} ${development}
 fi
 
 # Download and extract the GitHub resources in the temporary directory.
