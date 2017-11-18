@@ -139,3 +139,6 @@ then
 		--target-directory "${home}" \
 		"${tmp}/.astylerc"
 fi
+
+# Finally, print a success message.
+echo "Successfully installed everything"
