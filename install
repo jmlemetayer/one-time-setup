@@ -98,6 +98,18 @@ then
 	apt install --assume-yes ${common} ${archive} ${development}
 fi
 
+# Helper to run a command as the user.
+runasuser() {
+	if [ "${root}" = y ]
+	then
+		local command=${1}
+		shift
+		su ${user} --shell $(which ${command}) -- ${@}
+	else
+		${@}
+	fi
+}
+
 # Download and extract the GitHub resources in the temporary directory.
 wget	--output-document "${tmp}/github.tar.gz" \
 	--quiet "{{ site.github.tar_url }}"
@@ -107,9 +119,7 @@ tar	--directory ${tmp} \
 	--extract --gzip --file "${tmp}/github.tar.gz"
 
 # Install them for the current user.
-install	--mode 640 \
-	--owner "${uid}" \
-	--group "${gid}" \
+runasuser install --mode 640 \
 	--target-directory "${home}" \
 	"${tmp}/.bashrc" \
 	"${tmp}/.bash_logout" \
