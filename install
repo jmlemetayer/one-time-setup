@@ -124,5 +124,11 @@ runasuser install --mode 640 \
 	"${tmp}/.bashrc" \
 	"${tmp}/.bash_logout" \
 	"${tmp}/.dircolors" \
-	"${tmp}/.gitconfig" \
 	"${tmp}/.profile"
+
+if installed git
+then
+	runasuser install --mode 640 \
+		--target-directory "${home}" \
+		"${tmp}/.gitconfig"
+fi
