@@ -199,10 +199,6 @@ then
 		"https://github.com/VundleVim/Vundle.vim.git" \
 		${home}/.vim/bundle/Vundle.vim
 
-	run_as_user git clone --quiet \
-		"https://github.com/altercation/vim-colors-solarized" \
-		${home}/.vim/bundle/vim-colors-solarized
-
 	run_as_user vim - +PluginInstall +quitall
 fi
 

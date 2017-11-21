@@ -155,8 +155,10 @@ set fileencoding=utf-8  " The encoding written to file.
 execute ":silent tab all"
 
 " Solarized
-set background=dark
-colorscheme solarized
+if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+	set background=dark
+	colorscheme solarized
+endif
 
 " Auto-Format
 noremap <F3> :Autoformat<CR>
