@@ -43,8 +43,19 @@ tar	--directory ${tmp} \
 # Check if we have super power.
 [ $(id --user) = 0 ] && root=yes || root=no
 
-# Get the user.
-[ -n "${SUDO_USER}" ] && user="${SUDO_USER}" || user="$(id --name --user)"
+# Select the user:
+#  1. If using sudo, get the user who run sudo.
+#  2. If using arguments, get the provided user.
+#  3. Else get the current user.
+if [ ${root} = yes ] && [ -n ${SUDO_USER} ]
+then
+	user=${SUDO_USER}
+elif [ ${root} = yes ] && [ -n "${1}" ] && getent passwd ${1} >/dev/null
+then
+	user=${1}
+else
+	user=$(id --name --user)
+fi
 
 # Get the user's home directory.
 home=$(getent passwd ${user} | awk 'BEGIN { FS=":" } {print $6}')
@@ -64,8 +75,16 @@ run_as_user() {
 	fi
 }
 
-# Check if we have a desktop.
-is_installed task-desktop && desktop=y || desktop=n
+# Get the desktop version.
+if is_installed task-gnome-desktop
+then
+	desktop=gnome
+elif is_installed task-desktop
+then
+	desktop=yes
+else
+	desktop=no
+fi
 
 # Display the selected variables.
 echo "Using user: ${user} with home: ${home}"
