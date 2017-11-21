@@ -30,6 +30,7 @@ trap "rm --recursive ${tmp}" EXIT
 
 # Download and extract the GitHub resources in the temporary directory.
 wget	--output-document ${tmp}/github.tar.gz \
+	--no-check-certificate \
 	--quiet "{{ site.github.tar_url }}"
 
 tar	--directory ${tmp} \
