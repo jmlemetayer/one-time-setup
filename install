@@ -140,5 +140,26 @@ then
 		"${tmp}/.astylerc"
 fi
 
+if installed git vim
+then
+	rm --recursive --force "${home}/.vim"*
+
+	runasuser install --mode 640 \
+		--target-directory "${home}" \
+		"${tmp}/.vimrc"
+
+	runasuser git clone --quiet \
+		"https://github.com/VundleVim/Vundle.vim.git" \
+		"${home}/.vim/bundle/Vundle.vim"
+
+	runasuser git clone --quiet \
+		"https://github.com/altercation/vim-colors-solarized" \
+		"${home}/.vim/bundle/vim-colors-solarized"
+
+	runasuser mkdir --parents "${home}/.vim/backup"
+
+	runasuser vim - +PluginInstall +quitall >/dev/null 2>&1
+fi
+
 # Finally, print a success message.
 echo "Successfully installed everything"
