@@ -132,3 +132,10 @@ then
 		--target-directory "${home}" \
 		"${tmp}/.gitconfig"
 fi
+
+if installed astyle
+then
+	runasuser install --mode 640 \
+		--target-directory "${home}" \
+		"${tmp}/.astylerc"
+fi

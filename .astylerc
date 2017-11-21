@@ -1,0 +1,13 @@
+style=linux
+indent=tab=8
+break-blocks=all
+pad-oper
+pad-header
+unpad-paren
+align-pointer=name
+add-brackets
+keep-one-line-statements
+convert-tabs
+max-code-length=80
+break-after-logical
+lineend=linux
