@@ -189,11 +189,9 @@ then
 fi
 
 # Configure vim(1).
-if is_installed git vim
+if is_installed curl git vim
 then
-	rm --recursive --force ${home}/.vim*
-
-	run_as_user mkdir --parents ${home}/.vim/backup
+	rm --recursive --force ${home}/.vim/
 
 	run_as_user install --mode 640 \
 		--target-directory ${home} \
