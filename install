@@ -139,6 +139,7 @@ then
 		autoconf
 		automake
 		build-essential
+		clang
 		cmake
 		gdb
 		git
