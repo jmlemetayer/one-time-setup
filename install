@@ -22,6 +22,10 @@
 # Enable the "exit on error" option.
 set -e
 
+# Sanitize environment.
+LANG=C && LC_ALL=C
+umask 0027
+
 # Create a temporary directory.
 tmp=$(mktemp --directory)
 
@@ -96,9 +100,6 @@ echo "Got super power: ${root} and got desktop: ${desktop}"
 # If possible, install the needed packages and resources.
 if [ ${root} = yes ]
 then
-	# Sanitize environment.
-	LANG=C && LC_ALL=C
-
 	# Reconfigure locales.
 	echo "en_GB.UTF-8 UTF-8" > /etc/locale.gen
 	echo "fr_FR.UTF-8 UTF-8" >> /etc/locale.gen
