@@ -41,7 +41,7 @@ tar	--directory ${tmp} \
 	--transform 's:^[^/]*:.:' \
 	--extract --gzip --file ${tmp}/github.tar.gz
 
-####  Variables and functions.
+####  Variables and functions.
 #
 # Fetch the needed variables and define some helper functions.
 
@@ -91,7 +91,7 @@ else
 	desktop=no
 fi
 
-# Display the selected variables.
+# Display the selected variables.
 echo "Using user: ${user} with home: ${home}"
 echo "Got super power: ${root} and got desktop: ${desktop}"
 
@@ -159,7 +159,7 @@ then
 		${development}
 fi
 
-####  User configuration.
+####  User configuration.
 #
 # Finally, configure all user tools.
 
