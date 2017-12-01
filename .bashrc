@@ -58,10 +58,18 @@ alias pdw="pwd"
 alias tre="tree"
 
 # Git aliases.
+alias ga="git add"
 alias gb="git branch"
+alias gc="git checkout"
+alias gd="git diff"
+alias gf="git fetch"
 alias gg="git gui"
 alias gl="git lg"
+alias gm="git merge"
+alias gp="git pull"
+alias gr="git rebase"
 alias gs="git status"
+alias gt="git tag"
 
 # Root aliases.
 if [ "$(id --user)" = 0 ]
