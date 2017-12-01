@@ -150,6 +150,7 @@ then
 		pkg-config
 		python
 		repo
+		tig
 		valgrind
 		vim"
 
