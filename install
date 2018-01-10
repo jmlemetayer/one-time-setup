@@ -155,9 +155,12 @@ then
 		valgrind
 		vim"
 
+	[ ${desktop} = gnome ] && desktop_gnome="vim-gnome"
+
 	apt install --assume-yes \
 		${common} \
 		${archive} \
+		${desktop_gnome} \
 		${development}
 fi
 
