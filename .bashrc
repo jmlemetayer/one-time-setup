@@ -84,6 +84,34 @@ function addtopath() {
 	[ -d "${1}" ] && [[ "${PATH}" != *"${1}"* ]] && PATH="${1}:${PATH}"
 }
 
+# Helper to source a file only if it exists.
+function sourceme() {
+	[ -f ${1} ] && source ${1}
+}
+
+#
+# Completion.
+#
+
+# Enable programmable completion features.
+sourceme /usr/share/bash-completion/bash_completion
+
+# Enable completion for git aliases.
+if sourceme /usr/share/bash-completion/completions/git
+then
+	__git_complete ga _git_add
+	__git_complete gb _git_branch
+	__git_complete gc _git_checkout
+	__git_complete gd _git_diff
+	__git_complete gf _git_fetch
+	__git_complete gl _git_log
+	__git_complete gm _git_merge
+	__git_complete gp _git_pull
+	__git_complete gr _git_rebase
+	__git_complete gs _git_status
+	__git_complete gt _git_tag
+fi
+
 #
 # Miscellaneous.
 #
@@ -91,11 +119,8 @@ function addtopath() {
 # Check the window size after each command.
 shopt -s checkwinsize
 
-# Enable programmable completion features.
-[ -f /etc/bash_completion ] && ! shopt -oq posix && source /etc/bash_completion
-
 # Add user's private bin to PATH.
 addtopath "${HOME}/.local/bin"
 
 # Allow other private configuration.
-[ -f "${HOME}/.bash_priv" ] && source "${HOME}/.bash_priv"
+sourceme "${HOME}/.bash_priv"
