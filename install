@@ -92,8 +92,9 @@ else
 fi
 
 # Display the selected variables.
+[ ${root} = yes ] && echo "Got super power !"
 echo "Using user: ${user} with home: ${home}"
-echo "Got super power: ${root} and got desktop: ${desktop}"
+[ ${desktop} != no ] && echo "Using desktop: ${desktop}"
 
 ####  System-wide configuration.
 #
