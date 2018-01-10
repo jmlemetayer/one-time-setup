@@ -1,239 +1,212 @@
-" ~/.vimrc
+" Vundle {{{
 
+filetype off
+set nocompatible
 set shell=/bin/bash
 
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
-set nocompatible
-filetype off
-
-" Set the runtime path to include Vundle and initialize
+" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
-" Let Vundle manage Vundle
+" let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'
 
-" Solarized
-Plugin 'altercation/vim-colors-solarized'
-
-" Auto-Format
-Plugin 'Chiel92/vim-autoformat'
-
-" HTML5
-Plugin 'othree/html5.vim'
-
-" Bracketed paste
-Plugin 'ConradIrwin/vim-bracketed-paste'
-
-" Lightline
-Plugin 'itchyny/lightline.vim'
-
-" Fugitive
-Plugin 'tpope/vim-fugitive'
-
-" Hexmode
+" My plugin list
+Plugin 'a.vim'
+Plugin 'chiel92/vim-autoformat'
+Plugin 'conradirwin/vim-bracketed-paste'
 Plugin 'fidian/hexmode'
-
-" Emoji
+Plugin 'godlygeek/tabular'
+Plugin 'itchyny/lightline.vim'
+Plugin 'jpalardy/spacehi.vim'
 Plugin 'junegunn/vim-emoji'
-
-" Abolish
+Plugin 'romainl/flattened'
+Plugin 'scrooloose/nerdtree'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-abolish'
-
-" A.vim
-Plugin 'kris2k/a.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-sensible'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
-
-" Attempt to determine the type of a file based on its name and possibly its
-" contents. Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific.
 filetype plugin indent on
 
-" Enable syntax highlighting
+" }}}
+" Basic configuration {{{
+
+set confirm
+set laststatus=2
+set mouse=a
+set number
+set noshowmode
 syntax enable
 
-" Better command-line completion
-set wildmenu
+" Leaders {{{
 
-" Show partial commands in the last line of the screen
-set showcmd
+let mapleader = ':'
+let maplocalleader = ':'
 
-" Highlight searches (use <C-L> to temporarily turn off highlighting; see the
-" mapping of <C-L> below)
+" }}}
+" ColorScheme {{{
+
+try
+	colorscheme flattened_dark
+catch
+	colorscheme default
+endtry
+
+" }}}
+" Buffer formatting {{{
+set autoindent
+set colorcolumn=+1
+set noendofline
+set noexpandtab
+set shiftwidth=8
+set tabstop=8
+set textwidth=80
+
+" Remove trailing spaces and blank lines
+function! CleanBuffer()
+	let l:save = winsaveview()
+	%s/\s\+$//e
+	%s/\n\{3,}/\r\r/e
+	nohlsearch
+	call winrestview(l:save)
+endfunction
+
+command! CleanBuffer call CleanBuffer()
+
+augroup formatting
+	autocmd!
+	autocmd BufWritePre * CleanBuffer
+augroup END
+
+" }}}
+" Searches {{{
+
 set hlsearch
-
-" Use case insensitive search, except when using capital letters
-set ignorecase
 set smartcase
 
-" Allow backspacing over autoindent, line breaks and start of insert action
-set backspace=indent,eol,start
+" Make search result appear in the middle of the screen
+nnoremap n nzzzv
+nnoremap N Nzzzv
 
-" When opening a new line and no filetype-specific indenting is enabled, keep
-" the same indent as the line you're currently on. Useful for READMEs, etc.
-set autoindent
+" }}}
+"  Spell checking {{{
 
-" Stop certain movements from always going to the first character of a line.
-" While this behaviour deviates from that of Vi, it does what most users
-" coming from other editors would expect.
-set nostartofline
-
-" Display the cursor position on the last line of the screen or in the status
-" line of a window
-set ruler
-
-" Always display the status line, even if only one window is displayed
-set laststatus=2
-
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-set confirm
-
-" Do not use bell
-set noerrorbells
-
-" Enable use of the mouse for all modes
-set mouse=a
-
-" Display line numbers on the left
-set number
-
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
-nnoremap <C-L> :nohl<CR><C-L>
-
-" Use backups in a global directory
-set backup
-set backupdir=~/.vim/backup
-
-" Formatting
-set tabstop=8
-set shiftwidth=8
-set textwidth=80
-set noexpandtab
-set cindent
-set formatoptions=tcqlron
-set cinoptions=:0,l1,t0,g0
-
-" Highlight 80 column
-set colorcolumn=+1
-hi ColorColumn ctermbg=black
-
-" Remove trailing whitespaces
-autocmd BufWritePre * %s/\s\+$//e
-
-" Remove multiple blank line
-autocmd BufWritePre * g/^\_$\n\_^$/de
-
-" Remove ending blank line
-set noeol
-
-" Searching autocompletion
-set incsearch
-
-" Make search results appear in the middle of the screen
-nnoremap n nzz
-nnoremap N Nzz
-nnoremap * *zz
-nnoremap # #zz
-nnoremap g* g*zz
-nnoremap g# g#zz
-
-" Spell checking
-set spelllang=en
 set spell
+set spelllang=en
 
-" https://github.com/sd65/MiniVim
-set ttyfast " Faster refraw
-set shortmess+=I " No intro when starting Vim
-set encoding=utf-8  " The encoding displayed.
-set fileencoding=utf-8  " The encoding written to file.
-" Open all cmd args in new tabs
-execute ":silent tab all"
+"  }}}
+" Backup management {{{
 
-" Solarized
-if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
-	set background=dark
-	colorscheme solarized
+set backup
+set noswapfile
+set noundofile
+
+set backupdir=~/.vim/tmp/backup/
+set directory=~/.vim/tmp/swap/
+set undodir=~/.vim/tmp/undo/
+
+if !isdirectory(expand(&backupdir))
+	call mkdir(expand(&backupdir), "p")
+endif
+if !isdirectory(expand(&directory))
+	call mkdir(expand(&directory), "p")
+endif
+if !isdirectory(expand(&undodir))
+	call mkdir(expand(&undodir), "p")
 endif
 
-" Auto-Format
-noremap <F3> :Autoformat<CR>
+" }}}
+" Tab page {{{
 
-" HTML5
-let g:html_exclude_tags = ['html', 'style', 'script', 'body']
+augroup tabpage
+	autocmd!
+	autocmd VimEnter * tab all
+augroup END
 
-" Sudo helper
-cnoremap w!! w !sudo tee > /dev/null %
+" }}}
+" Folding {{{
 
-" Use only clipboard for yank & paste if available
-if has('unnamedplus')
-	set clipboard=unnamedplus
-endif
+set foldmethod=marker
+nnoremap <Space> za
+vnoremap <Space> za
 
-" Lightline
-set noshowmode
-let g:lightline = {
-	\ 'colorscheme': 'solarized',
-	\ 'active': {
-	\ 	'left': [ [ 'mode', 'paste' ],
-	\ 		[ 'fugitive', 'filename' ] ]
-	\ },
-	\ 'component_function': {
-	\ 	'fugitive': 'LightLineFugitive',
-	\ 	'readonly': 'LightLineReadonly',
-	\ 	'modified': 'LightLineModified',
-	\ 	'filename': 'LightLineFilename'
-	\ },
-	\ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
-	\ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" }
-	\ }
+" }}}
+" Configuration file {{{
 
-function! LightLineModified()
-	if &filetype == "help"
-		return ""
-	elseif &modified
-		return "+"
-	elseif &modifiable
-		return ""
-	else
-		return ""
-	endif
-endfunction
+nnoremap <leader>ev :vsplit $MYVIMRC
+nnoremap <leader>sv :source $MYVIMRC
 
-function! LightLineReadonly()
-	if &filetype == "help"
-		return ""
-	elseif &readonly
-		return "\u2b64"
-	else
-		return ""
-	endif
-endfunction
+" }}}
+" }}}
+" Plugins configuration {{{
+" A.vim {{{
 
-function! LightLineFugitive()
-	if exists("*fugitive#head")
-		let branch = fugitive#head()
-		return branch !=# '' ? "\u2b60 ".branch : ''
-	endif
-	return ''
-endfunction
+noremap  <F5> :A<cr>
+inoremap <F5> <esc>:A<cr>
+noremap  <C-F5> :AV<cr>
+inoremap <C-F5> <esc>:AV<cr>
 
-function! LightLineFilename()
-return ('' != LightLineReadonly() ? LightLineReadonly() . ' ' : '') .
-	\ ('' != expand('%:t') ? expand('%:t') : '[No Name]') .
-	\ ('' != LightLineModified() ? ' ' . LightLineModified() : '')
-endfunction
+" }}}
+" Autoformat {{{
 
-" Hexmode
-noremap <F4> :Hexmode<CR>
+noremap  <F3> :Autoformat<cr>
+inoremap <F3> <esc>:Autoformat<cr>
 
-" Emoji
+" }}}
+" Emoji {{{
+
 set completefunc=emoji#complete
 
-" A.vim
-noremap <F5> :AV<CR>
-noremap <F6> :A<CR>
+" }}}
+" Hexmode {{{
+
+noremap  <F4> :Hexmode<cr>
+inoremap <F4> <esc>:Hexmode<cr>
+
+" }}}
+" LightLine {{{
+
+let g:lightline = {
+	\ 'colorscheme': 'flattened_dark',
+	\ 'active': {
+	\ 	'left': [
+	\ 		[ 'mode', 'paste' ],
+	\ 		[ 'gitbranch', 'readonly', 'filename', 'modified' ]
+	\ 	]
+	\ },
+	\ 'tabline': {
+	\ 	'right': []
+	\ },
+	\ 'component_function': {
+	\ 	'gitbranch': 'fugitive#head'
+	\ },
+	\ }
+
+" }}}
+" NerdTree {{{
+
+noremap  <F2> :NERDTreeToggle<cr>
+inoremap <F2> <esc>:NERDTreeToggle<cr>
+
+augroup nerdtree
+	autocmd!
+	autocmd StdinReadPre * let s:std_in=1
+	autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
+	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
+	autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
+augroup END
+
+" }}}
+" SPaceHi {{{
+
+augroup spacehi
+	autocmd!
+	autocmd BufNewFile,BufRead * SpaceHi
+	autocmd BufNewFile,BufRead * syntax clear spacehiTab
+augroup END
+
+" }}}
+" }}}
