@@ -205,7 +205,7 @@ then
 		"https://github.com/VundleVim/Vundle.vim.git" \
 		${home}/.vim/bundle/Vundle.vim
 
-	run_as_user vim - +PluginInstall +quitall
+	run_as_user vim +PluginInstall +quitall! < /dev/tty
 fi
 
 # Finally, print a success message.
