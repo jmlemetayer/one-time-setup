@@ -55,7 +55,7 @@ tar	--directory ${tmp} \
 if [ ${root} = yes ] && [ -n "${1}" ] && getent passwd ${1} >/dev/null
 then
 	user=${1}
-elif [ ${root} = yes ] && [ -n ${SUDO_USER} ]
+elif [ ${root} = yes ] && [ -n "${SUDO_USER}" ]
 then
 	user=${SUDO_USER}
 else
