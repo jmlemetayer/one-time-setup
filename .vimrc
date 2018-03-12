@@ -43,8 +43,8 @@ syntax enable
 
 " Leaders {{{
 
-let mapleader = ':'
-let maplocalleader = ':'
+let mapleader = ';'
+let maplocalleader = '\\'
 
 " }}}
 " ColorScheme {{{
