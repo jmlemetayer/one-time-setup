@@ -121,10 +121,7 @@ endif
 " }}}
 " Tab page {{{
 
-augroup tabpage
-	autocmd!
-	autocmd VimEnter * tab all
-augroup END
+execute ":silent tab all"
 
 " }}}
 " Folding {{{
