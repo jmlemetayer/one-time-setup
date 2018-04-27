@@ -143,11 +143,11 @@ then
 		xz-utils
 		zip"
 
-	development="astyle
-		autoconf
+	development="autoconf
 		automake
 		build-essential
 		clang
+		clang-format
 		cmake
 		gdb
 		git
@@ -190,12 +190,12 @@ then
 		${tmp}/.gitconfig
 fi
 
-# Configure astyle(1).
-if is_installed astyle
+# Configure clang-format(1).
+if is_installed clang-format
 then
 	run_as_user install --mode 640 \
 		--target-directory ${home} \
-		${tmp}/.astylerc
+		${tmp}/.clang-format
 fi
 
 # Configure vim(1).
