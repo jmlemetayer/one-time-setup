@@ -121,6 +121,7 @@ endif
 " }}}
 " Tab page {{{
 
+set tabpagemax=50
 execute ":silent tab all"
 
 " }}}
