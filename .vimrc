@@ -28,6 +28,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
 Plugin 'kergoth/vim-bitbake'
 Plugin 'leafgarland/typescript-vim'
+Plugin 'cespare/vim-toml'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
