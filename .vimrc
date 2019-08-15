@@ -53,6 +53,8 @@ let maplocalleader = '\\'
 " ColorScheme {{{
 
 try
+	let &t_Cs = "\e[4:3m"
+	let &t_Ce = "\e[4:0m"
 	colorscheme flattened_dark
 catch
 	colorscheme default
