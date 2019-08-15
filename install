@@ -151,6 +151,7 @@ then
 		cmake
 		gdb
 		git
+		git-email
 		libncurses5-dev
 		libtool
 		minicom

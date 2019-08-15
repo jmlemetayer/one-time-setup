@@ -12,3 +12,9 @@
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
+[sendemail]
+	smtpencryption = tls
+	smtpserver = smtp.savoirfairelinux.com
+	smtpuser = jean-marie.lemetayer@savoirfairelinux.com
+	smtpserverport = 587
+	suppresscc = self
