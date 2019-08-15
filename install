@@ -181,6 +181,31 @@ fi
 # Create the development directory.
 run_as_user mkdir ${home}/development
 
+# Configure xdg-user-dir(1).
+if is_installed xdg-user-dirs
+then
+	for xdg_name_dir in \
+		DESKTOP:.desktop \
+		DOCUMENTS:documents \
+		DOWNLOAD:download \
+		MUSIC:music \
+		PICTURES:pictures \
+		PUBLICSHARE:.public \
+		TEMPLATES:.templates \
+		VIDEOS:videos
+	do
+		xdg_name=${xdg_name_dir%:*}
+		xdg_dir=${home%/}/${xdg_name_dir#*:}
+		xdg_current_dir=$(xdg-user-dir ${xdg_name})
+
+		if [ ${xdg_current_dir} != ${xdg_dir} ]
+		then
+			run_as_user mv ${xdg_current_dir} ${xdg_dir}
+			run_as_user xdg-user-dirs-update --set ${xdg_name} ${xdg_dir}
+		fi
+	done
+fi
+
 # Configure bash(1).
 run_as_user install --mode 640 \
 	--target-directory ${home} \
