@@ -179,7 +179,7 @@ fi
 # Finally, configure all user tools.
 
 # Create the development directory.
-run_as_user mkdir ${home}/development
+run_as_user mkdir -p ${home}/development
 
 # Configure xdg-user-dir(1).
 if is_installed xdg-user-dirs
