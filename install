@@ -162,11 +162,14 @@ then
 		valgrind
 		vim"
 
+	[ ${desktop} != no ] && desktop_all="git-gui"
+
 	[ ${desktop} = gnome ] && desktop_gnome="vim-gnome"
 
 	apt install --assume-yes \
 		${common} \
 		${archive} \
+		${desktop_all} \
 		${desktop_gnome} \
 		${development}
 fi
