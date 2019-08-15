@@ -81,7 +81,7 @@ run_as_user() {
 }
 
 # Get the desktop version.
-if is_installed task-gnome-desktop
+if is_installed task-gnome-desktop || is_installed ubuntu-desktop
 then
 	desktop=gnome
 elif is_installed task-desktop
