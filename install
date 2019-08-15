@@ -178,6 +178,9 @@ fi
 #
 # Finally, configure all user tools.
 
+# Create the development directory.
+run_as_user mkdir ${home}/development
+
 # Configure bash(1).
 run_as_user install --mode 640 \
 	--target-directory ${home} \
