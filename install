@@ -104,7 +104,7 @@ then
 	# Reconfigure locales.
 	echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 	locale-gen
-	update-locale LANG="en_US.UTF-8"
+	update-locale --no-checks LANG="en_US.UTF-8"
 
 	# Reconfigure timezone.
 	echo "Europe/Paris" > /etc/timezone
