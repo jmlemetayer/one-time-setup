@@ -73,6 +73,10 @@ set textwidth=80
 
 " Remove trailing spaces and blank lines
 function! CleanBuffer()
+	" Don't edit these filetypes
+	if exists('b:noCleanBuffer')
+		return
+	endif
 	let l:save = winsaveview()
 	%s/\s\+$//e
 	%s/\n\{3,}/\r\r/e
@@ -85,6 +89,7 @@ command! CleanBuffer call CleanBuffer()
 augroup formatting
 	autocmd!
 	autocmd BufWritePre * CleanBuffer
+	autocmd FileType diff let b:noCleanBuffer=1
 augroup END
 
 " }}}
