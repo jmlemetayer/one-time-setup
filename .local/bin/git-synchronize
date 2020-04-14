@@ -1,0 +1,22 @@
+#!/bin/sh
+
+while getopts "vf" OPT
+do
+	case "${OPT}" in
+		v) VERBOSE=yes ;;
+		f) FORCE=yes ;;
+		*) cat <<- EOF >&2
+			usage: ${0##*/} [-v | -f]
+		EOF
+		exit 1 ;;
+	esac
+done
+
+[ ${FORCE:-no} = no ] && set -e
+[ ${VERBOSE:-no} = yes ] && set -x
+
+for REMOTE in $(git remote)
+do
+	git fetch ${REMOTE}
+	git remote prune ${REMOTE}
+done
