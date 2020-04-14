@@ -149,6 +149,13 @@ nnoremap <leader>ev :vsplit $MYVIMRC
 nnoremap <leader>sv :source $MYVIMRC
 
 " }}}
+" Tmux mouse {{{
+if has("mouse_sgr")
+	set ttymouse=sgr
+else
+	set ttymouse=xterm2
+end
+" }}}
 " }}}
 " Plugins configuration {{{
 " A.vim {{{
