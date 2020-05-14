@@ -196,7 +196,7 @@ then
 	do
 		xdg_name=${xdg_name_dir%:*}
 		xdg_dir=${home%/}/${xdg_name_dir#*:}
-		xdg_current_dir=$(xdg-user-dir ${xdg_name})
+		xdg_current_dir=$(run_as_user xdg-user-dir ${xdg_name})
 
 		if [ ${xdg_current_dir} != ${xdg_dir} ]
 		then
