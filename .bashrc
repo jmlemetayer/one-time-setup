@@ -1,3 +1,6 @@
+# Set the default umask
+umask 0022
+
 # If not running interactively, don't do anything.
 [[ "${-}" != *i* ]] && return
 
