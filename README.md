@@ -1,16 +1,57 @@
 # One Time Setup
 
-## Region & Language
+Reference distribution: *Ubuntu 20.04*
+
+## Basic System
+
+### Region & Language
 
 ```bash
 ```
 
-## Date & Time
+### Date & Time
 
 ```bash
 ```
 
-## Configure `apt`
+### User directories
+
+```bash
+for xdg_name_dir in \
+	DESKTOP:.desktop \
+	DOCUMENTS:documents \
+	DOWNLOAD:download \
+	MUSIC:music \
+	PICTURES:pictures \
+	PUBLICSHARE:.public \
+	TEMPLATES:.templates \
+	VIDEOS:videos
+do
+	xdg_name=${xdg_name_dir%:*}
+	xdg_dir=${HOME%/}/${xdg_name_dir#*:}
+	xdg_current_dir=$(xdg-user-dir ${xdg_name})
+
+	if [ ${xdg_current_dir} != ${xdg_dir} ]
+	then
+		mv ${xdg_current_dir} ${xdg_dir}
+		xdg-user-dirs-update --set ${xdg_name} ${xdg_dir}
+	fi
+done
+```
+
+### Configure `grub`
+
+```bash
+sudo sed -i \
+	-e '/^GRUB_SAVEDEFAULT/d' \
+	-e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
+	-e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
+	/etc/default/grub
+
+sudo update-grub
+```
+
+### Configure `apt`
 
 ```bash
 sudo add-apt-repository universe
@@ -25,55 +66,19 @@ EOF
 sudo apt update
 ```
 
-## Configure `grub`
+### Configure `bash`
 
 ```bash
-sudo sed -i \
-	-e '/^GRUB_SAVEDEFAULT/d' \
-	-e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
-	-e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
-	/etc/default/grub
+sudo apt install bash-completion
 
-sudo update-grub
-```
-
-## Common packages
-
-```bash
-```
-
-## Gnome shell (for desktop only)
-
-```bash
-sudo apt install vanilla-gnome-desktop
-```
-
-## SSH server
-
-```bash
-```
-
-## Development packages
-
-```bash
-```
-
-## User directories
-
-```bash
-```
-
-## Configure `bash`
-
-```bash
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/master/.bashrc
 https://github.com/jmlemetayer/one-time-setup/raw/master/.bash_logout
 https://github.com/jmlemetayer/one-time-setup/raw/master/.profile
-https://github.com/seebi/dircolors-solarized/raw/master/dircolors.256dark
+https://github.com/seebi/dircolors-solarized/raw/master/dircolors.ansi-dark
 EOF
 
-mv /tmp/dircolors.256dark /tmp/.dircolors
+mv /tmp/dircolors.ansi-dark /tmp/.dircolors
 
 install -m 640 -t ${HOME} \
 	/tmp/.bashrc \
@@ -82,39 +87,10 @@ install -m 640 -t ${HOME} \
 	/tmp/.dircolors
 ```
 
-## Configure `git`
-
-```bash
-sudo apt install git
-
-wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
-EOF
-
-install -m 640 -t ${HOME} \
-	/tmp/.gitconfig
-```
-
-## Configure `clang-format`
-
-```bash
-sudo apt install clang-format
-
-wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.clang-format
-EOF
-
-install -m 640 -t ${HOME} \
-	/tmp/.clang-format
-```
-
-## Configure `vim`
+### Install and configure `vim`
 
 ```bash
 sudo apt install vim
-
-# For desktop only
-sudo apt install vim-gtk
 
 rm -rf ${HOME}/.vim/
 
@@ -131,12 +107,143 @@ install -m 640 -t ${HOME} \
 vim +PluginInstall +qall
 ```
 
-## Configure `tmux`
+### Install and configure `git`
+
+```bash
+sudo apt install git
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
+EOF
+
+install -m 640 -t ${HOME} \
+	/tmp/.gitconfig
+```
+
+### Configure `gpg`
+
+```bash
+sudo apt install scdaemon pcscd dirmngr
+
+printf "1\n" | gpg --command-fd 0 \
+	--keyserver keyserver.ubuntu.com \
+	--search-key jeanmarie.lemetayer@gmail.com
+
+printf "5\ny\n" | gpg --command-fd 0 \
+	--edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
+
+mkdir -p ${HOME}/.config/autostart
+cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
+echo Hidden=true >> ${HOME}/.config/autostart/gnome-keyring-ssh.desktop
+echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
+```
+
+### Install and configure `tmux`
+
+```bash
+sudo apt install tmux
+
+rm -rf ${HOME}/.tmux/
+
+git clone https://github.com/tmux-plugins/tpm \
+	${HOME}/.tmux/plugins/tpm
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.tmux.conf
+EOF
+
+install -m 640 -t ${HOME} \
+	/tmp/.tmux.conf
+
+${HOME}/.tmux/plugins/tpm/scripts/install_plugins.sh
+```
+
+### Install and configure `sshd`
+
+```bash
+sudo apt install openssh-server
+
+sudo sed -i \
+	-e 's|^#*\(HostKey .*\)|#\1|' \
+	-e 's|^#\(HostKey /etc/ssh/ssh_host_ed25519_key\)|\1|' \
+	-e 's|^#*\(PermitRootLogin \).*|\1no|' \
+	-e 's|^#*\(PasswordAuthentication \).*|\1no|' \
+	-e '/^Ciphers/d' \
+	-e '/^# Ciphers and keying/a Ciphers chacha20-poly1305@openssh.com' \
+	-e '/^KexAlgorithms/d' \
+	-e '/^# Ciphers and keying/a KexAlgorithms curve25519-sha256@libssh.org' \
+	-e '/^MACs/d' \
+	-e '/^# Ciphers and keying/a MACs umac-128-etm@openssh.com' \
+	-e '/^StreamLocalBindUnlink/d' \
+	-e '$a StreamLocalBindUnlink yes' \
+	/etc/ssh/sshd_config
+
+sudo rm -f /etc/ssh/ssh_host_*
+
+sudo dpkg-reconfigure openssh-server
+```
+
+### Useful Tools
+
+```bash
+sudo apt install \
+	bzip2 \
+	curl \
+	htop \
+	net-tools \
+	sysstat \
+	tree \
+	unzip \
+	xz-utils \
+	zip
+```
+
+## Development Tools
+
+### Development directory
+
+```bash
+mkdir -p ${HOME}/development
+```
+
+### Development packages
 
 ```bash
 ```
 
-## Configure `gpg`
+### Configure `clang-format`
 
 ```bash
+sudo apt install clang-format
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.clang-format
+EOF
+
+install -m 640 -t ${HOME} \
+	/tmp/.clang-format
+```
+
+## Desktop Only
+
+### Gnome shell
+
+```bash
+sudo apt install vanilla-gnome-desktop
+```
+
+### Google Chrome
+
+```bash
+wget -P /tmp -i - << EOF
+https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+EOF
+
+sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+```
+
+### Configure `vim` to use the clipboard
+
+```bash
+sudo apt install vim-gtk3
 ```
