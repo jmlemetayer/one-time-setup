@@ -17,25 +17,25 @@ Reference distribution: *Ubuntu 20.04*
 ### User directories
 
 ```bash
-for xdg_name_dir in \
-	DESKTOP:.desktop \
-	DOCUMENTS:documents \
-	DOWNLOAD:download \
-	MUSIC:music \
-	PICTURES:pictures \
-	PUBLICSHARE:.public \
-	TEMPLATES:.templates \
-	VIDEOS:videos
+for XDG_NAME_DIR in \
+    DESKTOP:.desktop \
+    DOCUMENTS:documents \
+    DOWNLOAD:download \
+    MUSIC:music \
+    PICTURES:pictures \
+    PUBLICSHARE:.public \
+    TEMPLATES:.templates \
+    VIDEOS:videos
 do
-	xdg_name=${xdg_name_dir%:*}
-	xdg_dir=${HOME%/}/${xdg_name_dir#*:}
-	xdg_current_dir=$(xdg-user-dir ${xdg_name})
+    XDG_NAME=${XDG_NAME_DIR%:*}
+    XDG_DIR=${HOME%/}/${XDG_NAME_DIR#*:}
+    XDG_CURRENT_DIR=$(xdg-user-dir ${XDG_NAME})
 
-	if [ ${xdg_current_dir} != ${xdg_dir} ]
-	then
-		mv ${xdg_current_dir} ${xdg_dir}
-		xdg-user-dirs-update --set ${xdg_name} ${xdg_dir}
-	fi
+    if [ ${XDG_CURRENT_DIR} != ${XDG_DIR} ]
+    then
+        mv ${XDG_CURRENT_DIR} ${XDG_DIR}
+        xdg-user-dirs-update --set ${XDG_NAME} ${XDG_DIR}
+    fi
 done
 ```
 
@@ -43,10 +43,10 @@ done
 
 ```bash
 sudo sed -i \
-	-e '/^GRUB_SAVEDEFAULT/d' \
-	-e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
-	-e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
-	/etc/default/grub
+    -e '/^GRUB_SAVEDEFAULT/d' \
+    -e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
+    -e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
+    /etc/default/grub
 
 sudo update-grub
 ```
@@ -81,10 +81,10 @@ EOF
 mv /tmp/dircolors.ansi-dark /tmp/.dircolors
 
 install -m 640 -t ${HOME} \
-	/tmp/.bashrc \
-	/tmp/.bash_logout \
-	/tmp/.profile \
-	/tmp/.dircolors
+    /tmp/.bashrc \
+    /tmp/.bash_logout \
+    /tmp/.profile \
+    /tmp/.dircolors
 ```
 
 ### Install and configure `vim`
@@ -95,14 +95,14 @@ sudo apt install vim
 rm -rf ${HOME}/.vim/
 
 git clone https://github.com/VundleVim/Vundle.vim.git \
-	${HOME}/.vim/bundle/Vundle.vim
+    ${HOME}/.vim/bundle/Vundle.vim
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/master/.vimrc
 EOF
 
 install -m 640 -t ${HOME} \
-	/tmp/.vimrc
+    /tmp/.vimrc
 
 vim +PluginInstall +qall
 ```
@@ -117,7 +117,7 @@ https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
 EOF
 
 install -m 640 -t ${HOME} \
-	/tmp/.gitconfig
+    /tmp/.gitconfig
 ```
 
 ### Configure `gpg`
@@ -126,11 +126,11 @@ install -m 640 -t ${HOME} \
 sudo apt install scdaemon pcscd dirmngr
 
 printf "1\n" | gpg --command-fd 0 \
-	--keyserver keyserver.ubuntu.com \
-	--search-key jeanmarie.lemetayer@gmail.com
+    --keyserver keyserver.ubuntu.com \
+    --search-key jeanmarie.lemetayer@gmail.com
 
 printf "5\ny\n" | gpg --command-fd 0 \
-	--edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
+    --edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
 
 mkdir -p ${HOME}/.config/autostart
 cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
@@ -146,16 +146,20 @@ sudo apt install tmux
 rm -rf ${HOME}/.tmux/
 
 git clone https://github.com/tmux-plugins/tpm \
-	${HOME}/.tmux/plugins/tpm
+    ${HOME}/.tmux/plugins/tpm
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/master/.tmux.conf
 EOF
 
 install -m 640 -t ${HOME} \
-	/tmp/.tmux.conf
+    /tmp/.tmux.conf
 
+tmux start-server
+tmux new-session -d
+sleep 1
 ${HOME}/.tmux/plugins/tpm/scripts/install_plugins.sh
+tmux kill-server
 ```
 
 ### Install and configure `sshd`
@@ -164,19 +168,19 @@ ${HOME}/.tmux/plugins/tpm/scripts/install_plugins.sh
 sudo apt install openssh-server
 
 sudo sed -i \
-	-e 's|^#*\(HostKey .*\)|#\1|' \
-	-e 's|^#\(HostKey /etc/ssh/ssh_host_ed25519_key\)|\1|' \
-	-e 's|^#*\(PermitRootLogin \).*|\1no|' \
-	-e 's|^#*\(PasswordAuthentication \).*|\1no|' \
-	-e '/^Ciphers/d' \
-	-e '/^# Ciphers and keying/a Ciphers chacha20-poly1305@openssh.com' \
-	-e '/^KexAlgorithms/d' \
-	-e '/^# Ciphers and keying/a KexAlgorithms curve25519-sha256@libssh.org' \
-	-e '/^MACs/d' \
-	-e '/^# Ciphers and keying/a MACs umac-128-etm@openssh.com' \
-	-e '/^StreamLocalBindUnlink/d' \
-	-e '$a StreamLocalBindUnlink yes' \
-	/etc/ssh/sshd_config
+    -e 's|^#*\(HostKey .*\)|#\1|' \
+    -e 's|^#\(HostKey /etc/ssh/ssh_host_ed25519_key\)|\1|' \
+    -e 's|^#*\(PermitRootLogin \).*|\1no|' \
+    -e 's|^#*\(PasswordAuthentication \).*|\1no|' \
+    -e '/^Ciphers/d' \
+    -e '/^# Ciphers and keying/a Ciphers chacha20-poly1305@openssh.com' \
+    -e '/^KexAlgorithms/d' \
+    -e '/^# Ciphers and keying/a KexAlgorithms curve25519-sha256@libssh.org' \
+    -e '/^MACs/d' \
+    -e '/^# Ciphers and keying/a MACs umac-128-etm@openssh.com' \
+    -e '/^StreamLocalBindUnlink/d' \
+    -e '$a StreamLocalBindUnlink yes' \
+    /etc/ssh/sshd_config
 
 sudo rm -f /etc/ssh/ssh_host_*
 
@@ -187,15 +191,17 @@ sudo dpkg-reconfigure openssh-server
 
 ```bash
 sudo apt install \
-	bzip2 \
-	curl \
-	htop \
-	net-tools \
-	sysstat \
-	tree \
-	unzip \
-	xz-utils \
-	zip
+    bzip2 \
+    curl \
+    fd-find \
+    htop \
+    net-tools \
+    ripgrep \
+    sysstat \
+    tree \
+    unzip \
+    xz-utils \
+    zip
 ```
 
 ## Development Tools
@@ -221,7 +227,7 @@ https://github.com/jmlemetayer/one-time-setup/raw/master/.clang-format
 EOF
 
 install -m 640 -t ${HOME} \
-	/tmp/.clang-format
+    /tmp/.clang-format
 ```
 
 ## Desktop Only
