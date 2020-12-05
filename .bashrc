@@ -67,6 +67,7 @@ alias gc="git checkout"
 alias gd="git diff"
 alias gf="git fetch"
 alias gg="git gui"
+alias gk="gitk"
 alias gl="git lg"
 alias gm="git merge"
 alias gp="git pull"
@@ -107,6 +108,7 @@ then
 	__git_complete gc _git_checkout
 	__git_complete gd _git_diff
 	__git_complete gf _git_fetch
+	__git_complete gk _gitk
 	__git_complete gl _git_log
 	__git_complete gm _git_merge
 	__git_complete gp _git_pull
