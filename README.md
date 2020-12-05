@@ -4,6 +4,33 @@ Reference distribution: *Ubuntu 20.04*
 
 ## Basic System
 
+### Configure `grub`
+
+```bash
+sudo sed -i \
+    -e '/^GRUB_SAVEDEFAULT/d' \
+    -e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
+    -e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
+    /etc/default/grub
+
+sudo update-grub
+```
+
+### Configure `apt`
+
+```bash
+sudo add-apt-repository universe
+sudo add-apt-repository multiverse
+sudo add-apt-repository restricted
+
+cat << EOF | sudo tee /etc/apt/apt.conf.d/60norecommend
+APT::Install-Recommends "0";
+APT::Install-Suggests "0";
+EOF
+
+sudo apt update
+```
+
 ### Region & Language
 
 ```bash
@@ -39,37 +66,10 @@ do
 done
 ```
 
-### Configure `grub`
-
-```bash
-sudo sed -i \
-    -e '/^GRUB_SAVEDEFAULT/d' \
-    -e 's/^GRUB_DEFAULT.*/GRUB_DEFAULT=saved/' \
-    -e '/^GRUB_DEFAULT.*/a GRUB_SAVEDEFAULT=true' \
-    /etc/default/grub
-
-sudo update-grub
-```
-
-### Configure `apt`
-
-```bash
-sudo add-apt-repository universe
-sudo add-apt-repository multiverse
-sudo add-apt-repository restricted
-
-cat << EOF | sudo tee /etc/apt/apt.conf.d/60norecommend
-APT::Install-Recommends "0";
-APT::Install-Suggests "0";
-EOF
-
-sudo apt update
-```
-
 ### Configure `bash`
 
 ```bash
-sudo apt install bash-completion
+sudo apt install -y bash-completion
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/master/.bashrc
@@ -87,10 +87,41 @@ install -m 640 -t ${HOME} \
     /tmp/.dircolors
 ```
 
+### Configure `gpg`
+
+```bash
+sudo apt install -y scdaemon pcscd dirmngr
+
+printf "1\n" | gpg --command-fd 0 \
+    --keyserver keyserver.ubuntu.com \
+    --search-key jeanmarie.lemetayer@gmail.com
+
+printf "5\ny\n" | gpg --command-fd 0 \
+    --edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
+
+mkdir -p ${HOME}/.config/autostart
+cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
+echo Hidden=true >> ${HOME}/.config/autostart/gnome-keyring-ssh.desktop
+echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
+```
+
+### Install and configure `git`
+
+```bash
+sudo apt install -y git git-email
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
+EOF
+
+install -m 640 -t ${HOME} \
+    /tmp/.gitconfig
+```
+
 ### Install and configure `vim`
 
 ```bash
-sudo apt install vim
+sudo apt install -y vim
 
 rm -rf ${HOME}/.vim/
 
@@ -107,41 +138,10 @@ install -m 640 -t ${HOME} \
 vim +PluginInstall +qall
 ```
 
-### Install and configure `git`
-
-```bash
-sudo apt install git
-
-wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
-EOF
-
-install -m 640 -t ${HOME} \
-    /tmp/.gitconfig
-```
-
-### Configure `gpg`
-
-```bash
-sudo apt install scdaemon pcscd dirmngr
-
-printf "1\n" | gpg --command-fd 0 \
-    --keyserver keyserver.ubuntu.com \
-    --search-key jeanmarie.lemetayer@gmail.com
-
-printf "5\ny\n" | gpg --command-fd 0 \
-    --edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
-
-mkdir -p ${HOME}/.config/autostart
-cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
-echo Hidden=true >> ${HOME}/.config/autostart/gnome-keyring-ssh.desktop
-echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
-```
-
 ### Install and configure `tmux`
 
 ```bash
-sudo apt install tmux
+sudo apt install -y tmux
 
 rm -rf ${HOME}/.tmux/
 
@@ -165,7 +165,7 @@ tmux kill-server
 ### Install and configure `sshd`
 
 ```bash
-sudo apt install openssh-server
+sudo apt install -y openssh-server
 
 sudo sed -i \
     -e 's|^#*\(HostKey .*\)|#\1|' \
@@ -187,10 +187,39 @@ sudo rm -f /etc/ssh/ssh_host_*
 sudo dpkg-reconfigure openssh-server
 ```
 
+### Configure `python`
+
+```bash
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+```
+
+### Install and configure `docker`
+
+```bash
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    gnupg-agent \
+    software-properties-common
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+sudo add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+    $(lsb_release -cs) \
+    stable"
+
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+sudo usermod -aG docker ${USER}
+```
+
 ### Useful Tools
 
 ```bash
-sudo apt install \
+sudo apt install -y \
     bzip2 \
     curl \
     fd-find \
@@ -212,15 +241,29 @@ sudo apt install \
 mkdir -p ${HOME}/development
 ```
 
-### Development packages
+### Essential Development Tools
 
 ```bash
+sudo apt install -y \
+    autoconf \
+    automake \
+    build-essential \
+    clang \
+    cmake \
+    gdb \
+    libncurses5-dev \
+    libtool \
+    minicom \
+    pkg-config \
+    python3 \
+    tig \
+    valgrind
 ```
 
 ### Configure `clang-format`
 
 ```bash
-sudo apt install clang-format
+sudo apt install -y clang-format
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/master/.clang-format
@@ -230,12 +273,28 @@ install -m 640 -t ${HOME} \
     /tmp/.clang-format
 ```
 
+### Install and configure `repo`
+
+```bash
+wget -P /tmp -i - << EOF
+curl https://storage.googleapis.com/git-repo-downloads/repo
+https://github.com/aartamonau/repo.bash_completion/raw/master/repo.bash_completion
+EOF
+
+sudo install -m 755 -t /usr/local/bin \
+    /tmp/repo
+
+sudo install -m 644 -t /etc/bash_completion.d/ \
+    /tmp/repo.bash_completion
+
+```
+
 ## Desktop Only
 
 ### Gnome shell
 
 ```bash
-sudo apt install vanilla-gnome-desktop
+sudo apt install -y vanilla-gnome-desktop
 ```
 
 ### Google Chrome
@@ -248,8 +307,14 @@ EOF
 sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb
 ```
 
+### Install `git` graphical user interfaces
+
+```bash
+sudo apt install -y git-gui gitk
+```
+
 ### Configure `vim` to use the clipboard
 
 ```bash
-sudo apt install vim-gtk3
+sudo apt install -y vim-gtk3
 ```
