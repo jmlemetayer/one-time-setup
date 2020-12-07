@@ -31,6 +31,16 @@ EOF
 sudo apt update
 ```
 
+### Remove `snapd`
+
+```bash
+sudo rm -rf /var/cache/snapd/
+
+sudo apt autoremove --purge snapd gnome-software-plugin-snap
+
+rm -rf ${HOME}/snap/
+```
+
 ### Region & Language
 
 ```bash
