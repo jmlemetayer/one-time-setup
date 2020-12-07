@@ -189,6 +189,13 @@ sudo sed -i \
 sudo rm -f /etc/ssh/ssh_host_*
 
 sudo dpkg-reconfigure openssh-server
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.ssh/authorized_keys
+EOF
+
+install -m 640 -t ${HOME}/.ssh \
+    /tmp/authorized_keys
 ```
 
 ### Configure `python`
@@ -218,6 +225,8 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io
 
 sudo usermod -aG docker ${USER}
+
+sudo apt-get install docker-compose
 ```
 
 ### Useful Tools
@@ -281,7 +290,7 @@ install -m 640 -t ${HOME} \
 
 ```bash
 wget -P /tmp -i - << EOF
-curl https://storage.googleapis.com/git-repo-downloads/repo
+https://storage.googleapis.com/git-repo-downloads/repo
 https://github.com/aartamonau/repo.bash_completion/raw/master/repo.bash_completion
 EOF
 
