@@ -189,6 +189,13 @@ sudo sed -i \
 sudo rm -f /etc/ssh/ssh_host_*
 
 sudo dpkg-reconfigure openssh-server
+
+wget -P /tmp -i - << EOF
+https://github.com/jmlemetayer/one-time-setup/raw/master/.ssh/authorized_keys
+EOF
+
+install -m 640 -t ${HOME}/.ssh \
+    /tmp/authorized_keys
 ```
 
 ### Configure `python`
