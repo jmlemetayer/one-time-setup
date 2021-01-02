@@ -22,14 +22,13 @@ Plugin 'jpalardy/spacehi.vim'
 Plugin 'junegunn/vim-emoji'
 Plugin 'romainl/flattened'
 Plugin 'scrooloose/nerdtree'
-Plugin 'terryma/vim-multiple-cursors'
+Plugin 'mg979/vim-visual-multi'
 Plugin 'tpope/vim-abolish'
 Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-sensible'
-Plugin 'kergoth/vim-bitbake'
-Plugin 'leafgarland/typescript-vim'
-Plugin 'cespare/vim-toml'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'kergoth/vim-bitbake'
 
 " All of your Plugins must be added before the following line
 call vundle#end()
