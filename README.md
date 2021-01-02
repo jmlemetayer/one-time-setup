@@ -82,9 +82,9 @@ done
 sudo apt install -y bash-completion
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.bashrc
-https://github.com/jmlemetayer/one-time-setup/raw/master/.bash_logout
-https://github.com/jmlemetayer/one-time-setup/raw/master/.profile
+https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc
+https://github.com/jmlemetayer/one-time-setup/raw/main/.bash_logout
+https://github.com/jmlemetayer/one-time-setup/raw/main/.profile
 https://github.com/seebi/dircolors-solarized/raw/master/dircolors.ansi-dark
 EOF
 
@@ -121,8 +121,8 @@ echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
 sudo apt install -y git git-email
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.gitconfig
-https://github.com/jmlemetayer/one-time-setup/raw/master/git-sync
+https://github.com/jmlemetayer/one-time-setup/raw/main/.gitconfig
+https://github.com/jmlemetayer/one-time-setup/raw/main/git-sync
 EOF
 
 install -m 640 -t ${HOME} \
@@ -143,7 +143,7 @@ git clone https://github.com/VundleVim/Vundle.vim.git \
     ${HOME}/.vim/bundle/Vundle.vim
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.vimrc
+https://github.com/jmlemetayer/one-time-setup/raw/main/.vimrc
 EOF
 
 install -m 640 -t ${HOME} \
@@ -163,7 +163,7 @@ git clone https://github.com/tmux-plugins/tpm \
     ${HOME}/.tmux/plugins/tpm
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.tmux.conf
+https://github.com/jmlemetayer/one-time-setup/raw/main/.tmux.conf
 EOF
 
 install -m 640 -t ${HOME} \
@@ -201,7 +201,7 @@ sudo rm -f /etc/ssh/ssh_host_*
 sudo dpkg-reconfigure openssh-server
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.ssh/authorized_keys
+https://github.com/jmlemetayer/one-time-setup/raw/main/.ssh/authorized_keys
 EOF
 
 install -m 640 -t ${HOME}/.ssh \
@@ -289,7 +289,7 @@ sudo apt install -y \
 sudo apt install -y clang-format
 
 wget -P /tmp -i - << EOF
-https://github.com/jmlemetayer/one-time-setup/raw/master/.clang-format
+https://github.com/jmlemetayer/one-time-setup/raw/main/.clang-format
 EOF
 
 install -m 640 -t ${HOME} \
