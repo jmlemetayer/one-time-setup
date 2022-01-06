@@ -198,10 +198,12 @@ EOF
 
  wget -P /tmp -i - <<- EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.ssh/authorized_keys
+https://github.com/jmlemetayer/one-time-setup/raw/main/.ssh/config
 EOF
 
  install -m 750 -d ${HOME}/.ssh
  install -m 640 -t ${HOME}/.ssh \
+	/tmp/config \
 	/tmp/authorized_keys
 ```
 
