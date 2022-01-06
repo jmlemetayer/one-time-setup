@@ -342,3 +342,15 @@ EOF
 ```bash
  sudo apt install --yes vim-gtk3
 ```
+
+### Install `keepass2` and the `KeeChallenge` plugin
+
+```bash
+ sudo apt install --yes keepass2 libykpers-1-1
+
+ wget -P /tmp -i - <<- EOF
+https://github.com/brush701/keechallenge/releases/download/1.5/KeeChallenge_1.5.zip
+EOF
+
+ sudo unzip /tmp/KeeChallenge_1.5.zip -d /usr/lib/keepass2/Plugins/
+```
