@@ -122,14 +122,10 @@ sudo apt install -y git git-email
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.gitconfig
-https://github.com/jmlemetayer/one-time-setup/raw/main/git-sync
 EOF
 
 install -m 640 -t ${HOME} \
     /tmp/.gitconfig
-
-sudo install -m 755 -t /usr/local/bin \
-    /tmp/git-sync
 ```
 
 ### Install and configure `vim`
