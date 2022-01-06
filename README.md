@@ -278,8 +278,11 @@ EOF
 	minicom \
 	pkg-config \
 	python3 \
+	python3-pip \
 	tig \
 	valgrind
+
+ pip install pre-commit
 ```
 
 ### Configure `clang-format`
