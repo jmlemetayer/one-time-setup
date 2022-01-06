@@ -79,7 +79,7 @@ done
 ### Configure `bash`
 
 ```bash
-sudo apt install -y bash-completion
+sudo apt install --yes bash-completion
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc
@@ -100,7 +100,7 @@ install -m 640 -t ${HOME} \
 ### Configure `gpg`
 
 ```bash
-sudo apt install -y scdaemon pcscd dirmngr
+sudo apt install --yes scdaemon pcscd dirmngr
 
 printf "1\n" | gpg --command-fd 0 \
     --keyserver keyserver.ubuntu.com \
@@ -118,7 +118,7 @@ echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
 ### Install and configure `git`
 
 ```bash
-sudo apt install -y git git-email
+sudo apt install --yes git git-email
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.gitconfig
@@ -131,7 +131,7 @@ install -m 640 -t ${HOME} \
 ### Install and configure `vim`
 
 ```bash
-sudo apt install -y vim
+sudo apt install --yes vim
 
 rm -rf ${HOME}/.vim/
 
@@ -151,7 +151,7 @@ vim +PluginInstall +qall
 ### Install and configure `tmux`
 
 ```bash
-sudo apt install -y tmux
+sudo apt install --yes tmux
 
 rm -rf ${HOME}/.tmux/
 
@@ -175,7 +175,7 @@ tmux kill-server
 ### Install and configure `sshd`
 
 ```bash
-sudo apt install -y openssh-server
+sudo apt install --yes openssh-server
 
 sudo sed -i \
     -e 's|^#*\(HostKey .*\)|#\1|' \
@@ -214,7 +214,7 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
 ### Install and configure `docker`
 
 ```bash
-sudo apt-get install -y \
+sudo apt install --yes \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -228,18 +228,20 @@ sudo add-apt-repository \
     $(lsb_release -cs) \
     stable"
 
-sudo apt-get update
-sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo apt update
+sudo apt install --yes \
+	containerd.io \
+	docker-ce \
+	docker-ce-cli \
+	docker-compose
 
 sudo usermod -aG docker ${USER}
-
-sudo apt-get install docker-compose
 ```
 
 ### Useful Tools
 
 ```bash
-sudo apt install -y \
+sudo apt install --yes \
     bzip2 \
     curl \
     fd-find \
@@ -264,7 +266,7 @@ mkdir -p ${HOME}/development
 ### Essential Development Tools
 
 ```bash
-sudo apt install -y \
+sudo apt install --yes \
     autoconf \
     automake \
     build-essential \
@@ -283,7 +285,7 @@ sudo apt install -y \
 ### Configure `clang-format`
 
 ```bash
-sudo apt install -y clang-format
+sudo apt install --yes clang-format
 
 wget -P /tmp -i - << EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.clang-format
@@ -314,7 +316,7 @@ sudo install -m 644 -t /etc/bash_completion.d/ \
 ### Gnome shell
 
 ```bash
-sudo apt install -y vanilla-gnome-desktop
+sudo apt install --yes vanilla-gnome-desktop
 ```
 
 ### Google Chrome
@@ -330,11 +332,11 @@ sudo dpkg -i /tmp/google-chrome-stable_current_amd64.deb
 ### Install `git` graphical user interfaces
 
 ```bash
-sudo apt install -y git-gui gitk
+sudo apt install --yes git-gui gitk
 ```
 
 ### Configure `vim` to use the clipboard
 
 ```bash
-sudo apt install -y vim-gtk3
+sudo apt install --yes vim-gtk3
 ```
