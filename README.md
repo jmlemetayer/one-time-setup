@@ -356,3 +356,27 @@ EOF
 
  sudo unzip /tmp/KeeChallenge_1.5.zip -d /usr/lib/keepass2/Plugins/
 ```
+
+### Install `gpg2qr`, `qr2gpg` and `cam2gpg`
+
+```bash
+ sudo apt install -y \
+	coreutils \
+	gawk \
+	gnupg \
+	imagemagick \
+	paperkey \
+	qrencode \
+	zbar-tools
+
+ wget -P /tmp -i - <<- EOF
+https://github.com/jmlemetayer/gpg2qr/raw/master/cam2gpg
+https://github.com/jmlemetayer/gpg2qr/raw/master/gpg2qr
+https://github.com/jmlemetayer/gpg2qr/raw/master/qr2gpg
+EOF
+
+ sudo install -m 755 -t /usr/local/bin \
+	/tmp/cam2gpg \
+	/tmp/gpg2qr \
+	/tmp/qr2gpg
+```
