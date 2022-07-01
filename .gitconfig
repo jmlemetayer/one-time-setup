@@ -12,3 +12,5 @@
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
+[fetch]
+	prune = true
