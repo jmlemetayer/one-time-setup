@@ -103,18 +103,18 @@ sourceme /usr/share/bash-completion/bash_completion
 # Enable completion for git aliases.
 if sourceme /usr/share/bash-completion/completions/git
 then
-	__git_complete ga _git_add
-	__git_complete gb _git_branch
-	__git_complete gc _git_checkout
-	__git_complete gd _git_diff
-	__git_complete gf _git_fetch
-	__git_complete gk _gitk
-	__git_complete gl _git_log
-	__git_complete gm _git_merge
-	__git_complete gp _git_pull
-	__git_complete gr _git_rebase
-	__git_complete gs _git_status
-	__git_complete gt _git_tag
+	__git_complete ga git_add
+	__git_complete gb git_branch
+	__git_complete gc git_checkout
+	__git_complete gd git_diff
+	__git_complete gf git_fetch
+	__git_complete gk gitk
+	__git_complete gl git_log
+	__git_complete gm git_merge
+	__git_complete gp git_pull
+	__git_complete gr git_rebase
+	__git_complete gs git_status
+	__git_complete gt git_tag
 fi
 
 #

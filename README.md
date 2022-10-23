@@ -1,6 +1,6 @@
 # One Time Setup
 
-Reference distribution: *Ubuntu 20.04*
+Reference distribution: *Ubuntu 22.04*
 
 ## Basic System
 
