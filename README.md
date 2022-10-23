@@ -249,6 +249,7 @@ EOF
 	fd-find \
 	htop \
 	net-tools \
+	petname \
 	ripgrep \
 	sysstat \
 	tree \
