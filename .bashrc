@@ -131,4 +131,4 @@ addtopath "${HOME}/.local/bin"
 sourceme "${HOME}/.bash_priv"
 
 # Start a new tmux session with a dedicated session name
-alias tmux-new="tmux new-session -s $(petname -w 1)"
+alias tmux-new='tmux new-session -s $(petname -w 1)'
