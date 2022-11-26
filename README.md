@@ -207,12 +207,6 @@ EOF
 	/tmp/authorized_keys
 ```
 
-### Install and configure `python`
-
-```bash
- sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 1
-```
-
 ### Install and configure `docker`
 
 ```bash
@@ -285,6 +279,7 @@ EOF
 	pkg-config \
 	python3 \
 	python3-pip \
+	repo \
 	tig \
 	valgrind
 
@@ -302,21 +297,6 @@ EOF
 
  install -m 640 -t ${HOME} \
 	/tmp/.clang-format
-```
-
-### Install and configure `repo`
-
-```bash
- wget -P /tmp -i - <<- EOF
-https://storage.googleapis.com/git-repo-downloads/repo
-https://github.com/aartamonau/repo.bash_completion/raw/master/repo.bash_completion
-EOF
-
- sudo install -m 755 -t /usr/local/bin \
-	/tmp/repo
-
- sudo install -m 644 -t /etc/bash_completion.d/ \
-	/tmp/repo.bash_completion
 ```
 
 ## Desktop Only
