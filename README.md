@@ -272,6 +272,7 @@ EOF
 	build-essential \
 	clang \
 	cmake \
+	direnv \
 	gdb \
 	libncurses5-dev \
 	libtool \
@@ -279,6 +280,7 @@ EOF
 	pkg-config \
 	python3 \
 	python3-pip \
+	python3-venv \
 	repo \
 	tig \
 	valgrind
