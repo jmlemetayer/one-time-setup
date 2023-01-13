@@ -383,3 +383,7 @@ EOF
 	/tmp/gpg2qr \
 	/tmp/qr2gpg
 ```
+
+### Install `klogg`
+
+See: https://klogg.filimonov.dev/
