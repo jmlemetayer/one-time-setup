@@ -34,12 +34,19 @@ EOF
 ### Remove `snapd`
 
 ```bash
+ sudo systemctl disable snapd.service
+ sudo systemctl disable snapd.socket
+ sudo systemctl disable snapd.seeded.service
+
+ sudo snap remove ...
+
+ sudo apt autoremove --purge snapd
+
  sudo rm -rf /var/cache/snapd/
-
- sudo apt autoremove --purge snapd gnome-software-plugin-snap
-
  rm -rf ${HOME}/snap/
 ```
+
+See: https://onlinux.systems/guides/20220524_how-to-disable-and-remove-snap-on-ubuntu-2204
 
 ### Region & Language
 
