@@ -93,6 +93,11 @@ function sourceme() {
 	[ -f ${1} ] && source ${1}
 }
 
+# Helper to check if a command exists.
+function has() {
+	which ${1} >/dev/null
+}
+
 #
 # Completion.
 #
@@ -131,7 +136,7 @@ addtopath "${HOME}/.local/bin"
 sourceme "${HOME}/.bash_priv"
 
 # Start a new tmux session with a dedicated session name
-alias tmux-new='tmux new-session -s $(petname -w 1)'
+has tmux && has petname && alias tmux-new='tmux new-session -s $(petname -w 1)'
 
 # Direnv
-eval "$(direnv hook bash)"
+has direnv && eval "$(direnv hook bash)"
