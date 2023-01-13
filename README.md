@@ -314,6 +314,10 @@ EOF
 	/tmp/.clang-format
 ```
 
+### Install rust
+
+See: https://www.rust-lang.org/tools/install
+
 ## Desktop Only
 
 ### Gnome shell
