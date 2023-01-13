@@ -116,10 +116,16 @@ EOF
  printf "5\ny\n" | gpg --command-fd 0 \
 	--edit-key 44188416362C8285005760B9E96A6F03E4526F5F trust
 
+ echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
+
+ cat <<- EOF | tee ${HOME}/.pam_environment
+SSH_AGENT_PID DEFAULT=
+SSH_AUTH_SOCK DEFAULT="${XDG_RUNTIME_DIR}/gnupg/S.gpg-agent.ssh"
+EOF
+
  mkdir -p ${HOME}/.config/autostart
  cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
  echo Hidden=true >> ${HOME}/.config/autostart/gnome-keyring-ssh.desktop
- echo enable-ssh-support > ~/.gnupg/gpg-agent.conf
 ```
 
 ### Install and configure `git`
