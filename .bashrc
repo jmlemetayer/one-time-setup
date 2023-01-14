@@ -140,3 +140,6 @@ has tmux && has petname && alias tmux-new='tmux new-session -s $(petname -w 1)'
 
 # Direnv
 has direnv && eval "$(direnv hook bash)"
+
+# Add Rust to PATH
+sourceme "${HOME}/.cargo/env"
