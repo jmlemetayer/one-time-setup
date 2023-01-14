@@ -322,6 +322,10 @@ EOF
 
 ### Install rust
 
+```bash
+ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
+```
+
 See: https://www.rust-lang.org/tools/install
 
 ## Desktop Only
