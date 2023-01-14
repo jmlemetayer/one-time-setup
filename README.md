@@ -38,9 +38,15 @@ EOF
  sudo systemctl disable snapd.socket
  sudo systemctl disable snapd.seeded.service
 
- sudo snap remove ...
+ while [ -n "$(snap list 2>/dev/null)" ]
+ do
+	for SNAP in $(snap list | awk '!/^Name/ {print $1}')
+	do
+		sudo snap remove ${SNAP}
+	done
+ done
 
- sudo apt autoremove --purge snapd
+ sudo apt autoremove --yes --purge snapd
 
  sudo rm -rf /var/cache/snapd/
  rm -rf ${HOME}/snap/
