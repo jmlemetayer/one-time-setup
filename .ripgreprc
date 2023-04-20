@@ -1,0 +1,4 @@
+--type-add
+dts:*.{dts,dtsi}
+--type-add
+defconfig:*_defconfig

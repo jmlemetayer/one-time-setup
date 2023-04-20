@@ -143,3 +143,6 @@ has direnv && eval "$(direnv hook bash)"
 
 # Add Rust to PATH
 sourceme "${HOME}/.cargo/env"
+
+# Ripgrep
+has rg && export RIPGREP_CONFIG_PATH=${HOME}/.ripgreprc

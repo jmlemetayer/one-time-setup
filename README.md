@@ -98,6 +98,7 @@ See: https://onlinux.systems/guides/20220524_how-to-disable-and-remove-snap-on-u
 https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc
 https://github.com/jmlemetayer/one-time-setup/raw/main/.bash_logout
 https://github.com/jmlemetayer/one-time-setup/raw/main/.profile
+https://github.com/jmlemetayer/one-time-setup/raw/main/.ripgreprc
 https://github.com/seebi/dircolors-solarized/raw/master/dircolors.ansi-dark
 EOF
 
@@ -107,6 +108,7 @@ EOF
 	/tmp/.bashrc \
 	/tmp/.bash_logout \
 	/tmp/.profile \
+	/tmp/.ripgreprc \
 	/tmp/.dircolors
 ```
 
