@@ -99,6 +99,7 @@ https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc
 https://github.com/jmlemetayer/one-time-setup/raw/main/.bash_logout
 https://github.com/jmlemetayer/one-time-setup/raw/main/.profile
 https://github.com/jmlemetayer/one-time-setup/raw/main/.ripgreprc
+https://github.com/jmlemetayer/one-time-setup/raw/main/.tigrc
 https://github.com/seebi/dircolors-solarized/raw/master/dircolors.ansi-dark
 EOF
 
@@ -109,6 +110,7 @@ EOF
 	/tmp/.bash_logout \
 	/tmp/.profile \
 	/tmp/.ripgreprc \
+	/tmp/.tigrc \
 	/tmp/.dircolors
 ```
 
