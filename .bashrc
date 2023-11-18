@@ -135,9 +135,6 @@ addtopath "${HOME}/.local/bin"
 # Allow other private configuration.
 sourceme "${HOME}/.bash_priv"
 
-# Start a new tmux session with a dedicated session name
-has tmux && has petname && alias tmux-new='tmux new-session -s $(petname -w 1)'
-
 # Direnv
 has direnv && eval "$(direnv hook bash)"
 
