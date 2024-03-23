@@ -15,3 +15,6 @@
 [fetch]
 	prune = true
 	pruneTags = true
+[pull]
+	rebase = true
+	ff = only
