@@ -242,7 +242,8 @@ See: https://docs.docker.com/engine/install/debian/
 ### Install rust
 
 ```bash
- curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --no-modify-path
+ sudo apt install --yes rustup
+ rustup default stable
 ```
 
 See: https://www.rust-lang.org/tools/install
