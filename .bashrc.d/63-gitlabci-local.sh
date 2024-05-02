@@ -1,0 +1,1 @@
+export CI_LOCAL_ENGINE=podman

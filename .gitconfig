@@ -1,20 +1,25 @@
+# User identification
 [user]
 	name = Jean-Marie Lemetayer
 	email = jeanmarie.lemetayer@gmail.com
+
+# Always enable colors
 [color]
 	ui = true
-[push]
-	default = simple
+
+# Add log helpers
+[pretty]
+	essential = %C(red)%h%C(yellow)%d %C(reset)%s %C(green)(%cr) %C(blue bold)<%an>
 [alias]
-	lg = log --graph --pretty=format:'%C(red)%h%C(yellow)%d %C(reset)%s %C(green)(%cr) %C(blue bold)<%an>'
-[merge]
-	tool = vimdiff
-	conflictstyle = diff3
-[mergetool]
-	prompt = false
+	lg = log --graph --pretty=essential
+
+# Configure default actions
 [fetch]
 	prune = true
 	pruneTags = true
+	recurseSubmodules = true
 [pull]
-	rebase = true
 	ff = only
+	rebase = true
+[push]
+	default = nothing

@@ -1,0 +1,21 @@
+import = [
+    "~/.config/alacritty/themes/themes/solarized_dark.toml",
+]
+
+live_config_reload = true
+
+[shell]
+program = "tmux"
+args = ["new-session", "-A", "-s", "main"]
+
+[window]
+padding = {x = 2, y = 2}
+decorations = "None"
+startup_mode = "Maximized"
+
+[font]
+normal = {family = "UbuntuMono Nerd Font"}
+size = 13
+
+[mouse]
+hide_when_typing = true

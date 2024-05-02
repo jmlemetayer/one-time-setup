@@ -1,0 +1,1 @@
+sourceme "${HOME}/.cargo/env"

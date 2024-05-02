@@ -1,74 +1,116 @@
-" Vundle {{{
+" VimPlug {{{
 
-filetype off
-set nocompatible
-set shell=/bin/bash
+call plug#begin()
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
+" Defaults everyone can agree on
+Plug 'tpope/vim-sensible'
 
-" let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'
+" A solid language pack for Vim
+Plug 'sheerun/vim-polyglot'
 
-" My plugin list
-Plugin 'a.vim'
-Plugin 'chiel92/vim-autoformat'
-Plugin 'conradirwin/vim-bracketed-paste'
-Plugin 'fidian/hexmode'
-Plugin 'godlygeek/tabular'
-Plugin 'itchyny/lightline.vim'
-Plugin 'jpalardy/spacehi.vim'
-Plugin 'junegunn/vim-emoji'
-Plugin 'romainl/flattened'
-Plugin 'scrooloose/nerdtree'
-Plugin 'mg979/vim-visual-multi'
-Plugin 'tpope/vim-abolish'
-Plugin 'tpope/vim-fugitive'
-Plugin 'tpope/vim-sensible'
-Plugin 'editorconfig/editorconfig-vim'
-Plugin 'sheerun/vim-polyglot'
-Plugin 'kergoth/vim-bitbake'
+" Solarized, without the bullshit
+Plug 'romainl/flattened'
 
-" All of your Plugins must be added before the following line
-call vundle#end()
-filetype plugin indent on
+" A light and configurable status line plugin for Vim
+Plug 'itchyny/lightline.vim'
+
+" Togglable syntax highlighting of tabs, nbsps and trailing spaces
+Plug 'jpalardy/spacehi.vim'
+
+" Work with several variants of a word at once
+Plug 'tpope/vim-abolish'
+
+" Fuzzy file, buffer, mru, tag, etc finder
+Plug 'ctrlpvim/ctrlp.vim'
+
+"Vim script for text filtering and alignment
+Plug 'godlygeek/tabular'
+
+" Vim files for the BitBake tool
+Plug 'kergoth/vim-bitbake'
+
+" Vim configuration for Rust
+Plug 'rust-lang/rust.vim'
+
+call plug#end()
 
 " }}}
 " Basic configuration {{{
 
 set confirm
-set laststatus=2
 set mouse=a
 set number
-set noshowmode
-syntax enable
 
-" Leaders {{{
+"  Terminals {{{
 
-let mapleader = ';'
-let maplocalleader = '\\'
+if &term =~# '^\(tmux\|screen\|alacritty\)'
+    " Better mouse support, see  :help 'ttymouse'
+    set ttymouse=sgr
 
-" }}}
-" ColorScheme {{{
+    " Enable bracketed paste mode, see  :help xterm-bracketed-paste
+    let &t_BE = "\<Esc>[?2004h"
+    let &t_BD = "\<Esc>[?2004l"
+    let &t_PS = "\<Esc>[200~"
+    let &t_PE = "\<Esc>[201~"
+
+    " Enable focus event tracking, see  :help xterm-focus-event
+    let &t_fe = "\<Esc>[?1004h"
+    let &t_fd = "\<Esc>[?1004l"
+    execute "set <FocusGained>=\<Esc>[I"
+    execute "set <FocusLost>=\<Esc>[O"
+
+    " Enable modified arrow keys, see  :help arrow_modifiers
+    execute "silent! set <xUp>=\<Esc>[@;*A"
+    execute "silent! set <xDown>=\<Esc>[@;*B"
+    execute "silent! set <xRight>=\<Esc>[@;*C"
+    execute "silent! set <xLeft>=\<Esc>[@;*D"
+endif
+
+"   Undercurl & Underline {{{
+"   https://github.com/alacritty/alacritty/issues/4142#issuecomment-1078876187
+
+" Enable undercurls in terminal
+let &t_Cs = "\e[4:3m"
+let &t_Ce = "\e[4:0m"
+
+" Enable underline colors (ANSI), see alacritty #4660
+let &t_AU = "\<esc>[58;5;%dm"
+
+if !empty($DISPLAY) && $COLORTERM !~# '^rxvt'
+    " Enable true colors, see :help xterm-true-color
+    if &term =~# '^\(tmux\|screen\|alacritty\)'
+        let &t_8f = "\<esc>[38;2;%lu;%lu;%lum"
+        let &t_8b = "\<esc>[48;2;%lu;%lu;%lum"
+    endif
+
+    " Enable underline colors (RGB), see alacritty #4660
+    let &t_8u = "\<esc>[58;2;%lu;%lu;%lum"
+
+    " Use highlight-guibg and guifg attributes in terminal
+    set termguicolors
+endif
+
+"   }}}
+"  }}}
+"  ColorScheme {{{
 
 try
-	let &t_Cs = "\e[4:3m"
-	let &t_Ce = "\e[4:0m"
 	colorscheme flattened_dark
 catch
 	colorscheme default
 endtry
 
-" }}}
-" Buffer formatting {{{
-set autoindent
-set colorcolumn=+1
-set noendofline
-set noexpandtab
-set shiftwidth=8
+"  }}}
+"  Buffer formatting {{{
+
 set tabstop=8
+set shiftwidth=8
+set noexpandtab
+
+set nofixeol
+
 set textwidth=80
+set colorcolumn=+1
 
 " Remove trailing spaces and blank lines
 function! CleanBuffer()
@@ -76,6 +118,7 @@ function! CleanBuffer()
 	if exists('b:noCleanBuffer')
 		return
 	endif
+
 	let l:save = winsaveview()
 	%s/\s\+$//e
 	%s/\n\{3,}/\r\r/e
@@ -91,8 +134,8 @@ augroup formatting
 	autocmd FileType diff let b:noCleanBuffer=1
 augroup END
 
-" }}}
-" Searches {{{
+"  }}}
+"  Searches {{{
 
 set hlsearch
 set smartcase
@@ -101,14 +144,14 @@ set smartcase
 nnoremap n nzzzv
 nnoremap N Nzzzv
 
-" }}}
+"  }}}
 "  Spell checking {{{
 
 set spell
 set spelllang=en
 
 "  }}}
-" Backup management {{{
+"  Backup management {{{
 
 set backup
 set noswapfile
@@ -128,94 +171,42 @@ if !isdirectory(expand(&undodir))
 	call mkdir(expand(&undodir), "p")
 endif
 
-" }}}
-" Tab page {{{
+"  }}}
+"  Tab page {{{
 
 set tabpagemax=50
 execute ":silent tab all"
 
-" }}}
-" Folding {{{
+"  }}}
+"  Folding {{{
 
 set foldmethod=marker
 nnoremap <Space> za
 vnoremap <Space> za
 
-" }}}
-" Configuration file {{{
-
-nnoremap <leader>ev :vsplit $MYVIMRC
-nnoremap <leader>sv :source $MYVIMRC
-
-" }}}
-" Tmux mouse {{{
-if has("mouse_sgr")
-	set ttymouse=sgr
-else
-	set ttymouse=xterm2
-end
-" }}}
+"  }}}
 " }}}
 " Plugins configuration {{{
-" A.vim {{{
+"  LightLine {{{
 
-noremap  <F5> :A<cr>
-inoremap <F5> <esc>:A<cr>
-noremap  <C-F5> :AV<cr>
-inoremap <C-F5> <esc>:AV<cr>
-
-" }}}
-" Autoformat {{{
-
-noremap  <F3> :Autoformat<cr>
-inoremap <F3> <esc>:Autoformat<cr>
-
-" }}}
-" Emoji {{{
-
-set completefunc=emoji#complete
-
-" }}}
-" Hexmode {{{
-
-noremap  <F4> :Hexmode<cr>
-inoremap <F4> <esc>:Hexmode<cr>
-
-" }}}
-" LightLine {{{
+set laststatus=2
+set noshowmode
 
 let g:lightline = {
 	\ 'colorscheme': 'flattened_dark',
 	\ 'active': {
 	\ 	'left': [
 	\ 		[ 'mode', 'paste' ],
-	\ 		[ 'gitbranch', 'readonly', 'filename', 'modified' ]
+	\ 		[ 'readonly', 'filename', 'modified' ]
 	\ 	]
 	\ },
 	\ 'tabline': {
 	\ 	'right': []
 	\ },
-	\ 'component_function': {
-	\ 	'gitbranch': 'fugitive#head'
-	\ },
 	\ }
 
-" }}}
-" NerdTree {{{
-
-noremap  <F2> :NERDTreeToggle<cr>
-inoremap <F2> <esc>:NERDTreeToggle<cr>
-
-augroup nerdtree
-	autocmd!
-	autocmd StdinReadPre * let s:std_in=1
-	autocmd VimEnter * if argc() == 0 && !exists('s:std_in') | NERDTree | endif
-	autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists('s:std_in') | exe 'NERDTree' argv()[0] | wincmd p | ene | endif
-	autocmd bufenter * if (winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree()) | q | endif
-augroup END
-
-" }}}
-" SPaceHi {{{
+"  }}}
+"  SPaceHi {{{
 
 augroup spacehi
 	autocmd!
@@ -223,5 +214,5 @@ augroup spacehi
 	autocmd BufNewFile,BufRead * syntax clear spacehiTab
 augroup END
 
-" }}}
+"  }}}
 " }}}

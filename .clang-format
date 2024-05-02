@@ -1,15 +1,9 @@
 ---
+# https://www.kernel.org/doc/html/latest/process/coding-style.html
 BasedOnStyle: LLVM
-UseTab: Always
-AccessModifierOffset: -8
-ConstructorInitializerIndentWidth: 8
-ContinuationIndentWidth: 8
 IndentWidth: 8
-BreakBeforeBraces: Custom
-BraceWrapping:
-  AfterClass:      true
-  AfterFunction:   true
-BinPackArguments: false
-BinPackParameters: false
-AlwaysBreakTemplateDeclarations: true
----
+UseTab: Always
+BreakBeforeBraces: Linux
+AllowShortIfStatementsOnASingleLine: false
+IndentCaseLabels: false
+...
