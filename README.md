@@ -433,6 +433,8 @@ EOF
     python-is-python3 \
     python3 \
     python3-pip \
+    shellcheck \
+    shfmt \
     valgrind
 ```
 
