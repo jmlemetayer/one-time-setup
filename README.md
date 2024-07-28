@@ -368,6 +368,8 @@ EOF
  rustup completions bash cargo \
     >> ${HOME}/.local/share/bash-completion/completions/cargo
 
+ rustup component add rust-analyzer
+
  wget --backups=0 -P /tmp/${USER} -i - <<EOF
 https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc.d/55-rust.sh
 EOF
