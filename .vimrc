@@ -23,7 +23,7 @@ Plug 'tpope/vim-abolish'
 " Fuzzy file, buffer, mru, tag, etc finder
 Plug 'ctrlpvim/ctrlp.vim'
 
-"Vim script for text filtering and alignment
+" Vim script for text filtering and alignment
 Plug 'godlygeek/tabular'
 
 " Vim files for the BitBake tool
@@ -31,6 +31,9 @@ Plug 'kergoth/vim-bitbake'
 
 " Vim configuration for Rust
 Plug 'rust-lang/rust.vim'
+
+" Vim LSP support
+Plug 'dense-analysis/ale'
 
 call plug#end()
 
@@ -112,28 +115,6 @@ set nofixeol
 set textwidth=80
 set colorcolumn=+1
 
-" Remove trailing spaces and blank lines
-function! CleanBuffer()
-	" Don't edit these filetypes
-	if exists('b:noCleanBuffer')
-		return
-	endif
-
-	let l:save = winsaveview()
-	%s/\s\+$//e
-	%s/\n\{3,}/\r\r/e
-	nohlsearch
-	call winrestview(l:save)
-endfunction
-
-command! CleanBuffer call CleanBuffer()
-
-augroup formatting
-	autocmd!
-	autocmd BufWritePre * CleanBuffer
-	autocmd FileType diff let b:noCleanBuffer=1
-augroup END
-
 "  }}}
 "  Searches {{{
 
@@ -213,6 +194,35 @@ augroup spacehi
 	autocmd BufNewFile,BufRead * SpaceHi
 	autocmd BufNewFile,BufRead * syntax clear spacehiTab
 augroup END
+
+"  }}}
+"  ALE {{{
+
+" Enable completion
+let g:ale_completion_enabled = 1
+
+" Enable fixers
+let g:ale_fixers = {
+	\ '*': ['remove_trailing_lines', 'trim_whitespace'],
+	\ 'rust': ['rustfmt'],
+	\ 'sh': ['shfmt'],
+	\ }
+
+let g:ale_fix_on_save = 1
+
+let g:ale_fix_on_save_ignore = {
+	\ 'diff': ['trim_whitespace'],
+	\ }
+
+" Configure go to definition
+nnoremap <C-LeftMouse> :ALEGoToDefinition<CR>
+
+" Rust options
+let g:ale_rust_cargo_check_tests = 1
+let g:ale_rust_cargo_check_examples = 1
+
+" Shfmt options
+let g:ale_sh_shfmt_options = '-s -p'
 
 "  }}}
 " }}}
