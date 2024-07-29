@@ -166,6 +166,11 @@ nnoremap <Space> za
 vnoremap <Space> za
 
 "  }}}
+"  Keyword doc {{{
+
+autocmd FileType rust set keywordprg=rustup\ doc
+
+"  }}}
 " }}}
 " Plugins configuration {{{
 "  LightLine {{{
