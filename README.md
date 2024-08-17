@@ -409,7 +409,7 @@ EOF
 ## Install `podman` :toolbox:
 
 ```bash
- sudo apt install -y podman slirp4netns uidmap
+ sudo apt install -y podman slirp4netns uidmap passt
 ```
 
 ## Install development packages :toolbox:
