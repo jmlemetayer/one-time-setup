@@ -334,6 +334,12 @@ EOF
  mkdir -p ${HOME}/.config/autostart
  cp /etc/xdg/autostart/gnome-keyring-ssh.desktop ${HOME}/.config/autostart/
  echo Hidden=true >> ${HOME}/.config/autostart/gnome-keyring-ssh.desktop
+
+ for SUFFIX in service socket; do
+    systemctl --user stop gcr-ssh-agent.${SUFFIX}
+    systemctl --user disable gcr-ssh-agent.${SUFFIX}
+    sudo systemctl --global disable gcr-ssh-agent.${SUFFIX}
+ done
 ```
 
 ## Install and configure `git` :toolbox:
