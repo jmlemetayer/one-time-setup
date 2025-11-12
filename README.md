@@ -337,8 +337,8 @@ EOF
 
  for SUFFIX in service socket; do
     systemctl --user stop gcr-ssh-agent.${SUFFIX}
-    systemctl --user disable gcr-ssh-agent.${SUFFIX}
-    sudo systemctl --global disable gcr-ssh-agent.${SUFFIX}
+    systemctl --user mask gcr-ssh-agent.${SUFFIX}
+    sudo systemctl --global mask gcr-ssh-agent.${SUFFIX}
  done
 ```
 
