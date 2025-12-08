@@ -485,6 +485,20 @@ EOF
  . ${HOME}/.bashrc
 ```
 
+## Install `pyenv` :toolbox:
+
+```bash
+ sudo apt install -y pyenv
+
+ wget --backups=0 -P /tmp/${USER} -i - <<EOF
+https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc.d/61-pyenv.sh
+EOF
+
+ install -Dm 640 /tmp/${USER}/61-pyenv.sh ${HOME}/.bashrc.d/61-pyenv.sh
+
+ . ${HOME}/.bashrc
+```
+
 ## Install `fd` :toolbox:
 
 ```bash
