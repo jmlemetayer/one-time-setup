@@ -485,22 +485,6 @@ EOF
  . ${HOME}/.bashrc
 ```
 
-## Install `minicom` :toolbox:
-
-```bash
- sudo apt install -y minicom
-
- sudo usermod -aG dialout ${USER}
-
- wget --backups=0 -P /tmp/${USER} -i - <<EOF
-https://github.com/jmlemetayer/one-time-setup/raw/main/.bashrc.d/61-minicom.sh
-EOF
-
- install -Dm 640 /tmp/${USER}/61-minicom.sh ${HOME}/.bashrc.d/61-minicom.sh
-
- . ${HOME}/.bashrc
-```
-
 ## Install `fd` :toolbox:
 
 ```bash
@@ -542,6 +526,14 @@ EOF
  install -Dm 640 /tmp/${USER}/63-gitlabci-local.sh ${HOME}/.bashrc.d/63-gitlabci-local.sh
 
  . ${HOME}/.bashrc
+```
+
+## Install `tio` :toolbox:
+
+```bash
+ sudo apt install -y tio
+
+ sudo usermod -aG dialout ${USER}
 ```
 
 ## Configure openbar based projects :toolbox:
